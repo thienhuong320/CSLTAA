@@ -120,9 +120,9 @@ class Game
             }
         }
     }
+    static List<int> usedQuestions = new List<int>(); // Danh sách các câu hỏi đã sử dụng
     static bool AskQuestion()
     {
-
         string[,] questions = new string[,]
         {
         { "Bỏ ngoài nướng trong, ăn ngoài bỏ trong là gì?", "nướng ngô", "nướng trứng", "nướng khoai" },
@@ -143,7 +143,16 @@ class Game
         { "Tỉnh thành nào nổi tiếng với vịnh Hạ Long?", "Quảng Ninh", "Bắc Ninh", "Hải Phòng" }
         };
 
-        int index = random.Next(questions.GetLength(0));
+        if (usedQuestions.Count == questions.GetLength(0))
+        {
+            usedQuestions.Clear(); // Xóa danh sách các câu hỏi đã sử dụng
+        }
+
+        int index;
+        do { index = random.Next(questions.GetLength(0));
+        } while (usedQuestions.Contains(index));
+        usedQuestions.Add(index); // Thêm câu hỏi vào danh sách đã sử dụng
+
         string question = questions[index, 0];
         string correctAnswer = questions[index, 1];
         string wrongAnswer1 = questions[index, 2];
