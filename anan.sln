@@ -357,7 +357,7 @@ class Game
 
         Console.Clear();
         // Đặt màu chữ là màu vàng
-        Console.ForegroundColor = ConsoleColor.DarkRed;                                                 
+        Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.BackgroundColor = ConsoleColor.Gray;
         Console.SetCursorPosition((Console.WindowWidth - 13) / 2, Console.CursorTop + 10);
         Console.WriteLine("----- BẢNG MENU -----");
@@ -535,7 +535,7 @@ class Game
                             // Code để qua màn 2
                             Console.WriteLine("Bạn đã qua level 2");
                             Console.Clear();
-                            Console.WriteLine(Để tiếp tục nhấn 'C', 'I' để xem lại hướng dẫn chơi, 'Q' để thoát khỏi game);
+                            Console.WriteLine("Để tiếp tục nhấn 'C', 'I' để xem lại hướng dẫn chơi, 'Q' để thoát khỏi game");
 
                             string choices = Console.ReadLine().ToUpper();
 
@@ -568,7 +568,7 @@ class Game
             new [] {true, false, false, false, false, false, false, false, false, false, false, false, true},
             new [] {true, true, true, true, true, true, true, true, true, false, true, true, true}
             };
-                                                       //đặt các biến
+                            //đặt các biến
                             const char wallChar = '\u2588';
                             const char mazeChar = '\u0020';
                             int exitRow = 0;
@@ -685,15 +685,15 @@ class Game
 
                                 }
                             }
-                             void DisplayInstructions()
+                            void DisplayInstructions()
                             {
                                 Console.WriteLine("Hướng dẫn chơi:");
                                 Console.WriteLine("Di chuyển nhân vật bằng các phím mũi tên.");
-                                Console.WriteLine("Hãy tìm lối ra, ký hiệu là E (Exit).");  
+                                Console.WriteLine("Hãy tìm lối ra, ký hiệu là E (Exit).");
                                 Console.WriteLine("Vòng chơi này bạn sẽ không còn thấy rõ xung quanh, hãy tìm lối ra nhanh nhất có thể, nếu không...");
                             }
 
-                             bool IsValidMove(int row, int column)
+                            bool IsValidMove(int row, int column)
                             {
                                 if (row >= 0 && row < mazeLayout.Length && column >= 0 && column < mazeLayout[row].Length && !mazeLayout[row][column])
                                 {
@@ -702,7 +702,7 @@ class Game
                                 return false;
                             }
 
-                             void UpdateVisibilityMap()
+                            void UpdateVisibilityMap()
                             {
                                 bool[][] visibilityMap = new bool[mazeLayout.Length][];
                                 for (int i = 0; i < mazeLayout.Length; i++)
@@ -746,7 +746,7 @@ class Game
                                 Console.SetCursorPosition(playerColumn, playerRow);
                             }
 
-                             void PrintMazeWithVisibilityMap()
+                            void PrintMazeWithVisibilityMap()
                             {
                                 Console.Clear();
                                 UpdateVisibilityMap();
@@ -919,7 +919,7 @@ class Game
 
         Console.WriteLine("Game đã được reset. Bắt đầu lại từ đầu.");
         Thread.Sleep(2000);
-        Console.Clear(); 
+        Console.Clear();
         MainMenu();
     }
 
