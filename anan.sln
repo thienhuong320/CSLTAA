@@ -134,7 +134,7 @@ class Game
         { "Tỉnh thành nào nằm ở cực Bắc của Việt Nam?", "Hà Giang", "Sơn La", "Lạng Sơn" },
         { "Tỉnh thành nào là điểm đất liền xa nhất về phía Đông của Việt Nam?", "Cà Mau", "Bạc Liêu", "Trà Vinh" },
         { "Đâu là tỉnh thành không giáp biển?", "Lào Cai", "Quảng Bình", "Ninh Bình" },
-        { "Câu hỏi: Ai là người đầu tiên đặt chân lên Mặt Trăng?", "Neil Armstrong", "Buzz Aldrin", "Yuri Gagarin" },
+        { "Ai là người đầu tiên đặt chân lên Mặt Trăng?", "Neil Armstrong", "Buzz Aldrin", "Yuri Gagarin" },
         {"Đâu là tên một loại chợ?","Cóc","Ếch", "Nhái"},
         {"Đâu là tên một bãi biển ở Quảng Bình?","Đá Nhảy","Đá Lăn","Đá Chạy"},
         {"Tháng âm lịch nào còn được gọi là Tháng cô hồn ?","Tháng bảy","Tháng tám","Tháng chín"},
