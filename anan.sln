@@ -322,11 +322,19 @@ static bool MainMenu()
                 Console.ReadLine();
                 return true;
             case "2":
-                Console.Clear();
-                string showkyluc = File.ReadAllText("kyluc.txt");
-                Console.WriteLine(showkyluc);
-                Console.WriteLine(showkyluc.GetType().ToString());
-                Console.ReadLine();
+                 try
+                {
+                    Console.Clear();
+                    string showkyluc = File.ReadAllText("kyluc.txt");
+                    Console.WriteLine(showkyluc);
+                    Console.WriteLine(showkyluc.GetType().ToString());
+                    Console.ReadLine();
+                }
+                catch (FileNotFoundException)                                 // Xử lý lỗi khi chưa có lượt chơi nào xảy ra-chk có kỹ lục
+                {
+                    Console.WriteLine("Không tìm thấy tệp kyluc.txt.");
+                    Console.ReadLine();
+                }
                 return true;
             case "3":
                 ResetGame2();
@@ -566,7 +574,6 @@ static bool MainMenu()
                             const char mazeChar = '\u0020';
                             int exitRow = 0;
                             int exitColumn = 8;
-                            int totalScore = 0;
 
 
                             //in maze
