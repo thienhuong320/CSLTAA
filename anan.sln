@@ -1,25 +1,910 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.7.34003.232
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "anan", "anan\anan.csproj", "{9E9B52AF-2E83-42F2-B4C4-AF55B9F4F008}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9E9B52AF-2E83-42F2-B4C4-AF55B9F4F008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9E9B52AF-2E83-42F2-B4C4-AF55B9F4F008}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E9B52AF-2E83-42F2-B4C4-AF55B9F4F008}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9E9B52AF-2E83-42F2-B4C4-AF55B9F4F008}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {43617715-AC2F-43A1-97F8-930DFE106BA6}
-	EndGlobalSection
-EndGlobal
+using System;
+using System.Diagnostics;
+using System.Text;
+using static System.Net.Mime.MediaTypeNames;
+using System.Media;
+using System.IO;
+using System.Threading;
+
+class Game
+{
+    static char[,] maze = new char[10, 10]
+
+    {
+            { '╔', '═', '═', '═', '═', '═', '═', '═', '═', '╗' },
+            { '║', '.', '.', '!', '.', '#', '.', '.', '.', '║' },
+            { '║', '.', '!', '.', '.', '!', '.', '.', '#', '║' },
+            { '║', '!', '.', '#', '#', '.', '.', '!', '.', '║' },
+            { '║', '.', '.', '!', '.', '!', '#', '.', '#', '║' },
+            { '║', '!', '#', '#', '#', '.', '.', '!', '.', '║' },
+            { '║', '.', '!', '.', '.', '!', '#', '.', '!', '║' },
+            { '║', '#', '.', '#', '!', '.', '.', '!', '.', '║' },
+            { '║', '.', '.', '.', '#', '.', '!', '.', '.', '║' },
+            { '╚', '═', '═', '═', '═', '═', '═', '═', '═', '╝' }
+    };
+
+    static char[,] originalMaze = new char[,]
+    {
+            { '╔', '═', '═', '═', '═', '═', '═', '═', '═', '╗' },
+            { '║', '.', '.', '!', '.', '#', '.', '.', '.', '║' },
+            { '║', '.', '!', '.', '.', '!', '.', '.', '#', '║' },
+            { '║', '!', '.', '#', '#', '.', '.', '!', '.', '║' },
+            { '║', '.', '.', '!', '.', '!', '#', '.', '#', '║' },
+            { '║', '!', '#', '#', '#', '.', '.', '!', '.', '║' },
+            { '║', '.', '!', '.', '.', '!', '#', '.', '!', '║' },
+            { '║', '#', '.', '#', '!', '.', '.', '!', '.', '║' },
+            { '║', '.', '.', '.', '#', '.', '!', '.', '.', '║' },
+            { '╚', '═', '═', '═', '═', '═', '═', '═', '═', '╝' }
+    };
+
+    static char[,] savedMaze; // Mê cung đã lưu trước khi dừng tạm thời
+    static int savedPlayerRow; // Vị trí hàng đã lưu trước khi dừng tạm thời
+    static int savedPlayerCol; // Vị trí cột đã lưu trước khi dừng tạm thời 
+
+    static int playerX = 1;
+    static int playerY = 1;
+
+    static int exitX = 8;
+    static int exitY = 8;
+
+    static Random random = new Random();
+    static Stopwatch stopwatch = new Stopwatch();
+    static bool isPaused = false; // Biến để kiểm tra trạng thái dừng tạm thời
+    static TimeSpan pausedTime = TimeSpan.Zero; // Biến để lưu thời gian đã dừng tạm thời
+
+    static void DrawMaze()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            for (int j = 0; j < 10; j++)
+                if (i == playerX && j == playerY)
+                {
+                    Console.Write('$'); // Vị trí bắt đầu
+                }
+                else if (i == exitX && j == exitY)
+                {
+                    Console.Write('E'); // Vị trí kết thúc
+                }
+                else
+                {
+                    Console.Write(maze[i, j]);
+                }
+            Console.WriteLine();
+        }
+    }
+
+    static void MovePlayer(ConsoleKey key)
+    {
+        Console.OutputEncoding = Encoding.UTF8;
+        int newX = playerX;
+        int newY = playerY;
+
+        switch (key)
+        {
+            case ConsoleKey.UpArrow:
+                newX = playerX - 1;
+                break;
+            case ConsoleKey.DownArrow:
+                newX = playerX + 1;
+                break;
+            case ConsoleKey.LeftArrow:
+                newY = playerY - 1;
+                break;
+            case ConsoleKey.RightArrow:
+                newY = playerY + 1;
+                break;
+        }
+
+        if ((maze[newX, newY] != '#') && (maze[newX, newY] != '║') && (maze[newX, newY] != '═'))
+        {
+            if (maze[newX, newY] == '!')
+            {
+                if (AskQuestion())
+                {
+                    maze[playerX, playerY] = '.';
+                    playerX = newX;
+                    playerY = newY;
+                    maze[playerX, playerY] = '$';
+                }
+                else
+                {
+                    maze[newX, newY] = '#'; // Trả lời sai, ký tự '!' trở thành '#'
+                }
+            }
+            else
+            {
+                maze[playerX, playerY] = '.';
+                playerX = newX;
+                playerY = newY;
+                maze[playerX, playerY] = '$';
+            }
+        }
+    }
+    static bool AskQuestion()
+    {
+
+        string[,] questions = new string[,]
+        {
+        { "Bỏ ngoài nướng trong, ăn ngoài bỏ trong là gì?", "nướng ngô", "nướng trứng", "nướng khoai" },
+        { "Con gì mang được miếng gỗ lớn nhưng không mang được hòn sỏi?", "con sông", "con đường", "con đèo" },
+        { "Cái gì ở giữa bầu trời và trái đất", "và", "mây", "gió" },
+        { "Thủ đô của Anh là", "london", "paris", "berlin" },
+        { "Mồm bò không phải mồm bò mà lại là mồm bò là gì?", "ốc sên", "con bò", "con ngựa" },
+        { "Thủ đô của Việt Nam là?", "Hà Nội","Hồ Chí Minh",  "Đà Nẵng" },
+        { "Tỉnh thành nào nằm ở cực Bắc của Việt Nam?", "Hà Giang", "Sơn La", "Lạng Sơn" },
+        { "Tỉnh thành nào là điểm đất liền xa nhất về phía Đông của Việt Nam?", "Cà Mau", "Bạc Liêu", "Trà Vinh" },
+        { "Đâu là tỉnh thành không giáp biển?", "Lào Cai", "Quảng Bình", "Ninh Bình" },
+        { "Câu hỏi: Ai là người đầu tiên đặt chân lên Mặt Trăng?", "Neil Armstrong", "Buzz Aldrin", "Yuri Gagarin" },
+        {"Đâu là tên một loại chợ?","Cóc","Ếch", "Nhái"},
+        {"Đâu là tên một bãi biển ở Quảng Bình?","Đá Nhảy","Đá Lăn","Đá Chạy"},
+        {"Tháng âm lịch nào còn được gọi là Tháng cô hồn ?","Tháng bảy","Tháng tám","Tháng chín"},
+        {"Bảo tàng Hồ Chí Minh ở thủ đô Hà Nội được thiết kế theo hình dáng loại hoa nào?","Hoa sen","Hoa hồng","Hoa đào"},
+        {"Cái gì có thể đi mà không di chuyển?","Đồng hồ","Máy bay","Giày"},
+        { "Tỉnh thành nào nổi tiếng với vịnh Hạ Long?", "Quảng Ninh", "Bắc Ninh", "Hải Phòng" }
+        };
+
+        int index = random.Next(questions.GetLength(0));
+        string question = questions[index, 0];
+        string correctAnswer = questions[index, 1];
+        string wrongAnswer1 = questions[index, 2];
+        string wrongAnswer2 = questions[index, 3];
+
+        // Hoán đổi vị trí các câu trả lời ngẫu nhiên
+        string[] answerOptions = new string[] { correctAnswer, wrongAnswer1, wrongAnswer2 };
+        ShuffleArray(answerOptions);
+
+        Console.WriteLine(question);
+        Console.WriteLine("A. " + answerOptions[0]);
+        Console.WriteLine("B. " + answerOptions[1]);
+        Console.WriteLine("C. " + answerOptions[2]);
+
+        Console.Write("Your answer (A, B, or C): ");
+        string userInput = Console.ReadLine().ToUpper();
+
+        string userAnswer;
+        if (userInput == "A")
+        {
+            userAnswer = answerOptions[0];
+        }
+        else if (userInput == "B")
+        {
+            userAnswer = answerOptions[1];
+        }
+        else if (userInput == "C")
+        {
+            userAnswer = answerOptions[2];
+        }
+        else
+        {
+            Console.WriteLine("Invalid input!");
+            Console.WriteLine("Please try again");
+            return false;
+        }
+
+        if (userAnswer == correctAnswer)
+        {
+            Console.WriteLine("Correct!");
+            return true;
+        }
+        else
+        {
+            Console.WriteLine("Wrong answer!");
+            Console.WriteLine("Please try again");
+            return false;
+        }
+    }
+
+    static void ShuffleArray<T>(T[] array)
+    {
+        int n = array.Length;
+        for (int i = 0; i < n; i++)
+        {
+            int randomIndex = i + random.Next(n - i);
+            T temp = array[i];
+            array[i] = array[randomIndex];
+            array[randomIndex] = temp;
+        }
+    }
+    static bool CheckWin()
+    {
+        return (playerX == exitX && playerY == exitY);
+    }
+
+    static void Main(string[] args)
+    {
+        while (true)
+        {
+            string filePath = @"C:\Users\Admin\Music\Seven-Jung-Kook.wav";
+
+            try
+            {
+                SoundPlayer soundPlayer = new SoundPlayer(filePath);
+                soundPlayer.Play();
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Tệp âm thanh không tồn tại.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Đã xảy ra lỗi: " + ex.Message);
+            }
+
+            // Hiển thị màn hình chơi game
+            MainMenu();
+
+            DrawMenu(); // Vẽ bảng menu
+
+            stopwatch.Start();
+
+            ShowMenu();
+            StartGame();
+            bool displayMaze = true;
+
+            while (true)
+            {
+                Console.Clear();
+
+                if (displayMaze)
+                {
+                    DisplayMaze();
+                    displayMaze = false;
+                }
+                // Tiếp tục thực hiện các logic của trò chơi
+            }
+
+            // Dừng một lát để tránh tình trạng quá tải CPU
+            Thread.Sleep(100);
+        }
+    }
+    static void ToggleSound()
+    {
+        if (isSoundPlaying)
+        {
+            SoundPlayer soundPlayer = new SoundPlayer(@"C:\Users\Admin\Music\Seven-Jung-Kook.wav");
+            soundPlayer.Stop(); // Tắt âm thanh
+            isSoundPlaying = false;
+            Console.WriteLine("Đã tắt âm thanh.");
+        }
+        else
+        {
+            SoundPlayer soundPlayer = new SoundPlayer(@"C:\Users\Admin\Music\Seven-Jung-Kook.wav");
+            soundPlayer.Play(); // Bật âm thanh
+            isSoundPlaying = true;
+            Console.WriteLine("Đã bật âm thanh.");
+        }
+    }
+    static bool isMenuShown = false;
+    static bool MainMenu()
+    {
+        Console.Clear();
+        Console.OutputEncoding = Encoding.UTF8;
+
+        Console.ForegroundColor = ConsoleColor.DarkRed;                                                 // Đặt màu chữ là màu vàng
+        Console.BackgroundColor = ConsoleColor.Gray;
+        Console.SetCursorPosition((Console.WindowWidth - 35) / 2, Console.CursorTop + 10);
+        Console.WriteLine("---- TRÒ CHƠI \"THOÁT KHỎI MẬT THẤT\" ----");
+        Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop + 1);
+        Console.WriteLine("1. Hướng dẫn chơi    ");
+        Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
+        Console.WriteLine("2. Hiển thị bảng menu");
+        Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
+        Console.WriteLine("3. Bắt đầu trò chơi  ");
+        Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
+        Console.WriteLine("4. Thoát GAME        ");
+        Console.ResetColor();
+        Console.WriteLine("\nMời bạn chọn từ 1-4");
+        ConsoleKeyInfo userInput = Console.ReadKey();
+        switch (userInput.KeyChar)
+        {
+            case '1':
+                Console.Clear();
+                Console.ForegroundColor = ConsoleColor.DarkRed;                                                 // Đặt màu chữ là màu vàng
+                Console.BackgroundColor = ConsoleColor.Gray;
+                Console.SetCursorPosition((Console.WindowWidth - 30) / 2, Console.CursorTop + 10);
+                Console.WriteLine("--- Chào mừng bạn đến với trò chơi!!! ---\n");
+                Console.ResetColor();
+                Console.WriteLine("             Bạn sẽ vào vai một nhà thám hiểm, trên đường khám phá bạn bị lạc vào một mê cung vòng vo.\n" +
+                    "             Điều kỳ lạ là trong mê cung hiện lên những câu hỏi hóc búa buộc bạn phải vắt óc giải mã \n             để tìm thấy lời giải đáp thoát khỏi mê cung.\n" +
+                    "             Hãy dùng cái phím mũi tên để điều khiển nhân vật của bạn khám phá các ngóc ngách của mê cung.\n" + "\n             => Nhấn phím \"Enter\" để chuẩn bị đến với trò chơi nhé!");
+
+                Console.ReadLine();
+                return true;
+            case '2':
+                /*ShowMenu();
+                return true; */
+
+                if (!isMenuShown)
+                {
+                    ShowMenu();
+                    isMenuShown = true;
+                }
+                return true;
+            case '3':
+                StartGame();
+                return true;
+            case '4':
+                bool exitConfirmed = false;
+                do
+                {
+                    Console.WriteLine("Bạn có chắc chắn muốn thoát game không? (Y/N)");
+                    string choice = Console.ReadLine();
+                    if (choice.ToUpper() == "Y")
+                    {
+                        return false;
+                    }
+                    else if (choice.ToUpper() == "N")
+                    {
+                        Console.WriteLine("Để tiếp tục lựa chọn mời bạn nhấn phím \"Enter\"");
+                        Console.ReadLine();
+                        exitConfirmed = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng chọn Y hoặc N.");
+                    }
+                } while (!exitConfirmed);
+                return true;
+            default:
+                return true;
+        }
+    }
+
+    static bool isSoundPlaying = true; // Biến theo dõi trạng thái âm thanh
+
+    static void ShowMenu()
+    {
+
+        Console.Clear();
+        // Đặt màu chữ là màu vàng
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.BackgroundColor = ConsoleColor.Gray;
+        Console.SetCursorPosition((Console.WindowWidth - 13) / 2, Console.CursorTop + 10);
+        Console.WriteLine("----- BẢNG MENU -----");
+        Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop + 1);
+        Console.WriteLine("1. Kỷ lục            ");
+        Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
+        Console.WriteLine("2. Dừng tạm thời     ");
+        Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
+        Console.WriteLine("3. Tiếp tục          ");
+        Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
+        Console.WriteLine("4. Bắt đầu lại game  ");
+        Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
+        Console.WriteLine("5. Quay lại          ");
+        Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
+        Console.WriteLine("6. Tắt/Bật âm thanh  "); // Thêm lựa chọn tắt/bật âm thanh vào menu
+        Console.ResetColor();
+        Console.WriteLine("\nMời bạn chọn từ 1-6");
+        string userInput = Console.ReadLine();
+
+
+
+        switch (userInput)
+        {
+            case "1":
+                Console.Clear();
+                string showkyluc = File.ReadAllText("kyluc.txt");
+                Console.WriteLine(showkyluc);
+                Console.WriteLine(showkyluc.GetType().ToString());
+                Console.ReadLine();
+                break;
+
+            case "2":
+                // Handle option 2
+
+                if (!isPaused)
+                {
+                    //stopwatch.Stop(); // Tạm dừng đồng hồ
+                    isPaused = true;
+                    //pausedTime = stopwatch.Elapsed; // Lưu thời gian đã dừng tạm thời
+                    Console.WriteLine("Đã dừng tạm thời. Thời gian đã chơi: " + pausedTime);
+
+                    // Sao chép mê cung hiện tại vào savedMaze
+                    int rows = maze.GetLength(0);
+                    int cols = maze.GetLength(1);
+                    savedMaze = new char[rows, cols];
+                    for (int i = 0; i < rows; i++)
+                    {
+                        for (int j = 0; j < cols; j++)
+                        {
+                            savedMaze[i, j] = maze[i, j];
+                        }
+                    }
+
+                    // Lưu vị trí của người chơi
+                    savedPlayerRow = playerX;
+                    savedPlayerCol = playerY;
+                }
+                else
+                {
+                    stopwatch.Start(); // Tiếp tục đồng hồ
+                    isPaused = false;
+                    Console.WriteLine("Tiếp tục chơi.");
+                }
+                Thread.Sleep(2000); // Dừng 1 giây để người dùng có thể nhìn thấy thông báo
+                ShowMenu(); // Re-run the menu
+                break;
+
+            case "3":
+                //Handle option 3
+                if (isPaused)
+                {
+                    ResumeGame();
+                }
+                else
+                {
+                    Console.WriteLine("Bạn phải dừng tạm thời trước khi quay lại mê cung.");
+                    Thread.Sleep(3000); // Dừng 1 giây để người dùng có thể nhìn thấy thông báo
+                    ShowMenu();
+                }
+                break;
+
+            case "4":
+                // Handle option 4
+                Console.WriteLine("Bắt đầu lại game...");
+                ResetGame();
+                break;
+
+            case "5":
+                resumeGame();
+                break;
+
+            case "6":
+                ToggleSound(); // Gọi hàm để tắt/bật âm thanh
+                break;
+            default:
+                Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
+
+                ShowMenu(); // Re-run the menu
+                break;
+        }
+    }
+    static void StartGame()
+    {
+        Console.OutputEncoding = Encoding.UTF8;
+        Console.InputEncoding = Encoding.UTF8;
+        Console.Clear();
+
+        //TÊN GAME
+        string gameName = "GAME THOÁT KHỎI MẬT THẤT";                                                   // TẠO TÊN CHO GAME
+        Console.ForegroundColor = ConsoleColor.DarkRed;                                                 // Đặt màu chữ là màu 
+        Console.BackgroundColor = ConsoleColor.Gray;                                                    // Đặt màu nền là màu 
+        PrintCenteredText("------ " + gameName + " ------");
+        Console.ResetColor();                                                                           // Đặt lại màu chữ và màu nền mặc định
+
+        // THỜI GIAN
+        DateTime startTime = DateTime.Now;                                                              // Lấy thời điểm bắt đầu chơi game
+
+        // Hiển thị ngày và giờ bắt đầu chơi game
+        Console.WriteLine("\n" + "--------------------------------");
+        Console.WriteLine("day: " + startTime.ToShortDateString());
+        Console.WriteLine("time: " + startTime.ToString("hh\\:mm\\:ss"));
+
+        Console.ReadKey();
+
+
+        Console.WriteLine();
+        stopwatch = new Stopwatch();
+        stopwatch.Start();
+        int score = 0;
+        while (true)
+        {
+            Console.Clear();
+            DrawMenu();
+            DrawMaze();
+            ConsoleKey key = Console.ReadKey().Key;
+            if (key == ConsoleKey.M)
+            {
+
+                ShowMenu();
+            }
+            else
+            {
+                MovePlayer(key);
+            }
+            //MovePlayer(key);
+            if (!isPaused)
+            {
+                if (CheckWin())
+                {
+                    Console.Clear();
+                    DrawMaze();
+                    Console.WriteLine("Chúc mừng bạn đã thắng level 1");
+                    Console.ReadKey(true);
+                    stopwatch.Stop();
+                    TimeSpan elapsedTime = stopwatch.Elapsed;
+                    Console.WriteLine("thời gian chơi: " + elapsedTime.ToString("mm\\:ss"));
+                    if (elapsedTime < TimeSpan.FromSeconds(30))
+                    { score += 100; }
+                    else if (elapsedTime < TimeSpan.FromMinutes(1))
+                    { score += 50; }
+                    else if (elapsedTime < TimeSpan.FromMinutes(2))
+                    { score += 25; }
+                    else { score += 10; }
+                    Console.WriteLine("điểm của bạn là: " + score);
+                    while (true)
+                    {
+                        Console.WriteLine("Bạn có muốn tiếp tục trò chơi không^^");
+                        Console.WriteLine("1. Tiếp tục đến với level 2");
+                        Console.WriteLine("2. Dừng lại tại đây thôi!");
+                        Console.WriteLine("Mời nhập lựa chọn của bạn: ");
+                        string choice = Console.ReadLine();
+
+                        if (choice == "1")
+                        {
+                            // Code để qua màn 2
+                            Console.WriteLine("Bạn đã qua màn 2");
+                            Console.Clear();
+                            Console.WriteLine("Welcome to the game");
+                            Console.WriteLine("You need to find the way out by answering questions correctly^^");
+                            Console.WriteLine("To begin, press 'C' to continue, 'I' for instructions, or 'Q' to quit");
+
+                            string choices = Console.ReadLine().ToUpper();
+
+                            if (choices == "Q")
+                            {
+                                Console.WriteLine("Thank you for playing!!!");
+                                return;
+                            }
+                            else if (choices == "I")
+                            {
+                                Console.Clear();
+                            }
+
+                            //vẽ maze
+                            bool[][] mazeLayout =
+                    {
+            new [] {true, true, true, true, true, true, true, true, false, true, true, true, true},
+            new [] {true, false, false, false, true, false, true, true, false, false, true, true, true},
+            new [] {true, false, true, false, true, false, true, true, true, false, true, true, true},
+            new [] {true, false, true, false, true, false, true, true, true, false, false, false, true},
+            new [] {true, false, true, false, true, false, true, true, true, false, true, true, true},
+            new [] {true, false, true, true, true, false, true, true, true, false, false, false, true},
+            new [] {true, false, true, false, false, false, true, true, true, false, true, true, true},
+            new [] {true, false, true, false, true, false, true, true, true, false, true, false, true},
+            new [] {true, false, true, false, true, false, true, true, true, false, true, false, true},
+            new [] {true, false, true, false, true, false, false, false, false, false, true, false, true},
+            new [] {true, false, true, false, true, true, true, true, true, true, true, false, true},
+            new [] {true, false, true, false, false, false, false, false, false, false, false, false, true},
+            new [] {true, false, true, true, true, true, true, true, true, true, true, false, true},
+            new [] {true, false, false, false, false, false, false, false, false, false, false, false, true},
+            new [] {true, true, true, true, true, true, true, true, true, false, true, true, true}
+            };
+                            mazeLayout[1][3] = false; // Vị trí câu hỏi 1
+                            mazeLayout[4][10] = false; // Vị trí câu hỏi 2
+                                                       //đặt các biến
+                            const char wallChar = '\u2588';
+                            const char mazeChar = '\u0020';
+                            int exitRow = 0;
+                            int exitColumn = 8;
+                            int questionRow = 1;
+                            int questionColumn = 1;
+                            int totalScore = 0;
+
+
+                            //in maze
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+
+                            for (int i = 0; i < mazeLayout.Length; i++)
+                            {
+                                for (int j = 0; j < mazeLayout[i].Length; j++)
+                                {
+                                    if (mazeLayout[i][j])
+                                    {
+                                        Console.Write(wallChar);
+                                    }
+                                    else
+                                    {
+                                        if (i == exitRow && j == exitColumn)
+                                        {
+                                            Console.ForegroundColor = ConsoleColor.Red;
+                                            Console.Write("E"); // Print the exit point
+                                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                                        }
+                                        else
+                                        {
+                                            Console.Write(mazeChar);
+                                        }
+                                    }
+                                }
+                                Console.WriteLine();
+                            }
+                            //di chuyển
+                            ConsoleKeyInfo keyInfo;
+                            int playerRow = 14;
+                            int playerColumn = 8;
+                            int startRow = playerRow;
+                            int startColumn = playerColumn;
+                            bool isPlayerInMaze = true;
+                            while (isPlayerInMaze)
+                            {
+                                keyInfo = Console.ReadKey(true);
+
+                                switch (keyInfo.Key)
+                                {
+                                    case ConsoleKey.UpArrow:
+                                        if (!mazeLayout[playerRow - 1][playerColumn])
+                                        {
+                                            playerRow--;
+                                        }
+                                        break;
+                                    case ConsoleKey.DownArrow:
+                                        if (!mazeLayout[playerRow + 1][playerColumn])
+                                        {
+                                            playerRow++;
+                                        }
+                                        break;
+                                    case ConsoleKey.LeftArrow:
+                                        if (!mazeLayout[playerRow][playerColumn - 1])
+                                        {
+                                            playerColumn--;
+                                        }
+                                        break;
+                                    case ConsoleKey.RightArrow:
+                                        if (!mazeLayout[playerRow][playerColumn + 1])
+                                        {
+                                            playerColumn++;
+                                        }
+                                        break;
+                                }
+                                Console.Clear();
+                                //khi đi tới điểm End
+                                if (playerRow == exitRow && playerColumn == exitColumn)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Blue;
+                                    Console.WriteLine("\nBạn đã kết thúc trò chơi với số tiền: " + totalScore.ToString("N0") + " điểm.");
+                                    Console.WriteLine("Congratulations! You reached the exit. YOU WIN!!!");
+
+                                }
+                                else
+                                {
+                                    for (int i = 0; i < mazeLayout.Length; i++)
+                                    {
+                                        for (int j = 0; j < mazeLayout[i].Length; j++)
+                                        {
+                                            if (mazeLayout[i][j])
+                                            {
+                                                Console.Write(wallChar);
+                                            }
+                                            else if (i == playerRow && j == playerColumn)
+                                            {
+                                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                                Console.Write("*");
+                                                Console.ForegroundColor = ConsoleColor.DarkGray;
+                                            }
+                                            else if (i == exitRow && j == exitColumn)
+                                            {
+                                                Console.ForegroundColor = ConsoleColor.Blue;
+                                                Console.Write("E");
+                                                Console.ForegroundColor = ConsoleColor.DarkGray;
+                                            }
+                                            else
+                                            {
+                                                Console.Write(mazeChar);
+
+                                            }
+                                        }
+                                        Console.WriteLine();
+                                    }
+
+                                }
+                            }
+
+                            break;
+                        }
+                        else if (choice == "2")
+                        {
+                            // Code để thoát game
+                            MainMenu();
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
+                        }
+                    }
+
+                    break;
+                }
+
+
+                if (CheckLose())
+                {
+                    Console.Clear();
+                    DrawMaze();
+                    Console.WriteLine("Bạn đã thua cuộc!");
+                    stopwatch.Stop();
+                    TimeSpan elapsedTime = stopwatch.Elapsed;
+                    Console.WriteLine("thời gian chơi: " + elapsedTime.ToString("mm\\:ss"));
+                    break;
+                }
+            }
+        }
+        Console.ReadLine();
+        ConsoleKey Key = Console.ReadKey().Key;
+
+        MovePlayer(Key);
+        stopwatch.Stop();
+
+        bool CheckLose()
+        {
+            // Kiểm tra các điều kiện để xác định người chơi đã thua cuộc
+            //...
+
+            return false; // Thay đổi giá trị trả về thành true nếu người chơi thua cuộc
+        }
+        using (FileStream kyluc = new FileStream("kyluc.txt", FileMode.Append, FileAccess.Write))            // xử lý ngoại lệ (th đặc biệt của try-catch-family)
+        {
+            Console.InputEncoding = Encoding.UTF8;
+            int consoleWidth = Console.WindowWidth;
+            int consoleHeight = Console.WindowHeight;
+            int leftMargin = (consoleWidth - 100) / 2;
+            int topMargin = (consoleHeight - 1) / 2 - 8;
+            TimeSpan elapsedTime = stopwatch.Elapsed;
+            Console.SetCursorPosition(leftMargin, topMargin + 1);             // Ghi tên
+            Console.WriteLine();
+            Console.WriteLine("Enter your name:");
+            StreamWriter hoten = new StreamWriter(kyluc);
+            hoten.Write("--------------------------------" + "\n" + Console.ReadLine() + "\n");
+            hoten.Flush();
+            StreamWriter diem = new StreamWriter(kyluc);
+            diem.Write("score:" + score + "\n");
+            diem.Flush();
+            StreamWriter thoigianchoi = new StreamWriter(kyluc);
+            thoigianchoi.WriteLine("thời gian chơi kỷ lục của bạn là: " + elapsedTime.ToString("mm\\:ss"));
+            thoigianchoi.Flush();
+        }
+        DateTime startTimes = DateTime.Now;                                                              // Lấy thời điểm bắt đầu chơi game
+
+        // Hiển thị ngày và giờ bắt đầu chơi game
+        Console.WriteLine("\n" + "--------------------------------");
+        Console.WriteLine("day: " + startTime.ToShortDateString());
+        Console.WriteLine("time: " + startTime.ToString("hh\\:mm\\:ss"));
+        DateTime endTime = DateTime.Now;                                                                // Lấy thời điểm kết thúc chơi game  
+        // Hiển thị thời gian chơi game
+
+        using (FileStream kyluc = new FileStream("kyluc.txt", FileMode.Append, FileAccess.Write))   // Ghi thời gian bắt đầu, kết thúc vào file.
+        {
+            StreamWriter thoigian = new StreamWriter(kyluc);
+            thoigian.WriteLine("start'time: " + startTime.ToString("hh\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
+            thoigian.Flush();
+        }
+    }
+    static void PrintCenteredText(string text)                                //TẠO HIỆU ỨNG RƠI CHẬM CHO TÊN GAME
+    {
+        Console.InputEncoding = Encoding.UTF8;
+        int consoleWidth = Console.WindowWidth;
+        int consoleHeight = Console.WindowHeight;
+        int leftMargin = (consoleWidth - text.Length) / 2;
+        int topMargin = (consoleHeight - 1) / 2 - 8;
+
+        Console.SetCursorPosition(leftMargin, topMargin);
+
+        for (int i = 0; i < text.Length; i++)
+        {
+            Console.SetCursorPosition(leftMargin + i, Console.CursorTop);
+            Console.Write(text[i]);
+            System.Threading.Thread.Sleep(60);                                // Đợi 50 milliseconds giữa mỗi ký tự
+        }
+        using (FileStream kyluc = new FileStream("kyluc.txt", FileMode.Append, FileAccess.Write))
+        {
+            Console.SetCursorPosition(leftMargin, topMargin + 1);
+            Console.WriteLine();
+            Console.WriteLine("Enter your name:");
+            StreamWriter hoten = new StreamWriter(kyluc);
+            hoten.Write("--------------------------------" + "\n" + Console.ReadLine() + "\n");
+            hoten.Flush();
+        }
+    }
+
+    static void DrawMenu()
+    {
+        int menuX = 30; // Vị trí X của menu
+        int menuY = 0; // Vị trí Y của menu
+
+        Console.SetCursorPosition(menuX, menuY);
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.BackgroundColor = ConsoleColor.DarkBlue;
+        Console.WriteLine("MENU");
+        Console.ResetColor();
+    }
+
+    static void DisplayMaze()
+    {
+        int rows = maze.GetLength(0);
+        int cols = maze.GetLength(1);
+
+        for (int i = 0; i < rows; i++)
+        {
+            for (int j = 0; j < cols; j++)
+            {
+                if (i == playerX && j == playerY)
+                {
+                    Console.Write('P'); // Hiển thị người chơi
+                }
+                else
+                {
+                    Console.Write(maze[i, j]); // Hiển thị phần tử của mê cung
+                }
+            }
+            Console.WriteLine();
+        }
+    }
+
+    static void SaveGame()
+    {
+        savedMaze = (char[,])maze.Clone();
+        savedPlayerRow = playerX;
+        savedPlayerCol = playerY;
+        Console.WriteLine("Trạng thái hiện tại đã được lưu.");
+    }
+
+    static void ResetGame()
+    {
+        playerX = 1;
+        playerY = 1;
+        stopwatch.Reset();
+        pausedTime = TimeSpan.Zero;
+
+        // Khôi phục mê cung gốc
+        for (int i = 0; i < maze.GetLength(0); i++)
+        {
+            for (int j = 0; j < maze.GetLength(1); j++)
+            {
+                maze[i, j] = originalMaze[i, j];
+            }
+        }
+
+        Console.WriteLine("Game đã được reset. Bắt đầu lại từ đầu.");
+        Thread.Sleep(2000);
+        Console.Clear();
+        MainMenu();
+    }
+
+    static void PauseGame()
+    {
+        isPaused = true;
+        Console.WriteLine("Tạm dừng trò chơi.");
+        // Lưu trạng thái của mê cung và vị trí người chơi vào biến toàn cục
+        // ...
+        // Lưu trạng thái của mê cung
+        Array.Copy(maze, savedMaze, maze.Length);
+        // Lưu trạng thái vị trí người chơi
+        savedPlayerRow = playerX;
+        savedPlayerCol = playerY;
+        pausedTime = stopwatch.Elapsed; // Lưu thời gian đã dừng tạm thời
+        stopwatch.Stop(); // Dừng đồng hồ đếm thời gian
+    }
+
+    static void ResumeGame()
+    {
+        isPaused = false;
+        Console.WriteLine("Tiếp tục trò chơi từ vị trí tạm dừng.");
+        // Sử dụng trạng thái đã lưu trong biến toàn cục để tiếp tục chơi
+        // ...
+        // Khôi phục trạng thái của mê cung
+        Array.Copy(savedMaze, maze, savedMaze.Length);
+        // Khôi phục trạng thái vị trí người chơi
+        playerX = savedPlayerRow;
+        playerY = savedPlayerCol;
+        // Tiếp tục thực hiện logic chơi game từ vị trí tạm dừng
+        stopwatch.Start(); // Bắt đầu đồng hồ đếm thời gian lại
+    }
+
+    static void resumeGame()
+    {
+        isPaused = false;
+        pausedTime = stopwatch.Elapsed; // Lưu thời gian đã dừng tạm thời
+        stopwatch.Stop(); // Dừng đồng hồ đếm thời gian
+        Console.WriteLine("Tiếp tục trò chơi từ vị trí tạm dừng.");
+        Console.WriteLine("Bạn muốn quay lại mà không thay đổi gì?");
+        Console.WriteLine("1. Có");
+        Console.WriteLine("2. Không");
+        int choice = int.Parse(Console.ReadLine());
+
+        if (choice == 1)
+        {
+            stopwatch.Start(); // Bắt đầu đồng hồ đếm thời gian lại
+        }
+    }
+}
