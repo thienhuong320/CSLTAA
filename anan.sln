@@ -603,6 +603,8 @@ static bool MainMenu()
                             int startRow = playerRow;
                             int startColumn = playerColumn;
                             bool isPlayerInMaze = true;
+                            stopwatch = new Stopwatch();
+                            stopwatch.Start();
                             while (true)
                             {
                                 PrintMazeWithVisibilityMap();
@@ -637,12 +639,25 @@ static bool MainMenu()
                                     default:
                                         break;
                                 }
-
+                                Console.Clear();
                                 if (playerRow == exitRow && playerColumn == exitColumn)
                                 {
-                                    Console.Clear();
-                                    Console.WriteLine("Chúc mừng bạn đã thoát khỏi mê cung ^^!!!");
-                                    Console.WriteLine("Your total score: " + totalScore);
+                                    stopwatch.Stop();
+                                    TimeSpan elapsedTimess = stopwatch.Elapsed;
+                                    Console.WriteLine("thời gian chơi: " + elapsedTimess.ToString("mm\\:ss"));
+                                    Console.ReadKey();
+                                    int totalScore = 0;
+                                    if (elapsedTimess < TimeSpan.FromSeconds(30))
+                                    { totalScore += 100; }
+                                    else if (elapsedTimess < TimeSpan.FromMinutes(1))
+                                    { totalScore += 50; }
+                                    else if (elapsedTimess < TimeSpan.FromMinutes(2))
+                                    { totalScore += 25; }
+                                    else { totalScore += 10; }
+                                    Console.WriteLine("Congratulations! You reached the exit!");
+                                    Console.WriteLine("điểm level2 của bạn là: "+totalScore);
+                                    int totalscore = totalScore + score;
+                                    Console.WriteLine("Your total score: " + totalscore);
                                     break;
                                 }
                                 else
