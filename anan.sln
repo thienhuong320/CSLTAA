@@ -128,19 +128,28 @@ class Game
         { "Bỏ ngoài nướng trong, ăn ngoài bỏ trong là gì?", "nướng ngô", "nướng trứng", "nướng khoai" },
         { "Con gì mang được miếng gỗ lớn nhưng không mang được hòn sỏi?", "con sông", "con đường", "con đèo" },
         { "Cái gì ở giữa bầu trời và trái đất", "và", "mây", "gió" },
-        { "Thủ đô của Anh là", "london", "paris", "berlin" },
+        { "Thủ đô của Anh là?", "London", "Paris", "Berlin" },
         { "Mồm bò không phải mồm bò mà lại là mồm bò là gì?", "ốc sên", "con bò", "con ngựa" },
         { "Thủ đô của Việt Nam là?", "Hà Nội","Hồ Chí Minh",  "Đà Nẵng" },
         { "Tỉnh thành nào nằm ở cực Bắc của Việt Nam?", "Hà Giang", "Sơn La", "Lạng Sơn" },
-        { "Tỉnh thành nào là điểm đất liền xa nhất về phía Đông của Việt Nam?", "Cà Mau", "Bạc Liêu", "Trà Vinh" },
+        { "Tỉnh thành nào là điểm đất liền xa nhất về phía Đông của Việt Nam?", "Khánh Hòa", "Phú Yên", "Bình Định" },
         { "Đâu là tỉnh thành không giáp biển?", "Lào Cai", "Quảng Bình", "Ninh Bình" },
         { "Ai là người đầu tiên đặt chân lên Mặt Trăng?", "Neil Armstrong", "Buzz Aldrin", "Yuri Gagarin" },
-        {"Đâu là tên một loại chợ?","Cóc","Ếch", "Nhái"},
-        {"Đâu là tên một bãi biển ở Quảng Bình?","Đá Nhảy","Đá Lăn","Đá Chạy"},
-        {"Tháng âm lịch nào còn được gọi là Tháng cô hồn ?","Tháng bảy","Tháng tám","Tháng chín"},
-        {"Bảo tàng Hồ Chí Minh ở thủ đô Hà Nội được thiết kế theo hình dáng loại hoa nào?","Hoa sen","Hoa hồng","Hoa đào"},
-        {"Cái gì có thể đi mà không di chuyển?","Đồng hồ","Máy bay","Giày"},
-        { "Tỉnh thành nào nổi tiếng với vịnh Hạ Long?", "Quảng Ninh", "Bắc Ninh", "Hải Phòng" }
+        { "Đâu là tên một loại chợ?","Cóc","Ếch", "Nhái"},
+        { "Đâu là tên một bãi biển ở Quảng Bình?","Đá Nhảy","Đá Lăn","Đá Chạy"},
+        { "Tháng âm lịch nào còn được gọi là Tháng cô hồn ?","Tháng bảy","Tháng tám","Tháng chín"},
+        { "Bảo tàng Hồ Chí Minh ở thủ đô Hà Nội được thiết kế theo hình dáng loại hoa nào?","Hoa sen","Hoa hồng","Hoa đào"},
+        { "Cái gì có thể đi mà không di chuyển?","Đồng hồ","Máy bay","Giày"},
+        { "Tỉnh thành nào nổi tiếng với vịnh Hạ Long?", "Quảng Ninh", "Bắc Ninh", "Hải Phòng" },
+        { "Bức tranh nổi tiếng 'Mona Lisa' được vẽ bởi họa sĩ nào?", "Leonardo da Vinci", "Vincent van Gogh", "Pablo Picasso"},
+        { "Tổng thống nước Mỹ thứ 45 là ai?", "Joe Biden", "Barack Obama", "Donald Trump"},
+        { "Tên của công ty công nghệ lớn nhất ở Hàn Quốc là gì?", "Samsung Electronics", "LG Electronics", "SK Hynix"},
+        { "Thủ đô của Hà Lan là gì?", "Amsterdam", "Moscow", "Rome"},
+        { "Tác giả của quyển sách 'The Alchemist' (Nhà giả kim) là ai?", "Paulo Coelho", "Mario Puzo", "Mark Twain"},
+        { "Nhà văn Victor Hugo là người nước nào?", "Pháp", "Ý", "Tây Ban Nha"},
+        { "James Naismith đã phát minh ra trò chơi thể thao nào vào năm 1891?", "Bóng rổ", "Golf", "Quần vợt"}, 
+        { "Nền văn hóa phục hưng bắt nguồn từ nước nào?", "Ý", "Thụy Sỹ", "Anh" },
+        { "Chu kì của vật dao động điều hòa là?", "Thời gian để vật thực hiện được một dao động toàn phần.", "Thời gian ngắn nhất để vật đi từ biên này đến biên kia.", "Thời gian ngắn nhất để vật đi từ vị trí cân bằng ra biên." }
         };
 
         if (usedQuestions.Count == questions.GetLength(0))
@@ -380,9 +389,9 @@ static bool MainMenu()
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
         Console.WriteLine("4. Bắt đầu lại game  ");
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
-        Console.WriteLine("5. Quay lại          ");
+        Console.WriteLine("5. Tắt/Bật âm thanh  "); // Thêm lựa chọn tắt/bật âm thanh vào menu
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
-        Console.WriteLine("6. Tắt/Bật âm thanh  "); // Thêm lựa chọn tắt/bật âm thanh vào menu
+        Console.WriteLine("6. Thoát game khi bị chặn hết đường    "); // Thêm lựa chọn khi người chơi bị chặn hết đường thì nhấn 7 để thoát game
         Console.ResetColor();
         Console.WriteLine("\nMời bạn chọn từ 1-6");
         string userInput = Console.ReadLine();
@@ -456,12 +465,13 @@ static bool MainMenu()
                 break;
 
             case "5":
-                resumeGame();
+                ToggleSound(); // Gọi hàm để tắt/bật âm thanh
                 break;
 
             case "6":
-                ToggleSound(); // Gọi hàm để tắt/bật âm thanh
+                ExitGame();
                 break;
+
             default:
                 Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
 
