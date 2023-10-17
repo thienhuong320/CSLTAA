@@ -357,7 +357,7 @@ class Game
 
         Console.Clear();
         // Đặt màu chữ là màu vàng
-        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.ForegroundColor = ConsoleColor.DarkRed;                                                 
         Console.BackgroundColor = ConsoleColor.Gray;
         Console.SetCursorPosition((Console.WindowWidth - 13) / 2, Console.CursorTop + 10);
         Console.WriteLine("----- BẢNG MENU -----");
@@ -553,7 +553,7 @@ class Game
 
                             //vẽ maze
                             bool[][] mazeLayout =
-                    {
+                                {
             new [] {true, true, true, true, true, true, true, true, false, true, true, true, true},
             new [] {true, false, false, false, true, false, true, true, false, false, true, true, true},
             new [] {true, false, true, false, true, false, true, true, true, false, true, true, true},
@@ -570,15 +570,11 @@ class Game
             new [] {true, false, false, false, false, false, false, false, false, false, false, false, true},
             new [] {true, true, true, true, true, true, true, true, true, false, true, true, true}
             };
-                            mazeLayout[1][3] = false; // Vị trí câu hỏi 1
-                            mazeLayout[4][10] = false; // Vị trí câu hỏi 2
                                                        //đặt các biến
                             const char wallChar = '\u2588';
                             const char mazeChar = '\u0020';
                             int exitRow = 0;
                             int exitColumn = 8;
-                            int questionRow = 1;
-                            int questionColumn = 1;
                             int totalScore = 0;
 
 
@@ -616,45 +612,47 @@ class Game
                             int startRow = playerRow;
                             int startColumn = playerColumn;
                             bool isPlayerInMaze = true;
-                            while (isPlayerInMaze)
+                            while (true)
                             {
-                                keyInfo = Console.ReadKey(true);
+                                PrintMazeWithVisibilityMap();
 
-                                switch (keyInfo.Key)
+
+                                switch (Console.ReadKey(true).Key)
                                 {
                                     case ConsoleKey.UpArrow:
-                                        if (!mazeLayout[playerRow - 1][playerColumn])
+                                        if (IsValidMove(playerRow - 1, playerColumn))
                                         {
                                             playerRow--;
                                         }
                                         break;
                                     case ConsoleKey.DownArrow:
-                                        if (!mazeLayout[playerRow + 1][playerColumn])
+                                        if (IsValidMove(playerRow + 1, playerColumn))
                                         {
                                             playerRow++;
                                         }
                                         break;
                                     case ConsoleKey.LeftArrow:
-                                        if (!mazeLayout[playerRow][playerColumn - 1])
+                                        if (IsValidMove(playerRow, playerColumn - 1))
                                         {
                                             playerColumn--;
                                         }
                                         break;
                                     case ConsoleKey.RightArrow:
-                                        if (!mazeLayout[playerRow][playerColumn + 1])
+                                        if (IsValidMove(playerRow, playerColumn + 1))
                                         {
                                             playerColumn++;
                                         }
                                         break;
+                                    default:
+                                        break;
                                 }
-                                Console.Clear();
-                                //khi đi tới điểm End
+
                                 if (playerRow == exitRow && playerColumn == exitColumn)
                                 {
-                                    Console.ForegroundColor = ConsoleColor.Blue;
-                                    Console.WriteLine("\nBạn đã kết thúc trò chơi với số tiền: " + totalScore.ToString("N0") + " điểm.");
-                                    Console.WriteLine("Congratulations! You reached the exit. YOU WIN!!!");
-
+                                    Console.Clear();
+                                    Console.WriteLine("Congratulations! You reached the exit!");
+                                    Console.WriteLine("Your total score: " + totalScore);
+                                    break;
                                 }
                                 else
                                 {
@@ -688,6 +686,73 @@ class Game
                                     }
 
                                 }
+                            }
+                             void DisplayInstructions()
+                            {
+                                Console.WriteLine("Instructions:");
+                                Console.WriteLine("Navigate through the maze using the arrow keys.");
+                                Console.WriteLine("Reach the 'E' to win the game.");
+                                Console.WriteLine("When you encounter a '?' symbol, you will be asked a question.");
+                                Console.WriteLine("Answer the question correctly to increase your score.");
+                            }
+
+                             bool IsValidMove(int row, int column)
+                            {
+                                if (row >= 0 && row < mazeLayout.Length && column >= 0 && column < mazeLayout[row].Length && !mazeLayout[row][column])
+                                {
+                                    return true;
+                                }
+                                return false;
+                            }
+
+                             void UpdateVisibilityMap()
+                            {
+                                bool[][] visibilityMap = new bool[mazeLayout.Length][];
+                                for (int i = 0; i < mazeLayout.Length; i++)
+                                {
+                                    visibilityMap[i] = new bool[mazeLayout[i].Length];
+                                }
+
+                                for (int i = Math.Max(0, playerRow - 2); i <= Math.Min(mazeLayout.Length - 1, playerRow + 2); i++)
+                                {
+                                    for (int j = Math.Max(0, playerColumn - 2); j <= Math.Min(mazeLayout[i].Length - 1, playerColumn + 2); j++)
+                                    {
+                                        visibilityMap[i][j] = true;
+                                    }
+                                }
+
+                                visibilityMap[playerRow][playerColumn] = true;
+
+                                for (int i = 0; i < mazeLayout.Length; i++)
+                                {
+                                    for (int j = 0; j < mazeLayout[i].Length; j++)
+                                    {
+                                        if (visibilityMap[i][j])
+                                        {
+                                            Console.SetCursorPosition(j, i);
+                                            if (i == playerRow && j == playerColumn)
+                                            {
+                                                Console.Write('P');
+                                            }
+                                            else if (i == exitRow && j == exitColumn)
+                                            {
+                                                Console.Write('E');
+                                            }
+                                            else
+                                            {
+                                                Console.Write(mazeLayout[i][j] ? wallChar : mazeChar);
+                                            }
+                                        }
+                                    }
+                                }
+
+                                Console.SetCursorPosition(playerColumn, playerRow);
+                            }
+
+                             void PrintMazeWithVisibilityMap()
+                            {
+                                Console.Clear();
+                                UpdateVisibilityMap();
                             }
 
                             break;
@@ -857,7 +922,7 @@ class Game
 
         Console.WriteLine("Game đã được reset. Bắt đầu lại từ đầu.");
         Thread.Sleep(2000);
-        Console.Clear();
+        Console.Clear(); 
         MainMenu();
     }
 
