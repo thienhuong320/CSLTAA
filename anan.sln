@@ -533,17 +533,15 @@ class Game
                         if (choice == "1")
                         {
                             // Code để qua màn 2
-                            Console.WriteLine("Bạn đã qua màn 2");
+                            Console.WriteLine("Bạn đã qua level 2");
                             Console.Clear();
-                            Console.WriteLine("Welcome to the game");
-                            Console.WriteLine("You need to find the way out by answering questions correctly^^");
-                            Console.WriteLine("To begin, press 'C' to continue, 'I' for instructions, or 'Q' to quit");
+                            Console.WriteLine(Để tiếp tục nhấn 'C', 'I' để xem lại hướng dẫn chơi, 'Q' để thoát khỏi game);
 
                             string choices = Console.ReadLine().ToUpper();
 
                             if (choices == "Q")
                             {
-                                Console.WriteLine("Thank you for playing!!!");
+                                Console.WriteLine("Cảm ơn đã chơi!!!");
                                 return;
                             }
                             else if (choices == "I")
@@ -594,7 +592,7 @@ class Game
                                         if (i == exitRow && j == exitColumn)
                                         {
                                             Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.Write("E"); // Print the exit point
+                                            Console.Write("E"); //In lối thoát
                                             Console.ForegroundColor = ConsoleColor.DarkGray;
                                         }
                                         else
@@ -650,7 +648,7 @@ class Game
                                 if (playerRow == exitRow && playerColumn == exitColumn)
                                 {
                                     Console.Clear();
-                                    Console.WriteLine("Congratulations! You reached the exit!");
+                                    Console.WriteLine("Chúc mừng bạn đã thoát khỏi mê cung ^^!!!");
                                     Console.WriteLine("Your total score: " + totalScore);
                                     break;
                                 }
@@ -689,11 +687,10 @@ class Game
                             }
                              void DisplayInstructions()
                             {
-                                Console.WriteLine("Instructions:");
-                                Console.WriteLine("Navigate through the maze using the arrow keys.");
-                                Console.WriteLine("Reach the 'E' to win the game.");
-                                Console.WriteLine("When you encounter a '?' symbol, you will be asked a question.");
-                                Console.WriteLine("Answer the question correctly to increase your score.");
+                                Console.WriteLine("Hướng dẫn chơi:");
+                                Console.WriteLine("Di chuyển nhân vật bằng các phím mũi tên.");
+                                Console.WriteLine("Hãy tìm lối ra, ký hiệu là E (Exit).");  
+                                Console.WriteLine("Vòng chơi này bạn sẽ không còn thấy rõ xung quanh, hãy tìm lối ra nhanh nhất có thể, nếu không...");
                             }
 
                              bool IsValidMove(int row, int column)
