@@ -60,7 +60,7 @@ class Game
             for (int j = 0; j < 10; j++)
                 if (i == playerX && j == playerY)
                 {
-                    Console.Write('$'); // Vị trí bắt đầu
+                    Console.Write('☺'); // Vị trí bắt đầu
                 }
                 else if (i == exitX && j == exitY)
                 {
@@ -105,7 +105,7 @@ class Game
                     maze[playerX, playerY] = '.';
                     playerX = newX;
                     playerY = newY;
-                    maze[playerX, playerY] = '$';
+                    maze[playerX, playerY] = '☺';
                 }
                 else
                 {
@@ -117,7 +117,7 @@ class Game
                 maze[playerX, playerY] = '.';
                 playerX = newX;
                 playerY = newY;
-                maze[playerX, playerY] = '$';
+                maze[playerX, playerY] = '☺';
             }
         }
     }
@@ -704,7 +704,7 @@ class Game
                                             else if (i == playerRow && j == playerColumn)
                                             {
                                                 Console.ForegroundColor = ConsoleColor.Yellow;
-                                                Console.Write("*");
+                                                Console.Write("☺");
                                                 Console.ForegroundColor = ConsoleColor.DarkGray;
                                             }
                                             else if (i == exitRow && j == exitColumn)
@@ -768,7 +768,7 @@ class Game
                                             Console.SetCursorPosition(j, i);
                                             if (i == playerRow && j == playerColumn)
                                             {
-                                                Console.Write('P');
+                                                Console.Write('☺');
                                             }
                                             else if (i == exitRow && j == exitColumn)
                                             {
