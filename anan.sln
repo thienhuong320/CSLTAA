@@ -141,7 +141,7 @@ class Game
         { "Đâu là tên một bãi biển ở Quảng Bình?","Đá Nhảy","Đá Lăn","Đá Chạy"},
         { "Tháng âm lịch nào còn được gọi là Tháng cô hồn ?","Tháng bảy","Tháng tám","Tháng chín"},
         { "Bảo tàng Hồ Chí Minh ở thủ đô Hà Nội được thiết kế theo hình dáng loại hoa nào?","Hoa sen","Hoa hồng","Hoa đào"},
-        { "Cái gì có thể đi mà không di chuyển?","Đồng hồ","Máy bay","Giày"},
+        { "Cái gì có thể chạy mà không di chuyển?","Đồng hồ","Máy bay","Giày"},
         { "Tỉnh thành nào nổi tiếng với vịnh Hạ Long?", "Quảng Ninh", "Bắc Ninh", "Hải Phòng" },
         { "Bức tranh nổi tiếng 'Mona Lisa' được vẽ bởi họa sĩ nào?", "Leonardo da Vinci", "Vincent van Gogh", "Pablo Picasso"},
         { "Tổng thống nước Mỹ thứ 45 là ai?", "Joe Biden", "Barack Obama", "Donald Trump"},
