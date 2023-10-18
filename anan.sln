@@ -686,9 +686,9 @@ class Game
                                     { totalScore += 25; }
                                     else { totalScore += 10; }
                                     Console.WriteLine("Congratulations! You reached the exit!");
-                                    Console.WriteLine("điểm level2 của bạn là: " + totalScore);
+                                    Console.WriteLine("Điểm level2 của bạn là: " + totalScore);
                                     int totalscore = totalScore + score;
-                                    Console.WriteLine("Your total score: " + totalscore);
+                                    Console.WriteLine("Điểm tổng của bạn là: " + totalscore);
                                     break;
                                 }
                                 else
@@ -852,7 +852,7 @@ class Game
             diem.Write("score:" + score + "\n");
             diem.Flush();
             StreamWriter thoigianchoi = new StreamWriter(kyluc);
-            thoigianchoi.WriteLine("thời gian chơi kỷ lục của bạn là: " + elapsedTime.ToString("mm\\:ss"));
+            thoigianchoi.WriteLine("TThời gian chơi kỷ lục của bạn là: " + elapsedTime.ToString("mm\\:ss"));
             thoigianchoi.Flush();
         }
         DateTime startTimes = DateTime.Now;                                                              // Lấy thời điểm bắt đầu chơi game
@@ -891,7 +891,7 @@ class Game
         {
             Console.SetCursorPosition(leftMargin, topMargin + 1);
             Console.WriteLine();
-            Console.WriteLine("Enter your name:");
+            Console.WriteLine("Hãy nnhập tên của bạn:");
             StreamWriter hoten = new StreamWriter(kyluc);
             hoten.Write("--------------------------------" + "\n" + Console.ReadLine() + "\n");
             hoten.Flush();
