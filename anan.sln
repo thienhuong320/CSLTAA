@@ -629,8 +629,8 @@ class Game
                                 }
                                 Console.WriteLine();
                             }
+
                             //di chuyển
-                            ConsoleKeyInfo keyInfo;
                             int playerRow = 14;
                             int playerColumn = 9;
                             stopwatch = new Stopwatch();
@@ -752,14 +752,7 @@ class Game
 
                                 }
                             }
-                            void DisplayInstructions()
-                            {
-                                Console.WriteLine("Hướng dẫn chơi:");
-                                Console.WriteLine("Di chuyển nhân vật bằng các phím mũi tên.");
-                                Console.WriteLine("Hãy tìm lối ra, ký hiệu là E (Exit).");
-                                Console.WriteLine("Vòng chơi này bạn sẽ không còn thấy rõ xung quanh, hãy tìm lối ra nhanh nhất có thể, nếu không...");
-                            }
-
+                     
                             bool IsValidMove(int row, int column)
                             {
                                 if (row >= 0 && row < mazeLayout.Length && column >= 0 && column < mazeLayout[row].Length && !mazeLayout[row][column])
