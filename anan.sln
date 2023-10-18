@@ -258,14 +258,9 @@ class Game
             {
                 showMenu = MainMenu();
             }
-            // Hiển thị màn hình chơi game
-            //MainMenu();
 
             DrawMenu(); // Vẽ bảng menu
-
             stopwatch.Start();
-
-            //ShowMenu();
             StartGame();
             bool displayMaze = true;
 
@@ -280,9 +275,6 @@ class Game
                 }
                 // Tiếp tục thực hiện các logic của trò chơi
             }
-
-            // Dừng một lát để tránh tình trạng quá tải CPU
-            Thread.Sleep(100);
         }
     }
     static void ToggleSound()
