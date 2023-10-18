@@ -700,6 +700,24 @@ class Game
                                     Console.WriteLine("Điểm level2 của bạn là: " + totalScore);
                                     int totalscore = totalScore + score;
                                     Console.WriteLine("Điểm tổng của bạn là: " + totalscore);
+
+                                    string filePath = "kyluc.txt";
+                                    int linesToDelete = 3;
+                                    // Đọc nội dung file vào một mảng các dòng
+                                    string[] lines = File.ReadAllLines(filePath);
+                                    // Kiểm tra xem có đủ số dòng để xóa hay không
+                                    if (lines.Length <= linesToDelete)
+                                    {
+                                        // Nếu không đủ dòng để xóa, bạn có thể xử lý tùy ý ở đây
+                                        Console.WriteLine("Không đủ dòng để xóa.");
+                                        return;
+                                    }
+
+                                    // Giữ lại các dòng từ đầu cho đến n - linesToDelete
+                                    string[] remainingLines = lines.Take(lines.Length - linesToDelete).ToArray();
+
+                                    // Ghi nội dung còn lại vào file, ghi đè nội dung cũ
+                                    File.WriteAllLines(filePath, remainingLines);
                                     using (FileStream kyluc = new FileStream("kyluc.txt", FileMode.Append, FileAccess.Write))            // xử lý ngoại lệ (th đặc biệt của try-catch-family)
                                     {
                                         Console.InputEncoding = Encoding.UTF8;
