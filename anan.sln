@@ -198,21 +198,21 @@ class Game
         }
         else
         {
-            Console.WriteLine("Câu trả lời không hợp lệ!");
-            Console.ReadKey();
+            Console.WriteLine("Câu trả lời không hợp lệ!"); 
+            Thread.Sleep(1000);
             return false;
         }
 
         if (userAnswer == correctAnswer)
         {
             Console.WriteLine("Chính xác!");
-            Console.ReadKey();
+            Thread.Sleep(1000);
             return true;
         }
         else
         {
             Console.WriteLine("Sai rồi!");
-            Console.ReadKey();
+            Thread.Sleep(1000);
             return false;
         }
     }
@@ -535,6 +535,7 @@ class Game
                     Console.Clear();
                     DrawMaze();
                     Console.WriteLine("Chúc mừng bạn đã thắng level 1");
+                    Console.WriteLine("Hãy enter để xem điểm và thời gian chơi của bạn");
                     Console.ReadKey(true);
                     stopwatch.Stop();
                     TimeSpan elapsedTime = stopwatch.Elapsed;
