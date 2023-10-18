@@ -552,8 +552,8 @@ class Game
                         Console.InputEncoding = Encoding.UTF8;
                         Console.OutputEncoding = Encoding.UTF8;
                         StreamWriter hoten = new StreamWriter(kyluc);
-                        hoten.Write("Điểm:" + score + "\n");
-                        hoten.WriteLine("thời gian chơi kỷ lục của bạn là: " + elapsedTime.ToString("mm\\:ss"));
+                        hoten.Write("Điểm của bạn dừng ở level 1 là:" + score + "\n");
+                        hoten.WriteLine("TThời gian chơi kỷ lục của bạn là: " + elapsedTime.ToString("mm\\:ss"));
                         hoten.Write("Thời gian bắt đầu: " + startTime.ToString("hh\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
                         hoten.Flush();
                     }
@@ -570,7 +570,7 @@ class Game
                             // Code để qua màn 2
                             Console.WriteLine("Bạn đã qua level 2");
                             Console.Clear();
-                            Console.WriteLine("Để tiếp tục nhấn 'C', 'I' để xem lại hướng dẫn chơi, 'Q' để thoát khỏi game");
+                            Console.WriteLine("Để tiếp tục nhấn phím 'Enter'");
 
                             string choices = Console.ReadLine().ToUpper();
 
@@ -598,133 +598,7 @@ class Game
             new [] {true, false, true, false, true, false, true, true, true, false, true, false, true},
             new [] {true, false, true, false, true, false, false, false, false, false, true, false, true},
             new [] {true, false, true, false, true, true, true, true, true, true, true, false, true},
-            new [] {true, false, true, false, false, false, false, false, false, false, false, false, true},
-            new [] {true, false, true, true, true, true, true, true, true, true, true, false, true},
-            new [] {true, false, false, false, false, false, false, false, false, false, false, false, true},
-            new [] {true, true, true, true, true, true, true, true, true, false, true, true, true}
-            };
-                            //đặt các biến
-                            const char wallChar = '\u2588';
-                            const char mazeChar = '\u0020';
-                            int exitRow = 0;
-                            int exitColumn = 8;
-
-
-                            //in maze
-                            Console.ForegroundColor = ConsoleColor.DarkGray;
-
-                            for (int i = 0; i < mazeLayout.Length; i++)
-                            {
-                                for (int j = 0; j < mazeLayout[i].Length; j++)
-                                {
-                                    if (mazeLayout[i][j])
-                                    {
-                                        Console.Write(wallChar);
-                                    }
-                                    else
-                                    {
-                                        if (i == exitRow && j == exitColumn)
-                                        {
-                                            Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.Write("E"); //In lối thoát
-                                            Console.ForegroundColor = ConsoleColor.DarkGray;
-                                        }
-                                        else
-                                        {
-                                            Console.Write(mazeChar);
-                                        }
-                                    }
-                                }
-                                Console.WriteLine();
-                            }
-                            //di chuyển
-                            ConsoleKeyInfo keyInfo;
-                            int playerRow = 14;
-                            int playerColumn = 8;
-                            int startRow = playerRow;
-                            int startColumn = playerColumn;
-                            bool isPlayerInMaze = true;
-                            stopwatch = new Stopwatch();
-                            stopwatch.Start();
-                            while (true)
-                            {
-                                PrintMazeWithVisibilityMap();
-
-
-                                switch (Console.ReadKey(true).Key)
-                                {
-                                    case ConsoleKey.UpArrow:
-                                        if (IsValidMove(playerRow - 1, playerColumn))
-                                        {
-                                            playerRow--;
-                                        }
-                                        break;
-                                    case ConsoleKey.DownArrow:
-                                        if (IsValidMove(playerRow + 1, playerColumn))
-                                        {
-                                            playerRow++;
-                                        }
-                                        break;
-                                    case ConsoleKey.LeftArrow:
-                                        if (IsValidMove(playerRow, playerColumn - 1))
-                                        {
-                                            playerColumn--;
-                                        }
-                                        break;
-                                    case ConsoleKey.RightArrow:
-                                        if (IsValidMove(playerRow, playerColumn + 1))
-                                        {
-                                            playerColumn++;
-                                        }
-                                        break;
-                                    default:
-                                        break;
-                                }
-                                Console.Clear();
-                                if (playerRow == exitRow && playerColumn == exitColumn)
-                                {
-                                    stopwatch.Stop();
-                                    TimeSpan elapsedTimess = stopwatch.Elapsed;
-                                    TimeSpan sumelapsedTime = elapsedTimess + elapsedTime;
-                                    Console.WriteLine("TThời gian chơi: " + elapsedTimess.ToString("mm\\:ss"));
-                                    Console.ReadKey();
-                                    int totalScore = 0;
-                                    if (elapsedTimess < TimeSpan.FromSeconds(30))
-                                    { totalScore += 100; }
-                                    else if (elapsedTimess < TimeSpan.FromMinutes(1))
-                                    { totalScore += 50; }
-                                    else if (elapsedTimess < TimeSpan.FromMinutes(2))
-                                    { totalScore += 25; }
-                                    else { totalScore += 10; }
-                                    Console.WriteLine("Chúc mừng bạn đã tìm thấy lối ra cuối cùng!");
-                                    Console.WriteLine("Điểm level2 của bạn là: " + totalScore);
-                                    int totalscore = totalScore + score;
-                                    Console.WriteLine("Điểm tổng của bạn là: " + totalscore);
-
-                                    string filePath = "kyluc.txt";
-                                    int linesToDelete = 3;
-                                    // Đọc nội dung file vào một mảng các dòng
-                                    string[] lines = File.ReadAllLines(filePath);
-                                    // Kiểm tra xem có đủ số dòng để xóa hay không
-                                    if (lines.Length <= linesToDelete)
-                                    {
-                                        // Nếu không đủ dòng để xóa, bạn có thể xử lý tùy ý ở đây
-                                        Console.WriteLine("Không đủ dòng để xóa.");
-                                        return;
-                                    }
-
-                                    // Giữ lại các dòng từ đầu cho đến n - linesToDelete
-                                    string[] remainingLines = lines.Take(lines.Length - linesToDelete).ToArray();
-
-                                    // Ghi nội dung còn lại vào file, ghi đè nội dung cũ
-                                    File.WriteAllLines(filePath, remainingLines);
-                                    using (FileStream kyluc = new FileStream("kyluc.txt", FileMode.Append, FileAccess.Write))            // xử lý ngoại lệ (th đặc biệt của try-catch-family)
-                                    {
-                                        Console.InputEncoding = Encoding.UTF8;
-                                        Console.OutputEncoding = Encoding.UTF8;
-                                        StreamWriter hoten = new StreamWriter(kyluc);
-                                        hoten.Write("Điểm:" + totalscore + "\n");
-                                        hoten.WriteLine("thời gian chơi kỷ lục của bạn là: " + sumelapsedTime.ToString("mm\\:ss"));
+            newThời gian chơi kỷ lục của bạn là: " + sumelapsedTime.ToString("mm\\:ss"));
                                         hoten.Write("Thời gian bắt đầu: " + startTime.ToString("hh\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
                                         hoten.Flush();
                                     }
