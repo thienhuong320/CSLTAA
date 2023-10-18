@@ -205,13 +205,13 @@ class Game
 
         if (userAnswer == correctAnswer)
         {
-            Console.WriteLine("Correct!");
+            Console.WriteLine("Chính xác!");
             Console.ReadKey();
             return true;
         }
         else
         {
-            Console.WriteLine("Wrong answer!");
+            Console.WriteLine("Sai rồirồi!");
             Console.ReadKey();
             return false;
         }
@@ -675,7 +675,7 @@ class Game
                                 {
                                     stopwatch.Stop();
                                     TimeSpan elapsedTimess = stopwatch.Elapsed;
-                                    Console.WriteLine("thời gian chơi: " + elapsedTimess.ToString("mm\\:ss"));
+                                    Console.WriteLine("TThời gian chơi: " + elapsedTimess.ToString("mm\\:ss"));
                                     Console.ReadKey();
                                     int totalScore = 0;
                                     if (elapsedTimess < TimeSpan.FromSeconds(30))
@@ -685,7 +685,7 @@ class Game
                                     else if (elapsedTimess < TimeSpan.FromMinutes(2))
                                     { totalScore += 25; }
                                     else { totalScore += 10; }
-                                    Console.WriteLine("Congratulations! You reached the exit!");
+                                    Console.WriteLine("Chúc mừng bạn đã tìm thấy lối ra cuối cùngcùng!");
                                     Console.WriteLine("Điểm level2 của bạn là: " + totalScore);
                                     int totalscore = totalScore + score;
                                     Console.WriteLine("Điểm tổng của bạn là: " + totalscore);
@@ -816,7 +816,7 @@ class Game
                     Console.WriteLine("Bạn đã thua cuộc!");
                     stopwatch.Stop();
                     TimeSpan elapsedTime = stopwatch.Elapsed;
-                    Console.WriteLine("thời gian chơi: " + elapsedTime.ToString("mm\\:ss"));
+                    Console.WriteLine("TThời gian chơi: " + elapsedTime.ToString("mm\\:ss"));
                     break;
                 }
             }
@@ -844,15 +844,15 @@ class Game
             TimeSpan elapsedTime = stopwatch.Elapsed;
             Console.SetCursorPosition(leftMargin, topMargin + 1);             // Ghi tên
             Console.WriteLine();
-            Console.WriteLine("Enter your name:");
+            Console.WriteLine("Hãy nhập tên của bạn:");
             StreamWriter hoten = new StreamWriter(kyluc);
             hoten.Write("--------------------------------" + "\n" + Console.ReadLine() + "\n");
             hoten.Flush();
             StreamWriter diem = new StreamWriter(kyluc);
-            diem.Write("score:" + score + "\n");
+            diem.Write("Điểm:" + score + "\n");
             diem.Flush();
             StreamWriter thoigianchoi = new StreamWriter(kyluc);
-            thoigianchoi.WriteLine("TThời gian chơi kỷ lục của bạn là: " + elapsedTime.ToString("mm\\:ss"));
+            thoigianchoi.WriteLine("Thời gian chơi kỷ lục của bạn là: " + elapsedTime.ToString("mm\\:ss"));
             thoigianchoi.Flush();
         }
         DateTime startTimes = DateTime.Now;                                                              // Lấy thời điểm bắt đầu chơi game
@@ -891,7 +891,7 @@ class Game
         {
             Console.SetCursorPosition(leftMargin, topMargin + 1);
             Console.WriteLine();
-            Console.WriteLine("Hãy nnhập tên của bạn:");
+            Console.WriteLine("Hãy nhập tên của bạn:");
             StreamWriter hoten = new StreamWriter(kyluc);
             hoten.Write("--------------------------------" + "\n" + Console.ReadLine() + "\n");
             hoten.Flush();
