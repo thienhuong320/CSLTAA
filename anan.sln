@@ -5,6 +5,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Media;
 using System.IO;
 using System.Threading;
+using System.Collections.Generic;
 
 class Game
 {
@@ -123,6 +124,7 @@ class Game
     static List<int> usedQuestions = new List<int>(); // Danh sách các câu hỏi đã sử dụng
     static bool AskQuestion()
     {
+        Console.OutputEncoding = Encoding.UTF8;
         string[,] questions = new string[,]
         {
         { "Bỏ ngoài nướng trong, ăn ngoài bỏ trong là gì?", "nướng ngô", "nướng trứng", "nướng khoai" },
@@ -147,7 +149,7 @@ class Game
         { "Thủ đô của Hà Lan là gì?", "Amsterdam", "Moscow", "Rome"},
         { "Tác giả của quyển sách 'The Alchemist' (Nhà giả kim) là ai?", "Paulo Coelho", "Mario Puzo", "Mark Twain"},
         { "Nhà văn Victor Hugo là người nước nào?", "Pháp", "Ý", "Tây Ban Nha"},
-        { "James Naismith đã phát minh ra trò chơi thể thao nào vào năm 1891?", "Bóng rổ", "Golf", "Quần vợt"}, 
+        { "James Naismith đã phát minh ra trò chơi thể thao nào vào năm 1891?", "Bóng rổ", "Golf", "Quần vợt"},
         { "Nền văn hóa phục hưng bắt nguồn từ nước nào?", "Ý", "Thụy Sỹ", "Anh" },
         { "Chu kì của vật dao động điều hòa là?", "Thời gian để vật thực hiện được một dao động toàn phần.", "Thời gian ngắn nhất để vật đi từ biên này đến biên kia.", "Thời gian ngắn nhất để vật đi từ vị trí cân bằng ra biên." }
         };
@@ -158,7 +160,9 @@ class Game
         }
 
         int index;
-        do { index = random.Next(questions.GetLength(0));
+        do
+        {
+            index = random.Next(questions.GetLength(0));
         } while (usedQuestions.Contains(index));
         usedQuestions.Add(index); // Thêm câu hỏi vào danh sách đã sử dụng
 
@@ -176,7 +180,7 @@ class Game
         Console.WriteLine("B. " + answerOptions[1]);
         Console.WriteLine("C. " + answerOptions[2]);
 
-        Console.Write("Your answer (A, B, or C): ");
+        Console.Write("hãy nhập đáp án (A, B, hoặc C): ");
         string userInput = Console.ReadLine().ToUpper();
 
         string userAnswer;
@@ -194,20 +198,21 @@ class Game
         }
         else
         {
-            Console.WriteLine("Invalid input!");
-            Console.WriteLine("Please try again");
+            Console.WriteLine("Câu trả lời không hợp lệ!");
+            Console.ReadKey();
             return false;
         }
 
         if (userAnswer == correctAnswer)
         {
             Console.WriteLine("Correct!");
+            Console.ReadKey();
             return true;
         }
         else
         {
             Console.WriteLine("Wrong answer!");
-            Console.WriteLine("Please try again");
+            Console.ReadKey();
             return false;
         }
     }
@@ -258,7 +263,7 @@ class Game
 
             DrawMenu(); // Vẽ bảng menu
 
-            stopwatch.Start();  
+            stopwatch.Start();
 
             //ShowMenu();
             StartGame();
@@ -298,7 +303,7 @@ class Game
         }
     }
     static bool isMenuShown = false;
-static bool MainMenu()
+    static bool MainMenu()
     {
         Console.Clear();
         Console.OutputEncoding = Encoding.UTF8;
@@ -340,7 +345,7 @@ static bool MainMenu()
                 Console.ReadLine();
                 return true;
             case "2":
-                 try
+                try
                 {
                     Console.Clear();
                     string showkyluc = File.ReadAllText("kyluc.txt");
@@ -681,7 +686,7 @@ static bool MainMenu()
                                     { totalScore += 25; }
                                     else { totalScore += 10; }
                                     Console.WriteLine("Congratulations! You reached the exit!");
-                                    Console.WriteLine("điểm level2 của bạn là: "+totalScore);
+                                    Console.WriteLine("điểm level2 của bạn là: " + totalScore);
                                     int totalscore = totalScore + score;
                                     Console.WriteLine("Your total score: " + totalscore);
                                     break;
