@@ -685,7 +685,7 @@ class Game
                                     else if (elapsedTimess < TimeSpan.FromMinutes(2))
                                     { totalScore += 25; }
                                     else { totalScore += 10; }
-                                    Console.WriteLine("Chúc mừng bạn đã tìm thấy lối ra cuối cùngcùng!");
+                                    Console.WriteLine("Chúc mừng bạn đã tìm thấy lối ra cuối cùng!");
                                     Console.WriteLine("Điểm level2 của bạn là: " + totalScore);
                                     int totalscore = totalScore + score;
                                     Console.WriteLine("Điểm tổng của bạn là: " + totalscore);
