@@ -685,6 +685,7 @@ class Game
                                 {
                                     stopwatch.Stop();
                                     TimeSpan elapsedTimess = stopwatch.Elapsed;
+                                    TimeSpan sumelapsedTime = elapsedTimess + elapsedTime;
                                     Console.WriteLine("TThời gian chơi: " + elapsedTimess.ToString("mm\\:ss"));
                                     Console.ReadKey();
                                     int totalScore = 0;
