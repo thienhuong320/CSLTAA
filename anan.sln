@@ -531,7 +531,7 @@ class Game
                     Console.ReadKey(true);
                     stopwatch.Stop();
                     TimeSpan elapsedTime = stopwatch.Elapsed;
-                    Console.WriteLine("thời gian chơi: " + elapsedTime.ToString("mm\\:ss"));
+                    Console.WriteLine("Thời gian chơi: " + elapsedTime.ToString("mm\\:ss"));
                     if (elapsedTime < TimeSpan.FromSeconds(30))
                     { score += 100; }
                     else if (elapsedTime < TimeSpan.FromMinutes(1))
@@ -539,14 +539,14 @@ class Game
                     else if (elapsedTime < TimeSpan.FromMinutes(2))
                     { score += 25; }
                     else { score += 10; }
-                    Console.WriteLine("điểm của bạn là: " + score);
+                    Console.WriteLine("Điểm của bạn là: " + score);
                     using (FileStream kyluc = new FileStream("kyluc.txt", FileMode.Append, FileAccess.Write))            // xử lý ngoại lệ (th đặc biệt của try-catch-family)
                     {
                         Console.InputEncoding = Encoding.UTF8;
                         Console.OutputEncoding = Encoding.UTF8;
                         StreamWriter hoten = new StreamWriter(kyluc);
                         hoten.Write("Điểm:" + score + "\n");
-                        hoten.WriteLine("thời gian chơi kỷ lục của bạn là: " + elapsedTime.ToString("mm\\:ss"));
+                        hoten.WriteLine("Thời gian chơi kỷ lục của bạn là: " + elapsedTime.ToString("mm\\:ss"));
                         hoten.Write("Thời gian bắt đầu: " + startTime.ToString("hh\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
                         hoten.Flush();
                     }
@@ -580,28 +580,27 @@ class Game
                             //vẽ maze
                             bool[][] mazeLayout =
                                 {
-            new [] {true, true, true, true, true, true, true, true, false, true, true, true, true},
-            new [] {true, false, false, false, true, false, true, true, false, false, true, true, true},
-            new [] {true, false, true, false, true, false, true, true, true, false, true, true, true},
-            new [] {true, false, true, false, true, false, true, true, true, false, false, false, true},
-            new [] {true, false, true, false, true, false, true, true, true, false, true, true, true},
-            new [] {true, false, true, true, true, false, true, true, true, false, false, false, true},
-            new [] {true, false, true, false, false, false, true, true, true, false, true, true, true},
-            new [] {true, false, true, false, true, false, true, true, true, false, true, false, true},
-            new [] {true, false, true, false, true, false, true, true, true, false, true, false, true},
-            new [] {true, false, true, false, true, false, false, false, false, false, true, false, true},
-            new [] {true, false, true, false, true, true, true, true, true, true, true, false, true},
-            new [] {true, false, true, false, false, false, false, false, false, false, false, false, true},
-            new [] {true, false, true, true, true, true, true, true, true, true, true, false, true},
-            new [] {true, false, false, false, false, false, false, false, false, false, false, false, true},
-            new [] {true, true, true, true, true, true, true, true, true, false, true, true, true}
-            };
+                                new [] {true, true, true, true, true, true, true, true, false, true, true, true, true},
+                                new [] {true, false, false, false, true, false, true, true, false, false, true, true, true},
+                                new [] {true, false, true, false, true, false, true, true, true, false, true, true, true},
+                                new [] {true, false, true, false, true, false, true, true, true, false, false, false, true},
+                                new [] {true, false, true, false, true, false, true, true, true, false, true, true, true},
+                                new [] {true, false, true, true, true, false, true, true, true, false, false, false, true},
+                                new [] {true, false, true, false, false, false, true, true, true, false, true, true, true},
+                                new [] {true, false, true, false, true, false, true, true, true, false, true, false, true},
+                                new [] {true, false, true, false, true, false, true, true, true, false, true, false, true},
+                                new [] {true, false, true, false, true, false, false, false, false, false, true, false, true},
+                                new [] {true, false, true, false, true, true, true, true, true, true, true, false, true},
+                                new [] {true, false, true, false, false, false, false, false, false, false, false, false, true},
+                                new [] {true, false, true, true, true, true, true, true, true, true, true, false, true},
+                                new [] {true, false, false, false, false, false, false, false, false, false, false, false, true},
+                                new [] {true, true, true, true, true, true, true, true, true, false, true, true, true}
+                                };
                             //đặt các biến
                             const char wallChar = '\u2588';
                             const char mazeChar = '\u0020';
                             int exitRow = 0;
                             int exitColumn = 8;
-
 
                             //in maze
                             Console.ForegroundColor = ConsoleColor.DarkGray;
@@ -633,10 +632,7 @@ class Game
                             //di chuyển
                             ConsoleKeyInfo keyInfo;
                             int playerRow = 14;
-                            int playerColumn = 8;
-                            int startRow = playerRow;
-                            int startColumn = playerColumn;
-                            bool isPlayerInMaze = true;
+                            int playerColumn = 9;
                             stopwatch = new Stopwatch();
                             stopwatch.Start();
                             while (true)
@@ -679,7 +675,7 @@ class Game
                                     stopwatch.Stop();
                                     TimeSpan elapsedTimess = stopwatch.Elapsed;
                                     TimeSpan sumelapsedTime = elapsedTimess + elapsedTime;
-                                    Console.WriteLine("TThời gian chơi: " + elapsedTimess.ToString("mm\\:ss"));
+                                    Console.WriteLine("Thời gian chơi: " + elapsedTimess.ToString("mm\\:ss"));
                                     Console.ReadKey();
                                     int totalScore = 0;
                                     if (elapsedTimess < TimeSpan.FromSeconds(30))
@@ -690,7 +686,7 @@ class Game
                                     { totalScore += 25; }
                                     else { totalScore += 10; }
                                     Console.WriteLine("Chúc mừng bạn đã tìm thấy lối ra cuối cùng!");
-                                    Console.WriteLine("Điểm level2 của bạn là: " + totalScore);
+                                    Console.WriteLine("Điểm level 2 của bạn là: " + totalScore);
                                     int totalscore = totalScore + score;
                                     Console.WriteLine("Điểm tổng của bạn là: " + totalscore);
 
@@ -717,7 +713,7 @@ class Game
                                         Console.OutputEncoding = Encoding.UTF8;
                                         StreamWriter hoten = new StreamWriter(kyluc);
                                         hoten.Write("Điểm:" + totalscore + "\n");
-                                        hoten.WriteLine("thời gian chơi kỷ lục của bạn là: " + sumelapsedTime.ToString("mm\\:ss"));
+                                        hoten.WriteLine("Thời gian chơi kỷ lục của bạn là: " + sumelapsedTime.ToString("mm\\:ss"));
                                         hoten.Write("Thời gian bắt đầu: " + startTime.ToString("hh\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
                                         hoten.Flush();
                                     }
@@ -848,7 +844,7 @@ class Game
                     Console.WriteLine("Bạn đã thua cuộc!");
                     stopwatch.Stop();
                     TimeSpan elapsedTime = stopwatch.Elapsed;
-                    Console.WriteLine("TThời gian chơi: " + elapsedTime.ToString("mm\\:ss"));
+                    Console.WriteLine("Thời gian chơi: " + elapsedTime.ToString("mm\\:ss"));
                     break;
                 }
             }
