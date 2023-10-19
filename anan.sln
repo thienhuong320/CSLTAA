@@ -253,6 +253,9 @@ class Game
                 Console.WriteLine("Đã xảy ra lỗi: " + ex.Message);
             }
 
+            Console.CursorVisible = false;
+            ShowTitle(); 
+
             bool showMenu = true;
             while (showMenu)
             {
@@ -272,8 +275,7 @@ class Game
                 {
                     DisplayMaze();
                     displayMaze = false;
-                }
-                // Tiếp tục thực hiện các logic của trò chơi
+                } // Tiếp tục thực hiện các logic của trò chơi
             }
         }
     }
@@ -294,7 +296,7 @@ class Game
             Console.WriteLine("Đã bật âm thanh.");
         }
     }
-    static bool isMenuShown = false;
+
     static bool MainMenu()
     {
         Console.Clear();
@@ -372,8 +374,7 @@ class Game
     {
 
         Console.Clear();
-        // Đặt màu chữ là màu vàng
-        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.ForegroundColor = ConsoleColor.DarkBlue;
         Console.BackgroundColor = ConsoleColor.Gray;
         Console.SetCursorPosition((Console.WindowWidth - 13) / 2, Console.CursorTop + 10);
         Console.WriteLine("----- BẢNG MENU -----");
@@ -393,8 +394,6 @@ class Game
         Console.WriteLine("\nMời bạn chọn từ 1-6");
         string userInput = Console.ReadLine();
 
-
-
         switch (userInput)
         {
             case "1":
@@ -406,13 +405,11 @@ class Game
                 break;
 
             case "2":
-                // Handle option 2
-
                 if (!isPaused)
                 {
-                    //stopwatch.Stop(); // Tạm dừng đồng hồ
+                    stopwatch.Stop(); // Tạm dừng đồng hồ
                     isPaused = true;
-                    //pausedTime = stopwatch.Elapsed; // Lưu thời gian đã dừng tạm thời
+                    pausedTime = stopwatch.Elapsed; // Lưu thời gian đã dừng tạm thời
                     Console.WriteLine("Đã dừng tạm thời. Thời gian đã chơi: " + pausedTime);
 
                     // Sao chép mê cung hiện tại vào savedMaze
@@ -442,7 +439,6 @@ class Game
                 break;
 
             case "3":
-                //Handle option 3
                 if (isPaused)
                 {
                     ResumeGame();
@@ -456,7 +452,6 @@ class Game
                 break;
 
             case "4":
-                // Handle option 4
                 Console.WriteLine("Bắt đầu lại game...");
                 ResetGame();
                 break;
@@ -498,12 +493,11 @@ class Game
         Console.WriteLine("time: " + startTime.ToString("hh\\:mm\\:ss"));
 
         Console.ReadKey();
-
-
         Console.WriteLine();
         stopwatch = new Stopwatch();
         stopwatch.Start();
         int score = 0;
+
         while (true)
         {
             Console.Clear();
@@ -512,7 +506,6 @@ class Game
             ConsoleKey key = Console.ReadKey().Key;
             if (key == ConsoleKey.M)
             {
-
                 ShowMenu();
             }
             else
@@ -527,7 +520,7 @@ class Game
                     Console.Clear();
                     DrawMaze();
                     Console.WriteLine("Chúc mừng bạn đã thắng level 1");
-                    Console.WriteLine("Hãy enter để xem điểm và thời gian chơi của bạn");
+                    Console.WriteLine("Hãy nhấn phím 'Enter' để xem điểm và thời gian chơi của bạn");
                     Console.ReadKey(true);
                     stopwatch.Stop();
                     TimeSpan elapsedTime = stopwatch.Elapsed;
@@ -885,6 +878,116 @@ class Game
         }
     }
 
+static void ShowTitle() // Hàm hiển thị màn hình nhấp nháy
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.OutputEncoding = Encoding.UTF8;
+        string title = " THOÁT KHỎI MẬT THẤT ";
+        int leftMargin = (Console.WindowWidth - title.Length) - 60 / 2;
+        int topMargin = Console.WindowHeight - 24 / 2;
+        Console.SetCursorPosition(leftMargin, topMargin);
+        Console.WriteLine(title);
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        DrawBlinkingStars(leftMargin - 2, topMargin - 2, title.Length + 4); // Vẽ khung sao xung quanh tựa đề
+    }
+
+    static void DrawBlinkingStars(int x, int y, int width)
+    {
+        Random random = new Random();
+        bool titleDisplayed = false; // Biến để kiểm tra trạng thái xuất hiện của dòng chữ
+        bool blinking = true; // Biến để kiểm soát trạng thái nhấp nháy
+        while (!titleDisplayed) // Vòng lặp sẽ tiếp tục cho đến khi dòng chữ được xuất hiện
+        {
+            Console.SetCursorPosition(x, y);
+
+            for (int i = 0; i < width; i++)
+            {
+                if (random.Next(2) == 0)
+                    Console.Write("*");
+                else
+                    Console.Write(" ");
+            }
+
+            for (int i = 1; i < 4; i++) //(DẤU SAO 2 BÊN)
+            {
+                Console.SetCursorPosition(x, y + i);
+                Console.Write("*");
+                Console.SetCursorPosition(x + width - 1, y + i);
+                Console.Write("*");
+            }
+
+            Console.SetCursorPosition(x, y + 4);
+
+            for (int i = 0; i < width; i++)
+            {
+                if (random.Next(2) == 0)
+                    Console.Write("*");
+                else
+                    Console.Write(" ");
+            }
+
+            Thread.Sleep(300); // Đợi 0.3 giây 
+
+            Console.SetCursorPosition(x, y);
+
+            for (int i = 0; i < 5; i++) // 5 DẤU SAO 2 BÊN (CHIỀU RỘNG)
+            {
+                Console.SetCursorPosition(x, y + i);
+
+                if (i == 1 || i == 3 || i == 5)
+                {
+                    if (blinking)
+                    {
+                        Console.Write("*");
+                        Console.SetCursorPosition(x + width - 1, y + i);
+                        Console.Write("*");
+                    }
+                    else
+                    {
+                        Console.Write(" ");
+                        Console.SetCursorPosition(x + width - 1, y + i);
+                        Console.Write(" ");
+                    }
+                }
+                else if (i == 2 || i == 4)
+                {
+                    if (blinking)
+                    {
+                        Console.Write("*");
+                        Console.SetCursorPosition(x + width - 1, y + i);
+                        Console.Write("*");
+                    }
+                    else
+                    {
+                        Console.Write(" ");
+                        Console.SetCursorPosition(x + width - 1, y + i);
+                        Console.Write(" ");
+                    }
+                }
+                else
+                {
+                    Console.Write("*");
+                    for (int j = 1; j < width - 1; j++)
+                    {
+                        Console.Write(" ");
+                    }
+                    Console.Write("*");
+                }
+            }
+
+            Thread.Sleep(300); // Đợi 0.5 giây
+
+            // Kiểm tra nếu dòng chữ đã xuất hiện thì dừng vòng lặp
+            if (Console.KeyAvailable)
+            {
+                ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+                if (keyInfo.Key != ConsoleKey.Escape)
+                    titleDisplayed = true;
+            }
+            blinking = !blinking; // Đảo ngược trạng thái nhấp nháy
+        }
+    }
+
     static void DrawMenu()
     {
         int menuX = 30; // Vị trí X của menu
@@ -919,14 +1022,6 @@ class Game
         }
     }
 
-    static void SaveGame()
-    {
-        savedMaze = (char[,])maze.Clone();
-        savedPlayerRow = playerX;
-        savedPlayerCol = playerY;
-        Console.WriteLine("Trạng thái hiện tại đã được lưu.");
-    }
-
     static void ResetGame2()
     {
         playerX = 1;
@@ -944,6 +1039,7 @@ class Game
         }
         Console.Clear();
     }
+
     static void ResetGame()
     {
         playerX = 1;
@@ -966,21 +1062,6 @@ class Game
         MainMenu();
     }
 
-    static void PauseGame()
-    {
-        isPaused = true;
-        Console.WriteLine("Tạm dừng trò chơi.");
-        // Lưu trạng thái của mê cung và vị trí người chơi vào biến toàn cục
-        // ...
-        // Lưu trạng thái của mê cung
-        Array.Copy(maze, savedMaze, maze.Length);
-        // Lưu trạng thái vị trí người chơi
-        savedPlayerRow = playerX;
-        savedPlayerCol = playerY;
-        pausedTime = stopwatch.Elapsed; // Lưu thời gian đã dừng tạm thời
-        stopwatch.Stop(); // Dừng đồng hồ đếm thời gian
-    }
-
     static void ResumeGame()
     {
         isPaused = false;
@@ -996,22 +1077,6 @@ class Game
         stopwatch.Start(); // Bắt đầu đồng hồ đếm thời gian lại
     }
 
-    static void resumeGame()
-    {
-        isPaused = false;
-        pausedTime = stopwatch.Elapsed; // Lưu thời gian đã dừng tạm thời
-        stopwatch.Stop(); // Dừng đồng hồ đếm thời gian
-        Console.WriteLine("Tiếp tục trò chơi từ vị trí tạm dừng.");
-        Console.WriteLine("Bạn muốn quay lại mà không thay đổi gì?");
-        Console.WriteLine("1. Có");
-        Console.WriteLine("2. Không");
-        int choice = int.Parse(Console.ReadLine());
-
-        if (choice == 1)
-        {
-            stopwatch.Start(); // Bắt đầu đồng hồ đếm thời gian lại
-        }
-    }
     static void ExitGame()
     {
         Console.Clear();
