@@ -315,7 +315,7 @@ class Game
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
         Console.WriteLine("4. Bật/Tắt âm thanh  ");
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
-        Console.WriteLine("5. Thoát GAME        ");
+        Console.WriteLine("5. Thoát game        ");
         Console.ResetColor();
         Console.WriteLine("\nMời bạn chọn từ 1-5");
         
@@ -391,7 +391,7 @@ class Game
         Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop);
         Console.WriteLine("5. Tắt/Bật âm thanh        "); // Thêm lựa chọn tắt/bật âm thanh vào menu
         Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop);
-        Console.WriteLine("6. Thoát game ngay lập tức "); // Thêm lựa chọn khi người chơi bị chặn hết đường thì nhấn 7 để thoát game
+        Console.WriteLine("6. Thoát game              "); // Thêm lựa chọn khi người chơi bị chặn hết đường thì nhấn 7 để thoát game
         Console.ResetColor();
         Console.WriteLine("\nMời bạn chọn từ 1-6");
         
