@@ -348,7 +348,7 @@ class Game
                     "\n                                       ngắn hơn 2 phút thì bạn sẽ được 25 điểm" +
                     "\n                                       nếu lâu hơn 2 phút bạn sẽ chỉ được 10 điểm" +
                     "\n             Tuy nhiên, nếu bạn đã bị chặn hết đường thì bạn có thể gọi bảng menu, sau đó lựa chọn \"Bắt đầu lại game\"\n             hoặc \"Thoát game\" nhé!\n"+
-                    "\n                   => Nhấn phím \"Enter\" để chuẩn bị đến với trò chơi nhé!");
+                    "\n                   => Nhấn phím \"Enter\" để chuẩn bị đến với trò chơi nào!");
                 Console.ReadLine();
                 return true;
             case "3":
@@ -442,7 +442,7 @@ class Game
                     isPaused = false;
                     Console.WriteLine("Tiếp tục chơi.");
                 }
-                Thread.Sleep(2000); // Dừng 22 giây để người dùng có thể nhìn thấy thông báo
+                Thread.Sleep(2000); // Dừng 2 giây để người dùng có thể nhìn thấy thông báo
                 ShowMenu(); // Re-run the menu
                 break;
 
