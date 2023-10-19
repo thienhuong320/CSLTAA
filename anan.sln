@@ -6,11 +6,11 @@ using System.Media;
 using System.IO;
 using System.Threading;
 using System.Collections.Generic;
+using System.Linq;
 
 class Game
 {
     static char[,] maze = new char[10, 10]
-
     {
             { '╔', '═', '═', '═', '═', '═', '═', '═', '═', '╗' },
             { '║', '.', '.', '!', '.', '#', '.', '.', '.', '║' },
@@ -180,7 +180,7 @@ class Game
         Console.WriteLine("B. " + answerOptions[1]);
         Console.WriteLine("C. " + answerOptions[2]);
 
-        Console.Write("hãy nhập đáp án (A, B, hoặc C): ");
+        Console.Write("Hãy nhập đáp án (A, B, hoặc C): ");
         string userInput = Console.ReadLine().ToUpper();
 
         string userAnswer;
@@ -238,7 +238,6 @@ class Game
         while (true)
         {
             string filePath = @"C:\Users\Admin\Music\Seven-Jung-Kook.wav";
-
             try
             {
                 SoundPlayer soundPlayer = new SoundPlayer(filePath);
@@ -309,7 +308,7 @@ class Game
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop + 1);
         Console.WriteLine("1. Hướng dẫn chơi    ");
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
-        Console.WriteLine("2. Lịch sử chơi      ");
+        Console.WriteLine("2. Lịch sử           ");
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
         Console.WriteLine("3. Bắt đầu trò chơi  ");
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
@@ -338,6 +337,7 @@ class Game
                     "\n           Tuy nhiên, nếu bạn đã bị chặn hết đường thì bạn có thể gọi bảng menu, sau đó lựa chọn \"Bắt đầu lại game\"                hoặc \"thoát game\" nhé!\n             => Nhấn phím \"Enter\" để chuẩn bị đến với trò chơi nhé!");
                 Console.ReadLine();
                 return true;
+
             case "2":
                 try
                 {
@@ -372,14 +372,13 @@ class Game
 
     static void ShowMenu()
     {
-
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.DarkBlue;
         Console.BackgroundColor = ConsoleColor.Gray;
         Console.SetCursorPosition((Console.WindowWidth - 13) / 2, Console.CursorTop + 10);
         Console.WriteLine("----- BẢNG MENU -----");
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop + 1);
-        Console.WriteLine("1. Kỷ lục            ");
+        Console.WriteLine("1. Lịch sử           ");
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
         Console.WriteLine("2. Dừng tạm thời     ");
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
@@ -392,8 +391,8 @@ class Game
         Console.WriteLine("6. Thoát game khi bị chặn hết đường    "); // Thêm lựa chọn khi người chơi bị chặn hết đường thì nhấn 7 để thoát game
         Console.ResetColor();
         Console.WriteLine("\nMời bạn chọn từ 1-6");
+        
         string userInput = Console.ReadLine();
-
         switch (userInput)
         {
             case "1":
@@ -410,7 +409,7 @@ class Game
                     stopwatch.Stop(); // Tạm dừng đồng hồ
                     isPaused = true;
                     pausedTime = stopwatch.Elapsed; // Lưu thời gian đã dừng tạm thời
-                    Console.WriteLine("Đã dừng tạm thời. Thời gian đã chơi: " + pausedTime);
+                    Console.WriteLine("Đã dừng tạm thời...");
 
                     // Sao chép mê cung hiện tại vào savedMaze
                     int rows = maze.GetLength(0);
@@ -466,11 +465,11 @@ class Game
 
             default:
                 Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
-
                 ShowMenu(); // Re-run the menu
                 break;
         }
     }
+
     static void StartGame()
     {
         Console.OutputEncoding = Encoding.UTF8;
@@ -849,6 +848,7 @@ class Game
             return false; // Thay đổi giá trị trả về thành true nếu người chơi thua cuộc
         }
     }
+
     static void PrintCenteredText(string text)                                //TẠO HIỆU ỨNG RƠI CHẬM CHO TÊN GAME
     {
         Console.InputEncoding = Encoding.UTF8;
@@ -871,7 +871,7 @@ class Game
             Console.OutputEncoding = Encoding.UTF8;
             Console.SetCursorPosition(leftMargin, topMargin + 1);
             Console.WriteLine();
-            Console.WriteLine("Hãy nhập tên của bạn:");
+            Console.WriteLine("Hãy nhập tên của bạn: ");
             StreamWriter hoten = new StreamWriter(kyluc);
             hoten.Write("--------------------------------" + "\n" + Console.ReadLine() + "\n");
             hoten.Flush();
@@ -996,7 +996,7 @@ static void ShowTitle() // Hàm hiển thị màn hình nhấp nháy
         Console.SetCursorPosition(menuX, menuY);
         Console.ForegroundColor = ConsoleColor.White;
         Console.BackgroundColor = ConsoleColor.DarkBlue;
-        Console.WriteLine("MENU (m)");
+        Console.WriteLine("MENU (Nhấn 'M' hoặc 'm' để mở)");
         Console.ResetColor();
     }
 
@@ -1065,7 +1065,6 @@ static void ShowTitle() // Hàm hiển thị màn hình nhấp nháy
     static void ResumeGame()
     {
         isPaused = false;
-        Console.WriteLine("Tiếp tục trò chơi từ vị trí tạm dừng.");
         // Sử dụng trạng thái đã lưu trong biến toàn cục để tiếp tục chơi
         // ...
         // Khôi phục trạng thái của mê cung
