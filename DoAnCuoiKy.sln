@@ -48,6 +48,7 @@ class Game
     static int exitX = 8;
     static int exitY = 8;
 
+    static Stopwatch stopwatch = new Stopwatch();
     static Random random = new Random();
     static bool isPaused = false; // Biến để kiểm tra trạng thái dừng tạm thời
     static TimeSpan pausedTime = TimeSpan.Zero; // Biến để lưu thời gian đã dừng tạm thời
