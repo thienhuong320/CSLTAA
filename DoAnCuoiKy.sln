@@ -600,8 +600,6 @@ class Game
                             int exitColumn = 8;
 
                             //in maze
-                            Console.ForegroundColor = ConsoleColor.DarkGray;
-
                             for (int i = 0; i < mazeLayout.Length; i++)
                             {
                                 for (int j = 0; j < mazeLayout[i].Length; j++)
