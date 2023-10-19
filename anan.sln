@@ -381,7 +381,7 @@ class Game
         Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 10);
         Console.WriteLine("-------- BẢNG MENU --------");
         Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 1);
-        Console.WriteLine("1. Lịch sửsử                 ");
+        Console.WriteLine("1. Lịch sử                 ");
         Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop);
         Console.WriteLine("2. Dừng tạm thời           ");
         Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop);
@@ -454,7 +454,6 @@ class Game
                 break;
 
             case "4":
-                Console.WriteLine("Bắt đầu lại game...");
                 ResetGame();
                 break;
 
@@ -1063,7 +1062,7 @@ static void ShowTitle() // Hàm hiển thị màn hình nhấp nháy
         Console.WriteLine("Game đã được reset. Bắt đầu lại từ đầu.");
         Thread.Sleep(2000);
         Console.Clear();
-        MainMenu();
+        stopwatch.Start();
     }
 
     static void ResumeGame()
