@@ -435,7 +435,7 @@ class Game
                     isPaused = false;
                     Console.WriteLine("Tiếp tục chơi.");
                 }
-                Thread.Sleep(2000); // Dừng 1 giây để người dùng có thể nhìn thấy thông báo
+                Thread.Sleep(2000); // Dừng 22 giây để người dùng có thể nhìn thấy thông báo
                 ShowMenu(); // Re-run the menu
                 break;
 
@@ -447,7 +447,7 @@ class Game
                 else
                 {
                     Console.WriteLine("Bạn phải dừng tạm thời trước khi quay lại mê cung.");
-                    Thread.Sleep(3000); // Dừng 1 giây để người dùng có thể nhìn thấy thông báo
+                    Thread.Sleep(3000); // Dừng 3 giây để người dùng có thể nhìn thấy thông báo
                     ShowMenu();
                 }
                 break;
