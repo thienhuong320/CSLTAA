@@ -309,7 +309,7 @@ class Game
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop + 1);
         Console.WriteLine("1. Hướng dẫn chơi    ");
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
-        Console.WriteLine("2. Kỷ lục            ");
+        Console.WriteLine("2. Lịch sử chơi      ");
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
         Console.WriteLine("3. Bắt đầu trò chơi  ");
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
