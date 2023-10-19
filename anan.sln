@@ -547,7 +547,7 @@ class Game
                         Console.OutputEncoding = Encoding.UTF8;
                         StreamWriter hoten = new StreamWriter(kyluc);
                         hoten.Write("Điểm:" + score + "\n");
-                        hoten.WriteLine("Thời gian chơi kỷ lục của bạn là: " + elapsedTime.ToString("mm\\:ss"));
+                        hoten.WriteLine("Thời gian chơi của bạn là: " + elapsedTime.ToString("mm\\:ss"));
                         hoten.Write("Thời gian bắt đầu: " + startTime.ToString("hh\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
                         hoten.Flush();
                     }
@@ -714,7 +714,7 @@ class Game
                                         Console.OutputEncoding = Encoding.UTF8;
                                         StreamWriter hoten = new StreamWriter(kyluc);
                                         hoten.Write("Điểm:" + totalscore + "\n");
-                                        hoten.WriteLine("Thời gian chơi kỷ lục của bạn là: " + sumelapsedTime.ToString("mm\\:ss"));
+                                        hoten.WriteLine("Thời gian chơi của bạn là: " + sumelapsedTime.ToString("mm\\:ss"));
                                         hoten.Write("Thời gian bắt đầu: " + startTime.ToString("hh\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
                                         hoten.Flush();
                                     }
