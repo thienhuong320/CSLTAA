@@ -302,46 +302,56 @@ class Game
         Console.Clear();
         Console.OutputEncoding = Encoding.UTF8;
 
-        Console.ForegroundColor = ConsoleColor.DarkRed;                                                 
+        Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.BackgroundColor = ConsoleColor.Gray;
+
         Console.SetCursorPosition((Console.WindowWidth - 35) / 2, Console.CursorTop + 10);
         Console.WriteLine("---- TRÒ CHƠI \"THOÁT KHỎI MẬT THẤT\" ----");
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop + 1);
-        Console.WriteLine("1. Hướng dẫn chơi    ");
+        Console.WriteLine("1. Bắt đầu trò chơi  ");
+        Console.ForegroundColor = ConsoleColor.DarkRed;
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
-        Console.WriteLine("2. Lịch sử           ");
+        Console.WriteLine("2. Hướng dẫn chơi    ");
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
-        Console.WriteLine("3. Bắt đầu trò chơi  ");
+        Console.WriteLine("3. Lịch sử chơi      ");
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
         Console.WriteLine("4. Bật/Tắt âm thanh  ");
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
-        Console.WriteLine("5. Thoát game        ");
+        Console.WriteLine("5. Thoát GAME        ");
         Console.ResetColor();
         Console.WriteLine("\nMời bạn chọn từ 1-5");
-        
+
         Console.CursorVisible = true;
         string userInput = Console.ReadLine();
         switch (userInput)
         {
             case "1":
+                ResetGame2();
+                StartGame();
+                return true;
+            case "2":
                 Console.Clear();
-                Console.ForegroundColor = ConsoleColor.DarkRed;                                                 
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.BackgroundColor = ConsoleColor.Gray;
                 Console.SetCursorPosition((Console.WindowWidth - 30) / 2, Console.CursorTop + 10);
                 Console.WriteLine("--- Chào mừng bạn đến với trò chơi!!! ---\n");
                 Console.ResetColor();
-                Console.WriteLine("             Bạn sẽ vào vai một nhà thám hiểm, trên đường khám phá bạn bị lạc vào một mê cung vòng vo.\n" +
-                    "             Điều kỳ lạ là trong mê cung hiện lên những câu hỏi hóc búa buộc bạn phải vắt óc giải mã \n             để tìm thấy lời giải đáp thoát khỏi mê cung.\n" +
-                    "             Hãy dùng cái phím mũi tên để điều khiển nhân vật của bạn khám phá các ngóc ngách của mê cung.\n" +
-                    "             Nếu bạn thoát được mê cung < 30s thì bạn sẽ được 100 điểm" +
-                    "\n                                      < 1 phút thì bạn sẽ được 50 điểm" +
-                    "\n                                      < 2 phút thì bạn sẽ được 25 điểm" +
-                    "\n                                      nếu lâu hơn 2 phút bạn sẽ chỉ được 10 điểm" +
-                    "\n           Tuy nhiên, nếu bạn đã bị chặn hết đường thì bạn có thể gọi bảng menu, sau đó lựa chọn \"Bắt đầu lại game\"                hoặc \"thoát game\" nhé!\n             => Nhấn phím \"Enter\" để chuẩn bị đến với trò chơi nhé!");
+                Console.WriteLine("             Chào mừng bạn đến với thế giới phiêu lưu kỳ thú của trò chơi \"THOÁT KHỎI MẬT THẤT\"!\n" +
+                    "             Trong trò chơi này, bạn sẽ vào vai một nhà thám hiểm trên đường khám phá bị lạc vào một mật thất vòng vo.\n" +
+                    "             Điều kỳ lạ là trong mật thất hiện lên những câu hỏi hóc búa buộc bạn phải vắt óc giải mã \n             để tìm thấy lời giải đáp thoát khỏi mật thất ở level 1.\n" +
+                    "             Ở level 2, bạn sẽ phải thoát khỏi mật thất khi không gian xung quanh trở nên tối tăm, đáng sợ\n"+
+                    "             Hãy dùng các phím mũi tên để điều khiển nhân vật của bạn khám phá các ngóc ngách của mật thất.\n" +
+                    "             Thời gian là yếu tố quyết định điểm số của bạn - nhanh chóng thoát khỏi mật thất để nhận điểm số cao hơn.\n"+
+                    "             Nếu bạn thoát được mật thất ngắn hơn 30 giây thì bạn sẽ được 100 điểm" +
+                    "\n                                       ngắn hơn 1 phút thì bạn sẽ được 50 điểm" +
+                    "\n                                       ngắn hơn 2 phút thì bạn sẽ được 25 điểm" +
+                    "\n                                       nếu lâu hơn 2 phút bạn sẽ chỉ được 10 điểm" +
+                    "\n             Tuy nhiên, nếu bạn đã bị chặn hết đường thì bạn có thể gọi bảng menu, sau đó lựa chọn \"Bắt đầu lại game\"\n             hoặc \"Thoát game\" nhé!\n"+
+                    "\n                   => Nhấn phím \"Enter\" để chuẩn bị đến với trò chơi nhé!");
                 Console.ReadLine();
                 return true;
-
-            case "2":
+            case "3":
                 try
                 {
                     Console.Clear();
@@ -355,10 +365,6 @@ class Game
                     Console.WriteLine("Không tìm thấy tệp kyluc.txt.");
                     Console.ReadLine();
                 }
-                return true;
-            case "3":
-                ResetGame2();
-                StartGame();
                 return true;
             case "4":
                 ToggleSound(); // Gọi hàm để tắt/bật âm thanh
