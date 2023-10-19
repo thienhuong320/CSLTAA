@@ -352,14 +352,14 @@ class Game
                 try
                 {
                     Console.Clear();
-                    string showkyluc = File.ReadAllText("kyluc.txt");
-                    Console.WriteLine(showkyluc);
-                    Console.WriteLine(showkyluc.GetType().ToString());
+                    string showlichsu = File.ReadAllText("lichsu.txt");
+                    Console.WriteLine(showlichsu);
+                    Console.WriteLine(showlichsu.GetType().ToString());
                     Console.ReadLine();
                 }
                 catch (FileNotFoundException)                                 // Xử lý lỗi khi chưa có lượt chơi nào xảy ra-chk có kỹ lục
                 {
-                    Console.WriteLine("Không tìm thấy tệp kyluc.txt.");
+                    Console.WriteLine("Không tìm thấy tệp lichsu.txt.");
                     Console.ReadLine();
                 }
                 return true;
@@ -403,9 +403,9 @@ class Game
         {
             case "1":
                 Console.Clear();
-                string showkyluc = File.ReadAllText("kyluc.txt");
-                Console.WriteLine(showkyluc);
-                Console.WriteLine(showkyluc.GetType().ToString());
+                string showlichsu = File.ReadAllText("lichsu.txt");
+                Console.WriteLine(showlichsu);
+                Console.WriteLine(showlichsu.GetType().ToString());
                 Console.ReadLine();
                 break;
 
@@ -537,15 +537,16 @@ class Game
                     { score += 25; }
                     else { score += 10; }
                     Console.WriteLine("Điểm của bạn là: " + score);
-                    using (FileStream kyluc = new FileStream("kyluc.txt", FileMode.Append, FileAccess.Write))            // xử lý ngoại lệ (th đặc biệt của try-catch-family)
+                    using (FileStream lichsu = new FileStream("lichsu.txt", FileMode.Append, FileAccess.Write))            // xử lý ngoại lệ (th đặc biệt của try-catch-family)
                     {
                         Console.InputEncoding = Encoding.UTF8;
                         Console.OutputEncoding = Encoding.UTF8;
-                        StreamWriter hoten = new StreamWriter(kyluc);
-                        hoten.Write("Điểm:" + score + "\n");
-                        hoten.WriteLine("Thời gian chơi của bạn là: " + elapsedTime.ToString("mm\\:ss"));
-                        hoten.Write("Thời gian bắt đầu: " + startTime.ToString("HH\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
-                        hoten.Flush();
+                        StreamWriter Lichsuchoi = new StreamWriter(lichsu);
+                        Lichsuchoi.Write("Điểm:" + score + "\n");
+                        Lichsuchoi.Write("Bạn đã vượt qua level 1\n");
+                        Lichsuchoi.WriteLine("Thời gian chơi của bạn là: " + elapsedTime.ToString("mm\\:ss"));
+                        Lichsuchoi.Write("Thời gian bắt đầu: " + startTime.ToString("HH\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
+                        Lichsuchoi.Flush();
                     }
                         Console.WriteLine("Bạn có muốn tiếp tục trò chơi không^^");
                         Console.WriteLine("1. Tiếp tục đến với level 2");
@@ -694,7 +695,7 @@ class Game
                                     int totalscore = totalScore + score; // Tính tổng điểm bằng cách cộng điểm level 2 và điểm từ level 1
                                     Console.WriteLine("Điểm tổng của bạn là: " + totalscore); // In tổng điểm
 
-                                    string filePath = "kyluc.txt";
+                                    string filePath = "lichsu.txt";
                                     int linesToDelete = 3;
                                     // Đọc nội dung file vào một mảng các dòng
                                     string[] lines = File.ReadAllLines(filePath);
@@ -711,15 +712,16 @@ class Game
 
                                     // Ghi nội dung còn lại vào file, ghi đè nội dung cũ
                                     File.WriteAllLines(filePath, remainingLines);
-                                    using (FileStream kyluc = new FileStream("kyluc.txt", FileMode.Append, FileAccess.Write))            // xử lý ngoại lệ (th đặc biệt của try-catch-family)
+                                    using (FileStream lichsu = new FileStream("lichsu.txt", FileMode.Append, FileAccess.Write))            // xử lý ngoại lệ (th đặc biệt của try-catch-family)
                                     {
                                         Console.InputEncoding = Encoding.UTF8;
                                         Console.OutputEncoding = Encoding.UTF8;
-                                        StreamWriter hoten = new StreamWriter(kyluc);
-                                        hoten.Write("Điểm:" + totalscore + "\n");
-                                        hoten.WriteLine("Thời gian chơi của bạn là: " + sumelapsedTime.ToString("mm\\:ss"));
-                                        hoten.Write("Thời gian bắt đầu: " + startTime.ToString("HH\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
-                                        hoten.Flush();
+                                        StreamWriter Lichsuchoi = new StreamWriter(lichsu);
+                                        Lichsuchoi.Write("Điểm:" + totalscore + "\n");
+                                        Lichsuchoi.Write("Bạn đã vượt qua được 2 level\n");
+                                        Lichsuchoi.WriteLine("Thời gian chơi của bạn là: " + sumelapsedTime.ToString("mm\\:ss"));
+                                        Lichsuchoi.Write("Thời gian bắt đầu: " + startTime.ToString("HH\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
+                                        Lichsuchoi.Flush();
                                     }
                                     break;
                                 }
@@ -850,16 +852,16 @@ class Game
             Console.Write(text[i]);
             System.Threading.Thread.Sleep(60);                                // Đợi 50 milliseconds giữa mỗi ký tự
         }
-        using (FileStream kyluc = new FileStream("kyluc.txt", FileMode.Append, FileAccess.Write))
+        using (FileStream lichsu = new FileStream("lichsu.txt", FileMode.Append, FileAccess.Write))
         {
             Console.InputEncoding = Encoding.UTF8;
             Console.OutputEncoding = Encoding.UTF8;
             Console.SetCursorPosition(leftMargin, topMargin + 1);
             Console.WriteLine();
             Console.WriteLine("Hãy nhập tên của bạn: ");
-            StreamWriter hoten = new StreamWriter(kyluc);
-            hoten.Write("--------------------------------" + "\n" + Console.ReadLine() + "\n");
-            hoten.Flush();
+            StreamWriter Lichsuchoi = new StreamWriter(lichsu);
+            Lichsuchoi.Write("--------------------------------" + "\n" + Console.ReadLine() + "\n");
+            Lichsuchoi.Flush();
         }
     }
 
