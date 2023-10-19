@@ -296,18 +296,18 @@ class Game
         }
     }
 
-    static bool MainMenu()
+    static bool MainMenu()                                                                  //Giao diện các lựa chọn đầu game
     {
-        Console.Clear();
-        Console.OutputEncoding = Encoding.UTF8;
-        Console.ForegroundColor = ConsoleColor.DarkRed;
-        Console.BackgroundColor = ConsoleColor.Gray;
-        Console.SetCursorPosition((Console.WindowWidth - 35) / 2, Console.CursorTop + 10);
-        Console.WriteLine("---- TRÒ CHƠI \"THOÁT KHỎI MẬT THẤT\" ----");
-        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        Console.Clear();                                                                    // Xóa màn hình các hiển thị lúc trước
+        Console.OutputEncoding = Encoding.UTF8;                                             // Hiển thị ra màn hình đúng theo tiếng việt
+        Console.ForegroundColor = ConsoleColor.DarkRed;                                     // Thiết lập các dòng chữ bên dưới có màu đỏ đậm                                    
+        Console.BackgroundColor = ConsoleColor.Gray;                                        // Thiết lập màu nền thành màu 
+        Console.SetCursorPosition((Console.WindowWidth - 35) / 2, Console.CursorTop + 10);  // Đặt vị trí con trỏ 
+        Console.WriteLine("---- TRÒ CHƠI \"THOÁT KHỎI MẬT THẤT\" ----");                    // Ghi tên trò chơi
+        Console.ForegroundColor = ConsoleColor.DarkGreen;                                   // Thiết lập lại dòng chữ bên dưới có màu xanh đậm để nhấn mạnh
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop + 1);
         Console.WriteLine("1. Bắt đầu trò chơi  ");
-        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.ForegroundColor = ConsoleColor.DarkRed;                                     // Thiết lập lại các dòng chữ bên dưới có màu đỏ đậm
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
         Console.WriteLine("2. Hướng dẫn chơi    ");
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
@@ -316,12 +316,11 @@ class Game
         Console.WriteLine("4. Bật/Tắt âm thanh  ");
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop);
         Console.WriteLine("5. Thoát GAME        ");
-        Console.ResetColor();
-        Console.WriteLine("\nMời bạn chọn từ 1-5");
-
-        Console.CursorVisible = true;
-        string userInput = Console.ReadLine();
-        switch (userInput)
+        Console.ResetColor();                                                                // Đặt lại màu chữ và màu nền về mặc định
+        Console.WriteLine("\nMời bạn chọn từ 1-5");                                          // In ra màn hình Mời chọn các lựa chọn
+        Console.CursorVisible = true;                                                        // Hiển thị vị trí con trỏ
+        string userInput = Console.ReadLine();                                               // Đọc dữ liệu đầu vào của người dùng                                  
+        switch (userInput)                                                                   // Sử dụng switch - case để so sánh dữ liệu nhập vào với các case, sau đó thực thi các lệnh tương ứng
         {
             case "1":
                 ResetGame2();
