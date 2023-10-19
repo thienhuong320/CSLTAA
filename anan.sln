@@ -978,7 +978,7 @@ static void ShowTitle() // Hàm hiển thị màn hình nhấp nháy
                 }
             }
 
-            Thread.Sleep(300); // Đợi 0.5 giây
+            Thread.Sleep(300); // Đợi 0.3 giây
 
             // Kiểm tra nếu dòng chữ đã xuất hiện thì dừng vòng lặp
             if (Console.KeyAvailable)
