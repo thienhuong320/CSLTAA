@@ -255,7 +255,56 @@ class Game
 
             Console.CursorVisible = false;
             ShowTitle(); 
-DarkGreen;
+
+            bool showMenu = true;
+            while (showMenu)
+            {
+                showMenu = MainMenu();
+            }
+
+            DrawMenu(); // Vẽ bảng menu
+            stopwatch.Start();
+            StartGame();
+            bool displayMaze = true;
+
+            while (true)
+            {
+                Console.Clear();
+                if (displayMaze)
+                {
+                    DisplayMaze();
+                    displayMaze = false;
+                } // Tiếp tục thực hiện các logic của trò chơi
+            }
+        }
+    }
+    static void ToggleSound()
+    {
+        if (isSoundPlaying)
+        {
+            SoundPlayer soundPlayer = new SoundPlayer(@"C:\Users\Admin\Music\Seven-Jung-Kook.wav");
+            soundPlayer.Stop(); // Tắt âm thanh
+            isSoundPlaying = false;
+            Console.WriteLine("Đã tắt âm thanh.");
+        }
+        else
+        {
+            SoundPlayer soundPlayer = new SoundPlayer(@"C:\Users\Admin\Music\Seven-Jung-Kook.wav");
+            soundPlayer.Play(); // Bật âm thanh
+            isSoundPlaying = true;
+            Console.WriteLine("Đã bật âm thanh.");
+        }
+    }
+
+    static bool MainMenu()
+    {
+        Console.Clear();
+        Console.OutputEncoding = Encoding.UTF8;
+        Console.ForegroundColor = ConsoleColor.DarkRed;
+        Console.BackgroundColor = ConsoleColor.Gray;
+        Console.SetCursorPosition((Console.WindowWidth - 35) / 2, Console.CursorTop + 10);
+        Console.WriteLine("---- TRÒ CHƠI \"THOÁT KHỎI MẬT THẤT\" ----");
+        Console.ForegroundColor = ConsoleColor.DarkYellow;
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop + 1);
         Console.WriteLine("1. Bắt đầu trò chơi  ");
         Console.ForegroundColor = ConsoleColor.DarkRed;
