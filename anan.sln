@@ -304,7 +304,7 @@ class Game
         Console.BackgroundColor = ConsoleColor.Gray;
         Console.SetCursorPosition((Console.WindowWidth - 35) / 2, Console.CursorTop + 10);
         Console.WriteLine("---- TRÒ CHƠI \"THOÁT KHỎI MẬT THẤT\" ----");
-        Console.ForegroundColor = ConsoleColor.DarkYellow;
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
         Console.SetCursorPosition((Console.WindowWidth - 14) / 2, Console.CursorTop + 1);
         Console.WriteLine("1. Bắt đầu trò chơi  ");
         Console.ForegroundColor = ConsoleColor.DarkRed;
