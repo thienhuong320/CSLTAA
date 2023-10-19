@@ -593,13 +593,13 @@ class Game
                                 new [] {true, false, false, false, false, false, false, false, false, false, false, false, true},
                                 new [] {true, true, true, true, true, true, true, true, true, false, true, true, true}
                                 };
-                            //đặt các biến
-                            const char wallChar = '\u2588';
-                            const char mazeChar = '\u0020';
-                            int exitRow = 0;
-                            int exitColumn = 8;
+                            // Đặt các biến
+                            const char wallChar = '\u2588'; // Ký tự đại diện cho tường trong mê cung
+                            const char mazeChar = '\u0020'; // Ký tự đại diện cho không gian trong mê cung
+                            int exitRow = 0;                // Hàng của lối thoát trong mê cung
+                            int exitColumn = 8;             // Cột của lối thoát trong mê cung
 
-                            //in maze
+                            // In mê cung
                             for (int i = 0; i < mazeLayout.Length; i++)
                             {
                                 for (int j = 0; j < mazeLayout[i].Length; j++)
@@ -612,9 +612,7 @@ class Game
                                     {
                                         if (i == exitRow && j == exitColumn)
                                         {
-                                            Console.ForegroundColor = ConsoleColor.Red;
-                                            Console.Write("E"); //In lối thoát
-                                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                                            Console.Write("E"); // In ký tự đại diện cho lối thoát
                                         }
                                         else
                                         {
@@ -622,15 +620,15 @@ class Game
                                         }
                                     }
                                 }
-                                Console.WriteLine();
+                                Console.WriteLine(); // Xuống dòng sau khi in một hàng
                             }
 
-                            //di chuyển
-                            int playerRow = 14;
-                            int playerColumn = 9;
-                            TimeSpan maxTime = TimeSpan.FromSeconds(30);
-                            stopwatch = new Stopwatch();
-                            stopwatch.Start();
+                            // Đặt biến
+                            int playerRow = 14;                          // Hàng hiện tại của người chơi
+                            int playerColumn = 9;                        // Cột hiện tại của người chơi
+                            TimeSpan maxTime = TimeSpan.FromSeconds(30); // Thời gian tối đa để hoàn thành mê cung
+                            stopwatch = new Stopwatch();                 // Khởi tạo đối tượng Stopwatch để đếm thời gian
+                            stopwatch.Start();                           // Bắt đầu đếm thời gian
                             while (true)
                             {
                             PrintMazeWithVisibilityMap();
@@ -644,56 +642,57 @@ class Game
                             Console.WriteLine("Nhấn Enter để quay về màn hình chính ");
                             break;
                             }
-
+                                // Di chuyển của nhân vật
                                 switch (Console.ReadKey(true).Key)
                                 {
                                     case ConsoleKey.UpArrow:
                                         if (IsValidMove(playerRow - 1, playerColumn))
                                         {
-                                            playerRow--;
+                                            playerRow--; // Di chuyển người chơi lên
                                         }
                                         break;
                                     case ConsoleKey.DownArrow:
                                         if (IsValidMove(playerRow + 1, playerColumn))
                                         {
-                                            playerRow++;
+                                            playerRow++; // Di chuyển người chơi xuống
                                         }
                                         break;
                                     case ConsoleKey.LeftArrow:
                                         if (IsValidMove(playerRow, playerColumn - 1))
                                         {
-                                            playerColumn--;
+                                            playerColumn--; // Di chuyển người chơi qua trái
                                         }
                                         break;
                                     case ConsoleKey.RightArrow:
                                         if (IsValidMove(playerRow, playerColumn + 1))
                                         {
-                                            playerColumn++;
+                                            playerColumn++; // Di chuyển người chơi qua phải
                                         }
                                         break;
                                     default:
                                         break;
                                 }
-                                Console.Clear();
-                                if (playerRow == exitRow && playerColumn == exitColumn)
+                                Console.Clear(); // Xóa màn hình để vẽ lại mê cung sau khi di chuyển người chơi
+                                if (playerRow == exitRow && playerColumn == exitColumn) 
                                 {
                                     stopwatch.Stop();
                                     TimeSpan elapsedTimess = stopwatch.Elapsed;
-                                    TimeSpan sumelapsedTime = elapsedTimess + elapsedTime;
-                                    Console.WriteLine("Thời gian chơi: " + elapsedTimess.ToString("mm\\:ss"));
+                                    TimeSpan sumelapsedTime = elapsedTimess + elapsedTime; // Tính tổng thời gian đã trôi qua trong trò chơi
+                                    Console.WriteLine("Thời gian chơi: " + elapsedTimess.ToString("mm\\:ss")); // In thời gian chơi
                                     Console.ReadKey();
                                     int totalScore = 0;
-                                    if (elapsedTimess < TimeSpan.FromSeconds(30))
-                                    { totalScore += 100; }
-                                    else if (elapsedTimess < TimeSpan.FromMinutes(1))
-                                    { totalScore += 50; }
-                                    else if (elapsedTimess < TimeSpan.FromMinutes(2))
-                                    { totalScore += 25; }
-                                    else { totalScore += 10; }
-                                    Console.WriteLine("Chúc mừng bạn đã tìm thấy lối ra cuối cùng!");
-                                    Console.WriteLine("Điểm level 2 của bạn là: " + totalScore);
-                                    int totalscore = totalScore + score;
-                                    Console.WriteLine("Điểm tổng của bạn là: " + totalscore);
+                                    
+                                    if (elapsedTimess < TimeSpan.FromSeconds(30)) // Nếu thời gian chơi nhỏ hơn 30 giây
+                                    { totalScore += 100; }                        // Cộng 100 điểm vào tổng điểm
+                                    else if (elapsedTimess < TimeSpan.FromMinutes(1)) // Nếu thời gian chơi nhỏ hơn 1 phút
+                                    { totalScore += 50; }                             // Cộng 50 điểm vào tổng điểm
+                                    else if (elapsedTimess < TimeSpan.FromMinutes(2)) // Nếu thời gian chơi nhỏ hơn 2 phút
+                                    { totalScore += 25; }                              // Cộng 25 điểm vào tổng điểm
+                                    else { totalScore += 10; }                         // Cộng 10 điểm vào tổng điểm
+                                    Console.WriteLine("Chúc mừng bạn đã tìm thấy lối ra cuối cùng!"); // In thông báo chúc mừng
+                                    Console.WriteLine("Điểm level 2 của bạn là: " + totalScore); // In điểm đạt được ở level 2
+                                    int totalscore = totalScore + score; // Tính tổng điểm bằng cách cộng điểm level 2 và điểm từ level 1
+                                    Console.WriteLine("Điểm tổng của bạn là: " + totalscore); // In tổng điểm
 
                                     string filePath = "kyluc.txt";
                                     int linesToDelete = 3;
@@ -742,9 +741,7 @@ class Game
                                             }
                                             else if (i == exitRow && j == exitColumn)
                                             {
-                                                Console.ForegroundColor = ConsoleColor.Blue;
                                                 Console.Write("E");
-                                                Console.ForegroundColor = ConsoleColor.DarkGray;
                                             }
                                             else
                                             {
