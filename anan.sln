@@ -468,7 +468,6 @@ DarkGreen;
             {
                 MovePlayer(key);
             }
-            //MovePlayer(key);
             if (!isPaused)
             {
                 if (CheckWin())
