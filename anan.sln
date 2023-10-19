@@ -377,7 +377,7 @@ class Game
         Console.Clear();
         Console.ForegroundColor = ConsoleColor.DarkBlue;
         Console.BackgroundColor = ConsoleColor.Gray;
-        Console.SetCursorPosition((Console.WindowWidth - 13) / 2, Console.CursorTop + 10);
+        Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 10);
         Console.WriteLine("-------- BẢNG MENU --------");
         Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 1);
         Console.WriteLine("1. Kỷ lục                  ");
