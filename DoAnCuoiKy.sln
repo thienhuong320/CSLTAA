@@ -199,20 +199,20 @@ class Game
         else
         {
             Console.WriteLine("Câu trả lời không hợp lệ!"); 
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             return false;
         }
 
         if (userAnswer == correctAnswer)
         {
             Console.WriteLine("Chính xác!");
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             return true;
         }
         else
         {
             Console.WriteLine("Sai rồi!");
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             return false;
         }
     }
@@ -823,32 +823,7 @@ class Game
 
                     break;
                 }
-
-
-                if (CheckLose())
-                {
-                    Console.Clear();
-                    DrawMaze();
-                    Console.WriteLine("Bạn đã thua cuộc!");
-                    stopwatch.Stop();
-                    TimeSpan elapsedTime = stopwatch.Elapsed;
-                    Console.WriteLine("Thời gian chơi: " + elapsedTime.ToString("mm\\:ss"));
-                    break;
-                }
             }
-        }
-        Console.ReadLine();
-        ConsoleKey Key = Console.ReadKey().Key;
-
-        MovePlayer(Key);
-        stopwatch.Stop();
-
-        bool CheckLose()
-        {
-            // Kiểm tra các điều kiện để xác định người chơi đã thua cuộc
-            //...
-
-            return false; // Thay đổi giá trị trả về thành true nếu người chơi thua cuộc
         }
     }
 
