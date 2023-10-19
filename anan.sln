@@ -380,7 +380,7 @@ class Game
         Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 10);
         Console.WriteLine("-------- BẢNG MENU --------");
         Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 1);
-        Console.WriteLine("1. Kỷ lục                  ");
+        Console.WriteLine("1. Lịch sửsử                 ");
         Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop);
         Console.WriteLine("2. Dừng tạm thời           ");
         Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop);
