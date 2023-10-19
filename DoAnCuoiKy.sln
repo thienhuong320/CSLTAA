@@ -494,7 +494,7 @@ class Game
         // Hiển thị ngày và giờ bắt đầu chơi game
         Console.WriteLine("\n" + "--------------------------------");
         Console.WriteLine("day: " + startTime.ToShortDateString());
-        Console.WriteLine("time: " + startTime.ToString("hh\\:mm\\:ss"));
+        Console.WriteLine("time: " + startTime.ToString("HH\\:mm\\:ss"));
 
         Console.CursorVisible = true;
         Console.ReadKey();
@@ -525,8 +525,8 @@ class Game
                     DrawMaze();
                     Console.WriteLine("Chúc mừng bạn đã thắng level 1");
                     Console.WriteLine("Hãy nhấn phím 'Enter' để xem điểm và thời gian chơi của bạn");
-                    Console.ReadKey(true);
                     stopwatch.Stop();
+                    Console.ReadKey(true);
                     TimeSpan elapsedTime = stopwatch.Elapsed;
                     Console.WriteLine("Thời gian chơi: " + elapsedTime.ToString("mm\\:ss"));
                     if (elapsedTime < TimeSpan.FromSeconds(30))
@@ -544,7 +544,7 @@ class Game
                         StreamWriter hoten = new StreamWriter(kyluc);
                         hoten.Write("Điểm:" + score + "\n");
                         hoten.WriteLine("Thời gian chơi của bạn là: " + elapsedTime.ToString("mm\\:ss"));
-                        hoten.Write("Thời gian bắt đầu: " + startTime.ToString("hh\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
+                        hoten.Write("Thời gian bắt đầu: " + startTime.ToString("HH\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
                         hoten.Flush();
                     }
                         Console.WriteLine("Bạn có muốn tiếp tục trò chơi không^^");
@@ -709,7 +709,7 @@ class Game
                                         StreamWriter hoten = new StreamWriter(kyluc);
                                         hoten.Write("Điểm:" + totalscore + "\n");
                                         hoten.WriteLine("Thời gian chơi của bạn là: " + sumelapsedTime.ToString("mm\\:ss"));
-                                        hoten.Write("Thời gian bắt đầu: " + startTime.ToString("hh\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
+                                        hoten.Write("Thời gian bắt đầu: " + startTime.ToString("HH\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
                                         hoten.Flush();
                                     }
                                     break;
