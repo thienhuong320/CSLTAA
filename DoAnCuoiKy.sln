@@ -632,16 +632,17 @@ class Game
                             // Thông báo cho người chơi rằng thời gian đã hết
                             Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 1);
                             Console.WriteLine("Đã hết 30 giây. Bạn không tìm thấy vị trí exit.");
-                            Thread.Sleep(2000);
+                            Thread.Sleep(300);
                             Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 1);
                             elapsedTime = elapsedTime.Add(TimeSpan.FromSeconds(30));
                             Console.WriteLine("Thời gian chơi: " + elapsedTime.ToString("mm\\:ss"));
-                            Thread.Sleep(2000);
+                            Thread.Sleep(300);
                             Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 1);
                             Console.WriteLine("Điểm của bạn là: " + score);
-                            Console.ReadKey();
+                            Thread.Sleep(300);
                             Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 1);
                             Console.WriteLine("Nhấn Enter để quay về màn hình chính ");
+                            Console.ReadKey();
                             break;
                             }
                                 // Di chuyển của nhân vật
