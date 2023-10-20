@@ -743,7 +743,8 @@ namespace DOANCSLT
                                         string[] remainingLines = lines.Take(lines.Length - linesToDelete).ToArray();
                                         File.WriteAllLines(filePath, remainingLines);
                                         // xử lý ngoại lệ (trường hợp đặc biệt của try-catch-family) để lưu dữ liệu vào file (đã được giải thích tương tự ở trên)
-                                        using (FileStream lichsu = new FileStream("lichsu.txt", FileMode.Append, FileAccess.Write))           
+                                        using (FileStream lichsu = new FileStream("lichsu.txt", FileMode.Append, FileAccess.Write))
+                                        {
                                             Console.InputEncoding = Encoding.UTF8;
                                             Console.OutputEncoding = Encoding.UTF8;
                                             StreamWriter Lichsuchoi = new StreamWriter(lichsu);
