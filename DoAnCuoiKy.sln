@@ -326,17 +326,20 @@ class Game
                 Console.ResetColor();
                  Console.WriteLine("             Chào mừng bạn đến với thế giới phiêu lưu kỳ thú của trò chơi \"THOÁT KHỎI MẬT THẤT\"!\n" +
                     "             Trong trò chơi này, bạn sẽ vào vai một nhà thám hiểm trên đường khám phá bị lạc vào một mật thất vòng vo.\n" +
-                    "             Điều kỳ lạ là trong mật thất hiện lên những câu hỏi hóc búa buộc bạn phải vắt óc giải mã để tìm thấy\n             lời giải đáp thoát khỏi mật thất ở level 1.\n" +
+                    "             Trò chơi bao gồm 2 level, nếu muốn tiếp tục chơi level 2 thì bạn phải vượt qua được level 1.\n"+
                     "             Hãy dùng các phím mũi tên để điều khiển nhân vật của bạn khám phá các ngóc ngách của mật thất.\n" +
-                    "             Thời gian là yếu tố quyết định điểm số của bạn - nhanh chóng thoát khỏi mật thất để nhận điểm số cao hơn.\n" +
-                    "             Ở level 1, nếu bạn thoát được mật thất ngắn hơn 30 giây thì bạn sẽ được 100 điểm" +
+                    "\n               Ở level 1:\n" +
+                    "             - Điều kỳ lạ là trong mật thất hiện lên những câu hỏi hóc búa buộc bạn phải vắt óc giải mã để tìm thấy\n             lời giải đáp thoát khỏi mật thất.\n" +
+                    "             - Thời gian là yếu tố quyết định điểm số của bạn - nhanh chóng thoát khỏi mật thất để nhận điểm số cao hơn.\n" +
+                    "\n             Nếu bạn thoát được mật thất ngắn hơn 30 giây thì bạn sẽ được 100 điểm" +
                     "\n                                                    ngắn hơn 1 phút thì bạn sẽ được 50 điểm" +
                     "\n                                                    ngắn hơn 2 phút thì bạn sẽ được 25 điểm" +
                     "\n                                                    nếu lâu hơn 2 phút bạn sẽ chỉ được 10 điểm" +
                     "\n             Tuy nhiên, nếu bạn đã bị chặn hết đường thì bạn có thể gọi bảng menu, sau đó lựa chọn \"Bắt đầu lại game\"\n             hoặc \"Thoát game\" nhé!\n" +
-                    "             Ở level 2, bạn chỉ có 30 giây để thoát khỏi mật thất khi không gian xung quanh trở nên tối tăm và đáng sợ," +
-                    "\n             nếu quá 30 giây thì bạn sẽ không vượt qua được level 2.\n" +
-                    "\n             Ban đầu bạn sẽ có điểm cho level này là 100, mỗi giây trôi qua khi bạn còn ở trong mật thất thì\n             bạn sẽ bị trừ 1 điểm." +
+                    "\n               Ở level 2:\n"+
+                    "             - Bạn chỉ có 30 giây để thoát khỏi mật thất khi không gian xung quanh trở nên tối tăm và đáng sợ," +
+                    "\n             nếu quá 30 giây thì bạn sẽ không vượt qua được level 2." +
+                    "\n             - Ban đầu bạn sẽ có điểm cho level này là 100, mỗi giây trôi qua khi bạn còn ở trong mật thất thì\n             bạn sẽ bị trừ 1 điểm.\n" +
                     "\n                   => Nhấn phím \"Enter\" để chuẩn bị đến với trò chơi nào!");
                 Console.ReadLine();
                 return true;
