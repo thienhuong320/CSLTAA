@@ -677,22 +677,17 @@ class Game
                                 {
                                     stopwatch.Stop();
                                     TimeSpan elapsedTimess = stopwatch.Elapsed;
-                                    TimeSpan sumelapsedTime = elapsedTimess + elapsedTime; // Tính tổng thời gian đã trôi qua trong trò chơi
-                                    Console.WriteLine("Thời gian chơi: " + elapsedTimess.ToString("mm\\:ss")); // In thời gian chơi
+                                    TimeSpan sumelapsedTime = elapsedTimess + elapsedTime;
+                                    Console.WriteLine("Thời gian chơi: " + elapsedTimess.ToString("mm\\:ss"));
                                     Console.ReadKey();
-                                    int totalScore = 0;
-                                    
-                                    if (elapsedTimess < TimeSpan.FromSeconds(30)) // Nếu thời gian chơi nhỏ hơn 30 giây
-                                    { totalScore += 100; }                        // Cộng 100 điểm vào tổng điểm
-                                    else if (elapsedTimess < TimeSpan.FromMinutes(1)) // Nếu thời gian chơi nhỏ hơn 1 phút
-                                    { totalScore += 50; }                             // Cộng 50 điểm vào tổng điểm
-                                    else if (elapsedTimess < TimeSpan.FromMinutes(2)) // Nếu thời gian chơi nhỏ hơn 2 phút
-                                    { totalScore += 25; }                              // Cộng 25 điểm vào tổng điểm
-                                    else { totalScore += 10; }                         // Cộng 10 điểm vào tổng điểm
-                                    Console.WriteLine("Chúc mừng bạn đã tìm thấy lối ra cuối cùng!"); // In thông báo chúc mừng
-                                    Console.WriteLine("Điểm level 2 của bạn là: " + totalScore); // In điểm đạt được ở level 2
-                                    int totalscore = totalScore + score; // Tính tổng điểm bằng cách cộng điểm level 2 và điểm từ level 1
-                                    Console.WriteLine("Điểm tổng của bạn là: " + totalscore); // In tổng điểm
+                                    int secondsPlayed = (int)elapsedTimess.TotalSeconds;
+                                    int totalScore = 100 - secondsPlayed;
+
+                                    Console.WriteLine("Chúc mừng bạn đã tìm thấy lối ra cuối cùng!");
+                                    Console.WriteLine("Điểm level 2 của bạn là: " + totalScore);
+                                    int totalscore = totalScore + score;
+                                    Console.WriteLine("Điểm tổng của bạn là: " + totalscore);
+                                    Console.ReadKey();
 
                                     string filePath = "lichsu.txt";
                                     int linesToDelete = 3;
