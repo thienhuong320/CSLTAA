@@ -27,11 +27,10 @@ class Game
     //Khai báo vị trí người chơi
     static int playerX = 2;
     static int playerY = 2;
-
     static int exitX = 8;
     static int exitY = 8;
 
-    static Stopwatch stopwatch = new Stopwatch();
+    static Stopwatch stopwatch = new Stopwatch();//tạo đối tượng Stopwatch
     static Random random = new Random(); //tạo một đối tượng Random để sinh số ngẫu nhiên và gán cho biến random.
 
     static void DrawMaze()
@@ -57,12 +56,11 @@ class Game
 
     static void MovePlayer(ConsoleKey key) //phương thức để di chuyển người chơi trong mê cung dựa trên phím mũi tên được nhấn
     {
-        Console.OutputEncoding = Encoding.UTF8;
         //lưu trữ vị trí mới của người chơi
         int newX = playerX;
         int newY = playerY;
 
-        switch (key)
+        switch (key) // di chuyển trên bàn phím
         {
             case ConsoleKey.UpArrow:
                 newX = playerX - 1;
@@ -78,7 +76,7 @@ class Game
                 break;
         }
 
-        if ((maze[newX, newY] != '#') && (maze[newX, newY] != '║') && (maze[newX, newY] != '═'))
+        if ((maze[newX, newY] != '#') && (maze[newX, newY] != '║') && (maze[newX, newY] != '═')) //nếu điều kiện đúng thì tiếp tục xử lý
         {
             if (maze[newX, newY] == '!')
             {
@@ -139,14 +137,13 @@ class Game
         };
 
         //Nếu số câu hỏi đã sử dụng bằng với số hàng của mảng questions, tức là đã sử dụng hết các câu hỏi trong danh sách, thì danh sách usedQuestions được xóa bỏ để chuẩn bị sử dụng lại các câu hỏi.
-        if (usedQuestions.Count == questions.GetLength(0))
+        if (usedQuestions.Count == questions.GetLength(0)) //nếu câu hỏi đã sử dụng bằng chiều dài mảng câu hỏi
         {
             usedQuestions.Clear(); // Xóa danh sách các câu hỏi đã sử dụng
         }
 
         int index;
-        //do { ... } while (usedQuestions.Contains(index));// Bắt đầu một vòng lặp "do-while". Trong vòng lặp này, một số ngẫu nhiên được tạo ra và gán cho biến index. Vòng lặp này sẽ tiếp tục chạy cho đến khi giá trị index không nằm trong danh sách usedQuestions.
-        
+       // Bắt đầu một vòng lặp "do-while". Trong vòng lặp này, một số ngẫu nhiên được tạo ra và gán cho biến index. Vòng lặp này sẽ tiếp tục chạy cho đến khi giá trị index không nằm trong danh sách usedQuestions.
         do
         {
             index = random.Next(questions.GetLength(0));
@@ -154,15 +151,16 @@ class Game
         usedQuestions.Add(index); // Thêm câu hỏi vào danh sách đã sử dụng
 
         //theo thứ tự câu hỏi và câu trả lời
-        string question = questions[index, 0];
+        string question = questions[index, 0]; // Lấy câu hỏi từ mảng hai chiều questions tại hàng index và cột đầu tiên (0)
         string correctAnswer = questions[index, 1];
         string wrongAnswer1 = questions[index, 2];
         string wrongAnswer2 = questions[index, 3];
 
         // Hoán đổi vị trí các câu trả lời ngẫu nhiên
-        string[] answerOptions = new string[] { correctAnswer, wrongAnswer1, wrongAnswer2 };
-        ShuffleArray(answerOptions);
+        string[] answerOptions = new string[] { correctAnswer, wrongAnswer1, wrongAnswer2 };//Mảng answerOptions chứa tất cả các câu trả lời (bao gồm cả câu trả lời đúng và sai)
+        ShuffleArray(answerOptions);// hoán đổi ngẫu nhiên các phần tử trong mảng answerOptions
 
+        //in ra câu hỏi và các phương án trả lời đã được hoán đổi vị trí
         Console.WriteLine(question);
         Console.WriteLine("A. " + answerOptions[0]);
         Console.WriteLine("B. " + answerOptions[1]);
@@ -205,12 +203,15 @@ class Game
         }
     }
 
-    static void ShuffleArray<T>(T[] array)
+    //sắp xếp một mảng ngẫu nhiên bằng cách hoán đổi ngẫu nhiên vị trí của các phần tử trong mảng.
+    static void ShuffleArray<T>(T[] array)//phần tử cần được sắp xếp ngẫu nhiên.
     {
-        int n = array.Length;
+        int n = array.Length; 
         for (int i = 0; i < n; i++)
         {
-            int randomIndex = i + random.Next(n - i);
+            int randomIndex = i + random.Next(n - i); //mỗi lần lặp, một số ngẫu nhiên randomIndex được tạo ra bằng cách sử dụng hàm random.Next(n - i).
+            /*Giá trị của phần tử hiện tại array[i] được tráo đổi với phần tử có chỉ số randomIndex.
+            Quá trình tráo đổi này giúp đảm bảo mỗi phần tử trong mảng được đặt vào một vị trí ngẫu nhiên trong suốt quá trình lặp.*/
             T temp = array[i];
             array[i] = array[randomIndex];
             array[randomIndex] = temp;
@@ -428,19 +429,18 @@ class Game
 
 static void PrintCenteredText(string text)                                //TẠO HIỆU ỨNG RƠI CHẬM CHO TÊN GAME
     {
-        Console.InputEncoding = Encoding.UTF8;
-        int consoleWidth = Console.WindowWidth;
-        int consoleHeight = Console.WindowHeight;
-        int leftMargin = (consoleWidth - text.Length) / 2;
-        int topMargin = (consoleHeight - 1) / 2 - 8;
+        int consoleWidth = Console.WindowWidth; //Lấy chiều rộng hiện tại của cửa sổ Console và lưu giữ vào biến consoleWidth.
+        int consoleHeight = Console.WindowHeight;//Lấy chiều cao hiện tại của cửa sổ Console và lưu giữ vào biến consoleHeight.
+        int leftMargin = (consoleWidth - text.Length) / 2;//căn lề trái
+        int topMargin = (consoleHeight - 1) / 2 - 8;//căn lề phải
 
-        Console.SetCursorPosition(leftMargin, topMargin);
+        Console.SetCursorPosition(leftMargin, topMargin);//Đặt con trỏ tại vị trí (leftMargin, topMargin) để bắt đầu hiển thị văn bản từ vị trí này.
 
         for (int i = 0; i < text.Length; i++)
         {
-            Console.SetCursorPosition(leftMargin + i, Console.CursorTop);
-            Console.Write(text[i]);
-            System.Threading.Thread.Sleep(60);                                // Đợi 50 milliseconds giữa mỗi ký tự
+            Console.SetCursorPosition(leftMargin + i, Console.CursorTop);// Đặt con trỏ tại vị trí (leftMargin + i, Console.CursorTop). Con trỏ văn bản di chuyển dọc theo dòng và ngang theo từng ký tự trong vòng lặp.
+            Console.Write(text[i]);//Ghi ký tự hiện tại vào tại vị trí con trỏ văn bản hiện tại
+            System.Threading.Thread.Sleep(50);   // 50 tích tắc giữa mỗi ký tự
         }
         using (FileStream lichsu = new FileStream("lichsu.txt", FileMode.Append, FileAccess.Write))
         {
