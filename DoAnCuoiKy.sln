@@ -792,6 +792,7 @@ static void PrintCenteredText(string text)                                //TẠ
                                     Console.WriteLine("Điểm level 2 của bạn là: " + totalScore);
                                     int totalscore = totalScore + score;
                                     Console.WriteLine("Điểm tổng của bạn là: " + totalscore);
+                                    Console.WriteLine("Nhấn Enter để quay về màn hình chính ");
                                     Console.ReadKey();
 
                                     string filePath = "lichsu.txt";
