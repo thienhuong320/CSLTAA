@@ -279,13 +279,14 @@ namespace DOANCSLT
             Console.WriteLine("\nMời bạn chọn từ 1-5");                                          // In ra màn hình Mời chọn các lựa chọn
             Console.CursorVisible = true;                                                        // Hiển thị vị trí con trỏ
             string userInput = Console.ReadLine();                                               // Đọc dữ liệu đầu vào của người dùng                                  
-            switch (userInput)                                                                   // Sử dụng switch - case để so sánh dữ liệu nhập vào với các case, sau đó thực thi các lệnh tương ứng
+            // Xử lý lựa chọn của người dùng bằng cấu trúc switch-case.
+            switch (userInput)                                                                   
             {
-                case "1":
-                    ResetGame2();
-                    StartGame();
-                    return true;
-                case "2":
+                case "1": // Thiết lập lại trò chơi và bắt đầu trò chơi.                                  
+                   ResetGame2();
+                   StartGame();
+                   return true;                                                                  // Tiếp tục hiển thị hàm MainMenu sau khi xử lý lựa chọn của người dùng.
+                case "2":// Hiển thị hướng dẫn trò chơi.
                     Console.Clear();
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.BackgroundColor = ConsoleColor.Gray;
@@ -311,66 +312,72 @@ namespace DOANCSLT
                        "\n                   => Nhấn phím \"Enter\" để chuẩn bị đến với trò chơi nào!");
                     Console.ReadLine();
                     return true;
+                // Hiển thị lịch sử chơi của người chơi.
                 case "3":
                     try
                     {
                         Console.Clear();
-                        string showlichsu = File.ReadAllText("lichsu.txt");
-                        Console.WriteLine(showlichsu);
+                        string showlichsu = File.ReadAllText("lichsu.txt");       // Đọc nội dung từ tệp "lichsu.txt" và lưu vào chuỗi showlichsu.
+                        Console.WriteLine(showlichsu);                            // Hiển thị nội dung lịch sử chơi trên màn hình console.
                         Console.WriteLine(showlichsu.GetType().ToString());
-                        Console.ReadLine();
+                        Console.ReadLine();                                       // Dừng màn hình
                     }
-                    catch (FileNotFoundException)                                 // Xử lý lỗi khi chưa có lượt chơi nào xảy ra-chk có kỹ lục
+                    catch (FileNotFoundException)                                 // Xử lý ngoại lệ nếu tệp "lichsu.txt" không tồn tại (không có lịch sử chơi).
                     {
                         Console.WriteLine("Không tìm thấy tệp lichsu.txt.");
                         Console.ReadLine();
                     }
-                    catch (Exception)
+                    catch (Exception)                                             // Xử lý nếu xảy ra lỗi khác.
                     {
                         Console.WriteLine("Đã xảy ra lỗi");
                     }
                     return true;
+                // Bật hoặc tắt âm thanh.
                 case "4":
-                    ToggleSound(); // Gọi hàm để tắt/bật âm thanh
+                    ToggleSound();                                                // Gọi hàm để tắt/bật âm thanh
                     return true;
+                // Thoát trò chơi.
                 case "5":
-                    ExitGame();
-                    return false;
+                    ExitGame();                                                   // Gọi hàm để thoát 
+                    return false;                                                 // Kết thúc việc hiển thị hàm MainMenu 
+                // Ấn phím khác ngoài các phím từ 1-5 thì bảng MainMenu vẫn hiện đến khi bấm đúng từ 1-5
                 default:
                     return true;
             }
         }
 
-        static bool isSoundPlaying = true; // Biến theo dõi trạng thái âm thanh
+        static bool isSoundPlaying = true;                                         // Biến theo dõi trạng thái âm thanh
+        // Hàm ToggleSound được sử dụng để bật hoặc tắt âm thanh.
         static void ToggleSound()
         {
-            if (isSoundPlaying)
-            {
-                SoundPlayer soundPlayer = new SoundPlayer(@"C:\Users\Admin\Music\Seven-Jung-Kook.wav");
-                soundPlayer.Stop(); // Tắt âm thanh
-                isSoundPlaying = false;
-                Console.WriteLine("Đã tắt âm thanh.");
+            if (isSoundPlaying)                                // Kiểm tra trạng thái hiện tại của âm thanh
+             { 
+                SoundPlayer soundPlayer = new SoundPlayer(@"C:\Users\Admin\Music\Seven-Jung-Kook.wav");  // Tạo một đối tượng SoundPlayer để phát âm thanh từ tệp WAV
+                soundPlayer.Stop();                                                                      // Dừng phát âm thanh
+                isSoundPlaying = false;                                                                  // Cập nhật trạng thái âm thanh thành đã tắt
+                Console.WriteLine("Đã tắt âm thanh.");                                                   // In ra màn hình thông báo về việc đã tắt âm thanh
             }
             else
             {
                 SoundPlayer soundPlayer = new SoundPlayer(@"C:\Users\Admin\Music\Seven-Jung-Kook.wav");
-                soundPlayer.Play(); // Bật âm thanh
-                isSoundPlaying = true;
-                Console.WriteLine("Đã bật âm thanh.");
+                soundPlayer.Play();                                                                      // Phát âm thanh
+                isSoundPlaying = true;                                                                   // Cập nhật trạng thái âm thanh thành đã bật
+                Console.WriteLine("Đã bật âm thanh.");                                                   // In ra màn hình thông báo về việc đã bật âm thanh
             }
         }
 
+        // Hàm ResetGame2 được sử dụng để đặt lại trạng thái của trò chơi.
         static void ResetGame2()
         {
-            playerX = 1;
+            playerX = 1;                                                                                  // Đặt vị trí của người chơi về vị trí ban đầu (1, 1).
             playerY = 1;
-            stopwatch.Reset();
-            // Khôi phục mê cung gốc
-            for (int i = 0; i < maze.GetLength(0); i++)
+            stopwatch.Reset();                                                                            // Đặt lại đồng hồ đo thời gian về trạng thái ban đầu.
+             // Khôi phục mê cung gốc bằng cách sao chép nội dung của mê cung gốc vào mê cung hiện tại.
+            for (int i = 0; i < maze.GetLength(0); i++)                                                   // Vòng for để duyệt qua từng vị trí trong mật thất
             {
                 for (int j = 0; j < maze.GetLength(1); j++)
                 {
-                    maze[i, j] = originalMaze[i, j];
+                    maze[i, j] = originalMaze[i, j];                                                      // Sao chép nội dung của mê cung gốc vào mê cung hiện tại
                 }
             }
             Console.Clear();
@@ -384,7 +391,7 @@ namespace DOANCSLT
             Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 10); // Đặt con trỏ văn bản đến vị trí trung tâm màn hình và in ra tiêu đề menu
             Console.WriteLine("-------- BẢNG MENU --------"); // In ra các lựa chọn trong menu
             Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 1);
-            Console.WriteLine("1. Lịch sử                 ");
+            Console.WriteLine("1. Lịch sử chơi            ");
             Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop);
             Console.WriteLine("2. Tiếp tục                ");
             Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop);
@@ -423,13 +430,13 @@ namespace DOANCSLT
                     ExitGame(); // Gọi phương thức ExitGame để xử lý thoát khỏi trò chơi
                     break;
                 default: // Trường hợp người chơi nhập lựa chọn không hợp lệ
-                    Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
                     ShowMenu(); // Hiển thị menu lại
                     break;
             }
         }
 
-        static void PrintCenteredText(string text)                                //TẠO HIỆU ỨNG RƠI CHẬM CHO TÊN GAME
+        //TẠO HIỆU ỨNG RƠI CHẬM CHO TÊN GAME
+        static void PrintCenteredText(string text)                               
         {
             int consoleWidth = Console.WindowWidth; //Lấy chiều rộng hiện tại của cửa sổ Console và lưu giữ vào biến consoleWidth.
             int consoleHeight = Console.WindowHeight;//Lấy chiều cao hiện tại của cửa sổ Console và lưu giữ vào biến consoleHeight.
@@ -444,6 +451,8 @@ namespace DOANCSLT
                 Console.Write(text[i]);//Ghi ký tự hiện tại vào tại vị trí con trỏ văn bản hiện tại
                 System.Threading.Thread.Sleep(50);   // 50 tích tắc giữa mỗi ký tự
             }
+            // using để đảm bảo rằng file lichsu được giải phóng sau khi không còn dùng.
+            // Tạo mới và Mở tệp "lichsu.txt" để ghi thêm nội dung vào cuối tệp nếu tệp đã tồn tại hoặc tạo mới nếu chưa tồn tại, cuối cùng là cho phép quyền ghi vào tệp
             using (FileStream lichsu = new FileStream("lichsu.txt", FileMode.Append, FileAccess.Write))
             {
                 Console.InputEncoding = Encoding.UTF8;
@@ -451,9 +460,9 @@ namespace DOANCSLT
                 Console.SetCursorPosition(leftMargin, topMargin + 1);
                 Console.WriteLine();
                 Console.WriteLine("Hãy nhập tên của bạn: ");
-                StreamWriter Lichsuchoi = new StreamWriter(lichsu);
-                Lichsuchoi.Write("--------------------------------" + "\n" + Console.ReadLine() + "\n");
-                Lichsuchoi.Flush();
+                StreamWriter Lichsuchoi = new StreamWriter(lichsu);                                       // Sử dụng StreamWriter để ghi dữ liệu vào tệp tin "lichsu.txt".                                      
+                Lichsuchoi.Write("--------------------------------" + "\n" + Console.ReadLine() + "\n");  // Ghi "----...--", đọc và ghi tên người chơi nhập vào tệp "lichsu.txt" 
+                Lichsuchoi.Flush();                                                                       // Đảm bảo rằng dữ liệu đã được ghi vào tệp
             }
         }
 
@@ -542,7 +551,8 @@ namespace DOANCSLT
                         { score += 25; }
                         else { score += 10; }
                         Console.WriteLine("Điểm của bạn là: " + score);
-                        using (FileStream lichsu = new FileStream("lichsu.txt", FileMode.Append, FileAccess.Write))            // xử lý ngoại lệ (th đặc biệt của try-catch-family)
+                        // xử lý ngoại lệ (trường hợp đặc biệt của try-catch-family) để lưu dữ liệu vào file (đã được giải thích tương tự ở trên)
+                        using (FileStream lichsu = new FileStream("lichsu.txt", FileMode.Append, FileAccess.Write))           
                         {
                             Console.InputEncoding = Encoding.UTF8;
                             Console.OutputEncoding = Encoding.UTF8;
@@ -647,24 +657,19 @@ namespace DOANCSLT
                                         {
                                             keyInfo = Console.ReadKey();
                                         } while (keyInfo.Key != ConsoleKey.Enter);
-                                        string filePath = "lichsu.txt";
+
+                                        string filePath = "lichsu.txt";                                                // Đặt tên của tệp tin vào biến filePath
                                         int linesToDelete = 3;
-                                        // Đọc nội dung file vào một mảng các dòng
-                                        string[] lines = File.ReadAllLines(filePath);
-                                        // Kiểm tra xem có đủ số dòng để xóa hay không
-                                        if (lines.Length <= linesToDelete)
+                                        string[] lines = File.ReadAllLines(filePath);                                  // Đọc nội dung của tệp tin được chỉ định bởi filePath, lưu trữ nó trong một mảng các chuỗi lines        
+                                        if (lines.Length <= linesToDelete)                                             // Kiểm tra xem có đủ số dòng để xóa hay không
                                         {
-                                            // Nếu không đủ dòng để xóa, bạn có thể xử lý tùy ý ở đây
-                                            Console.WriteLine("Không đủ dòng để xóa.");
+                                            Console.WriteLine("Không đủ dòng để xóa.");                                // Nếu không đủ dòng để xóa, in ra thông báo "Không đủ dòng"
                                             return;
                                         }
-
-                                        // Giữ lại các dòng từ đầu cho đến n - linesToDelete
-                                        string[] remainingLines = lines.Take(lines.Length - linesToDelete).ToArray();
-
-                                        // Ghi nội dung còn lại vào file, ghi đè nội dung cũ
-                                        File.WriteAllLines(filePath, remainingLines);
-                                        using (FileStream lichsu = new FileStream("lichsu.txt", FileMode.Append, FileAccess.Write))            // xử lý ngoại lệ (th đặc biệt của try-catch-family)
+                                        string[] remainingLines = lines.Take(lines.Length - linesToDelete).ToArray();  // Giữ lại các dòng từ đầu cho đến n - linesToDelete
+                                        File.WriteAllLines(filePath, remainingLines);                                  // Ghi nội dung còn lại vào file, ghi đè nội dung cũ
+                                        // xử lý ngoại lệ (trường hợp đặc biệt của try-catch-family) để lưu dữ liệu vào file (đã được giải thích tương tự ở trên)
+                                        using (FileStream lichsu = new FileStream("lichsu.txt", FileMode.Append, FileAccess.Write))           
                                         {
                                             Console.InputEncoding = Encoding.UTF8;
                                             Console.OutputEncoding = Encoding.UTF8;
@@ -726,25 +731,19 @@ namespace DOANCSLT
                                         Console.WriteLine("Nhấn Enter để quay về màn hình chính ");
                                         Console.ReadKey();
 
+                                        // Các dòng lệnh dưới tương tự được giải thích ở trên, có tác dụng xóa 3 dòng cuối ở tệp "lichsu.txxt" hiện có nếu đủ dòng xóa
                                         string filePath = "lichsu.txt";
                                         int linesToDelete = 3;
-                                        // Đọc nội dung file vào một mảng các dòng
                                         string[] lines = File.ReadAllLines(filePath);
-                                        // Kiểm tra xem có đủ số dòng để xóa hay không
                                         if (lines.Length <= linesToDelete)
                                         {
-                                            // Nếu không đủ dòng để xóa, bạn có thể xử lý tùy ý ở đây
                                             Console.WriteLine("Không đủ dòng để xóa.");
                                             return;
                                         }
-
-                                        // Giữ lại các dòng từ đầu cho đến n - linesToDelete
                                         string[] remainingLines = lines.Take(lines.Length - linesToDelete).ToArray();
-
-                                        // Ghi nội dung còn lại vào file, ghi đè nội dung cũ
                                         File.WriteAllLines(filePath, remainingLines);
-                                        using (FileStream lichsu = new FileStream("lichsu.txt", FileMode.Append, FileAccess.Write))            // xử lý ngoại lệ (th đặc biệt của try-catch-family)
-                                        {
+                                        // xử lý ngoại lệ (trường hợp đặc biệt của try-catch-family) để lưu dữ liệu vào file (đã được giải thích tương tự ở trên)
+                                        using (FileStream lichsu = new FileStream("lichsu.txt", FileMode.Append, FileAccess.Write))           
                                             Console.InputEncoding = Encoding.UTF8;
                                             Console.OutputEncoding = Encoding.UTF8;
                                             StreamWriter Lichsuchoi = new StreamWriter(lichsu);
