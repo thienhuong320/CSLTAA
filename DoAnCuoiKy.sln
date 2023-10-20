@@ -633,6 +633,11 @@ class Game
                             Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 1);
                             Console.WriteLine("Đã hết 30 giây. Bạn không tìm thấy vị trí exit.");
                             Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 1);
+                            elapsedTime = elapsedTime.Add(TimeSpan.FromSeconds(30));
+                            Console.WriteLine("Thời gian chơi: " + elapsedTime.ToString("mm\\:ss"));
+                            Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 1);
+                            Console.WriteLine("Điểm của bạn là: " + score);
+                            Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 1);
                             Console.WriteLine("Nhấn Enter để quay về màn hình chính ");
                             break;
                             }
