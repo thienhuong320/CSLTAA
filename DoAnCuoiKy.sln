@@ -272,7 +272,7 @@ class Game
                 Console.Clear();
                 if (displayMaze)
                 {
-                    DisplayMaze();
+                    DrawMaze(); // Vẽ mê cung
                     displayMaze = false;
                 } // Tiếp tục thực hiện các logic của trò chơi
             }
@@ -431,12 +431,6 @@ class Game
                     // Lưu vị trí của người chơi
                     savedPlayerRow = playerX;
                     savedPlayerCol = playerY;
-                }
-                else
-                {
-                    stopwatch.Start(); // Tiếp tục đồng hồ
-                    isPaused = false;
-                    Console.WriteLine("Tiếp tục chơi.");
                 }
                 Thread.Sleep(2000); // Dừng 2 giây để người dùng có thể nhìn thấy thông báo
                 ShowMenu(); // Re-run the menu
@@ -861,7 +855,7 @@ class Game
 
 static void ShowTitle() // Hàm hiển thị màn hình nhấp nháy
     {
-        Console.ForegroundColor = ConsoleColor.Red;
+        Console.ForegroundColor = ConsoleColor.Cyan; 
         Console.OutputEncoding = Encoding.UTF8;
         string title = " THOÁT KHỎI MẬT THẤT ";
         int leftMargin = (Console.WindowWidth - title.Length) - 60 / 2;
@@ -981,28 +975,6 @@ static void ShowTitle() // Hàm hiển thị màn hình nhấp nháy
         Console.ResetColor();
     }
 
-    static void DisplayMaze()
-    {
-        int rows = maze.GetLength(0);
-        int cols = maze.GetLength(1);
-
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < cols; j++)
-            {
-                if (i == playerX && j == playerY)
-                {
-                    Console.Write('P'); // Hiển thị người chơi
-                }
-                else
-                {
-                    Console.Write(maze[i, j]); // Hiển thị phần tử của mê cung
-                }
-            }
-            Console.WriteLine();
-        }
-    }
-
     static void ResetGame2()
     {
         playerX = 1;
@@ -1041,6 +1013,7 @@ static void ShowTitle() // Hàm hiển thị màn hình nhấp nháy
         Thread.Sleep(2000);
         Console.Clear();
         stopwatch.Start();
+        isPaused = false;
     }
 
     static void ResumeGame()
