@@ -10,7 +10,7 @@ using System.Linq;
 
 class Game
 {
-    static char[,] maze = new char[10, 10]
+    static char[,] maze = new char[10, 10] //khởi tạo một mảng hai chiều maze với kích thước là 10x10. Mỗi phần tử của mảng đại diện cho một ô trong mê cung và chứa một ký tự.
     {
             { '╔', '═', '═', '═', '═', '═', '═', '═', '═', '╗' },
             { '║', '.', '.', '!', '.', '#', '.', '.', '.', '║' },
