@@ -42,22 +42,23 @@ class Game
     static int savedPlayerRow; // Vị trí hàng đã lưu trước khi dừng tạm thời.
     static int savedPlayerCol; // Vị trí cột đã lưu trước khi dừng tạm thời. 
 
-    static int playerX = 1;
-    static int playerY = 1;
+    //Khai báo vị trí người chơi
+    static int playerX = 2;
+    static int playerY = 2;
 
     static int exitX = 8;
     static int exitY = 8;
 
     static Stopwatch stopwatch = new Stopwatch();
-    static Random random = new Random();
+    static Random random = new Random(); //tạo một đối tượng Random để sinh số ngẫu nhiên và gán cho biến random.
     static bool isPaused = false; // Biến để kiểm tra trạng thái dừng tạm thời.
     static TimeSpan pausedTime = TimeSpan.Zero; // Biến để lưu thời gian đã dừng tạm thời.
 
     static void DrawMaze()
     {
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 10; i++) //bắt đầu một vòng lặp for để duyệt qua các hàng trong mê cung.
         {
-            for (int j = 0; j < 10; j++)
+            for (int j = 0; j < 10; j++)//bắt đầu một vòng lặp for lồng bên trong để duyệt qua các cột trong mê cung.
                 if (i == playerX && j == playerY)
                 {
                     Console.Write('☺'); // Vị trí bắt đầu
@@ -68,15 +69,16 @@ class Game
                 }
                 else
                 {
-                    Console.Write(maze[i, j]);
+                    Console.Write(maze[i, j]); //in ký tự tại vị trí [i, j] của mê cung lên màn hình mà không xuống dòng.
                 }
             Console.WriteLine();
         }
     }
 
-    static void MovePlayer(ConsoleKey key)
+    static void MovePlayer(ConsoleKey key) //phương thức để di chuyển người chơi trong mê cung dựa trên phím mũi tên được nhấn
     {
         Console.OutputEncoding = Encoding.UTF8;
+        //lưu trữ vị trí mới của người chơi
         int newX = playerX;
         int newY = playerY;
 
@@ -100,12 +102,13 @@ class Game
         {
             if (maze[newX, newY] == '!')
             {
-                if (AskQuestion())
+                if (AskQuestion()) //hàm AskQuestion() được gọi để hiển thị câu hỏi cho người chơi và trả về kết quả (true nếu người chơi trả lời đúng và false nếu người chơi trả lời sai).
                 {
-                    maze[playerX, playerY] = '.';
+                    maze[playerX, playerY] = '.';//ô hiện tại được đánh dấu.
+                    //cập nhập tọa độ mới
                     playerX = newX;
                     playerY = newY;
-                    maze[playerX, playerY] = '☺';
+                    maze[playerX, playerY] = '☺';//ô mới thành mặt cười để đánh dấu vị trí người chơi
                 }
                 else
                 {
@@ -114,6 +117,7 @@ class Game
             }
             else
             {
+                //ô mới không phải ! thì di chuyển như bình thường
                 maze[playerX, playerY] = '.';
                 playerX = newX;
                 playerY = newY;
@@ -154,18 +158,22 @@ class Game
         { "Chu kì của vật dao động điều hòa là?", "Thời gian để vật thực hiện được một dao động toàn phần.", "Thời gian ngắn nhất để vật đi từ biên này đến biên kia.", "Thời gian ngắn nhất để vật đi từ vị trí cân bằng ra biên." }
         };
 
+        //Nếu số câu hỏi đã sử dụng bằng với số hàng của mảng questions, tức là đã sử dụng hết các câu hỏi trong danh sách, thì danh sách usedQuestions được xóa bỏ để chuẩn bị sử dụng lại các câu hỏi.
         if (usedQuestions.Count == questions.GetLength(0))
         {
             usedQuestions.Clear(); // Xóa danh sách các câu hỏi đã sử dụng
         }
 
         int index;
+        //do { ... } while (usedQuestions.Contains(index));// Bắt đầu một vòng lặp "do-while". Trong vòng lặp này, một số ngẫu nhiên được tạo ra và gán cho biến index. Vòng lặp này sẽ tiếp tục chạy cho đến khi giá trị index không nằm trong danh sách usedQuestions.
+        
         do
         {
             index = random.Next(questions.GetLength(0));
         } while (usedQuestions.Contains(index));
         usedQuestions.Add(index); // Thêm câu hỏi vào danh sách đã sử dụng
 
+        //theo thứ tự câu hỏi và câu trả lời
         string question = questions[index, 0];
         string correctAnswer = questions[index, 1];
         string wrongAnswer1 = questions[index, 2];
