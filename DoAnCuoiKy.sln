@@ -712,7 +712,7 @@ static void PrintCenteredText(string text)                                //TẠ
                                     TimeSpan elapsedTimess = stopwatch.Elapsed;
                                     TimeSpan sumelapsedTime = elapsedTimess + elapsedTime;
                                     Console.WriteLine("Thời gian chơi: " + elapsedTimess.ToString("mm\\:ss"));
-                                    Console.WriteLine("Hãy nhấn phím bất kỳ để xem điểm và thời gian chơi của bạn");
+                                    Console.WriteLine("Hãy nhấn phím 'Enter' để xem điểm và thời gian chơi của bạn");
                                     Console.ReadKey();
                                     int secondsPlayed = (int)elapsedTimess.TotalSeconds;
                                     int totalScore = 100 - secondsPlayed;
