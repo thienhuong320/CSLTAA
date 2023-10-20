@@ -269,21 +269,6 @@ class Game
             {
                 showMenu = MainMenu();
             }
-
-            DrawMenu(); // Vẽ bảng menu hiện đồng thời cùng với mê cung level1.
-            stopwatch.Start(); // Khởi động đồng hồ đếm giờ.
-            StartGame(); // Gọi hàm StartGame để bắt đầu trò chơi.
-            bool displayMaze = true; // Biến theo dõi trạng thái của việc cần trình bày mê cung.
-
-            while (true) // Vòng lặp để vẽ mê cung
-            {
-                Console.Clear(); // Xóa toàn bộ màn hình
-                if (displayMaze) // Mê cung cần được trình bày
-                {
-                    DrawMaze(); // Gọi hàm DrawMaze để vẽ mê cung
-                    displayMaze = false; // Trả về false - không cần phải vẽ lại mê cung trong các vòng lặp tiếp theo.    
-                } // Tiếp tục thực hiện các logic của trò chơi
-            }
         }
     }
 
@@ -944,72 +929,59 @@ static void PrintCenteredText(string text)                                //TẠ
         }
     }
 
-    static void ShowTitle() // Phương thức để hiển thị tựa đề trên màn hình nhấp nháy
-    {
-    Console.ForegroundColor = ConsoleColor.Red; // Đặt màu chữ là màu đỏ
-    Console.OutputEncoding = Encoding.UTF8; // Đặt bảng mã xuất ra là UTF-8 để hỗ trợ hiển thị các ký tự đặc biệt
-    string title = " THOÁT KHỎI MẬT THẤT "; // Chuỗi tựa đề
-    int leftMargin = (Console.WindowWidth - title.Length) - 60 / 2; // Tính toán lề trái dựa trên chiều rộng của cửa sổ console và độ dài của tựa đề
-    int topMargin = Console.WindowHeight - 24 / 2; // Tính toán lề trên dựa trên chiều cao của cửa sổ console
-    Console.SetCursorPosition(leftMargin, topMargin); // Đặt vị trí con trỏ đến để viết tựa đề trên màn hình console
-    Console.WriteLine(title); // In tựa đề lên màn hình console
-    Console.ForegroundColor = ConsoleColor.Yellow; // Đặt màu chữ là màu vàng
-    DrawBlinkingStars(leftMargin - 2, topMargin - 2, title.Length + 4); // Gọi phương thức DrawBlinkingStars để vẽ khung sao xung quanh tựa đề
-    }
-
-    static void DrawBlinkingStars(int x, int y, int width)
+    static void ShowTitle() // Phương thức dùng để vẽ tựa game cùng với khung sao hình chữ nhật bao quanh
 {
-    // Tạo một đối tượng Random để tạo số ngẫu nhiên
-    Random random = new Random();
+    Console.ForegroundColor = ConsoleColor.Cyan; // Đặt màu sắc chữ trong console thành màu xanh lam
+    Console.OutputEncoding = Encoding.UTF8; // Đặt bảng mã console thành UTF-8 để hỗ trợ các ký tự đặc biệt
+    string title = " THOÁT KHỎI MẬT THẤT "; // Chuỗi tiêu đề
     
-    // Biến để kiểm tra trạng thái xuất hiện của dòng chữ
-    bool titleDisplayed = false;
-    
-    // Biến để kiểm soát trạng thái nhấp nháy
-    bool blinking = true;
+    // Tính toán lề trái và lề trên để đặt tiêu đề trong cửa sổ console
+    int leftMargin = (Console.WindowWidth - title.Length) - 30;
+    int topMargin = Console.WindowHeight - 12;
+    Console.SetCursorPosition(leftMargin, topMargin); // Đặt con trỏ văn bản tới vị trí để in tiêu đề
+    Console.WriteLine(title); // Bắt đầu in tiêu đề
 
-    // Vòng lặp sẽ tiếp tục cho đến khi dòng chữ được xuất hiện
-    while (!titleDisplayed)
+    Console.ForegroundColor = ConsoleColor.Yellow; // Đặt màu sắc cho sao nhấp nháy thành màu vàng
+    DrawBlinkingStars(leftMargin - 2, topMargin - 3, title.Length + 4); // Gọi phương thức DrawBlinkingStars để vẽ khung sao nhấp nháy xung quanh tựa game
+}
+
+static void DrawBlinkingStars(int x, int y, int width) // Phương thức dùng để xử lý khung sao nhấp nháy
+/* Tham số x đại diện cho tọa độ x (hoành độ) của góc trái trên của khung sao.
+Tham số y đại diện cho tọa độ y (tung độ) của góc trái trên của khung sao.
+Tham số width đại diện cho độ dài của khung sao. */
+{
+    
+    Random random = new Random(); // Đối tượng Random để tạo số ngẫu nhiên
+    bool blinking = true; // Biến để kiểm soát trạng thái nhấp nháy - true (đang nháy lên)
+
+    // Vòng lặp vô hạn để tạo hiệu ứng nhấp nháy
+    while (true)
     {
-        // Đặt vị trí con trỏ của console tại vị trí (x, y)
-        Console.SetCursorPosition(x, y);
-
-        // Vẽ các dấu sao và khoảng trắng ngẫu nhiên để tạo hiệu ứng nhấp nháy
+        Console.SetCursorPosition(x, y); // Đặt con trỏ văn bản tới vị trí bắt đầu vẽ dòng sao nhấp nháy trên cùng
+        // Vẽ dòng sao nhấp nháy trên cùng
         for (int i = 0; i < width; i++)
         {
-            if (random.Next(2) == 0)
+            // Random số 0 hoặc 1 để quyết định in sao hoặc khoảng trắng
+            if (random.Next(2) == 0) // Nếu random ra số 0 thì vẽ dấu sao
                 Console.Write("*");
-            else
+            else // Nếu ra 1 thì vẽ khoảng trắng
                 Console.Write(" ");
         }
-
-        // Vẽ khung chữ nhật xung quanh dòng chữ
-        for (int i = 1; i < 4; i++)
-        {
-            Console.SetCursorPosition(x, y + i);
-            Console.Write("*");
-            Console.SetCursorPosition(x + width - 1, y + i);
-            Console.Write("*");
-        }
-
-        Console.SetCursorPosition(x, y + 4);
-
-        // Tiếp tục vẽ các dấu sao và khoảng trắng ngẫu nhiên
+        
+        Console.SetCursorPosition(x, y + 6); // Đặt con trỏ văn bản tới vị trí bắt đầu vẽ dòng sao nhấp nháy phía dưới
+        // Vẽ dòng sao nhấp nháy phía dưới
         for (int i = 0; i < width; i++)
         {
-            if (random.Next(2) == 0)
+            // Random số 0 hoặc 1 để quyết định in sao hoặc khoảng trắng
+            if (random.Next(2) == 0) // Nếu random ra số 0 thì vẽ dấu sao
                 Console.Write("*");
-            else
+            else // Nếu ra 1 thì vẽ khoảng trắng
                 Console.Write(" ");
         }
+        Thread.Sleep(200); // Ngừng chương trình trong 200 miliseconds để tạo hiệu ứng nhấp nháy
 
-        // Đợi 0.3 giây để tạo hiệu ứng nhấp nháy
-        Thread.Sleep(300);
-
-        Console.SetCursorPosition(x, y);
-
-        // Vẽ lại dòng chữ với trạng thái nhấp nháy thay đổi
-        for (int i = 0; i < 5; i++)
+        // Vẽ các hàng sao nhấp nháy khác
+        for (int i = 0; i < 7; i++)
         {
             Console.SetCursorPosition(x, y + i);
 
@@ -1028,7 +1000,7 @@ static void PrintCenteredText(string text)                                //TẠ
                     Console.Write(" ");
                 }
             }
-            else if (i == 2 || i == 4)
+            else if (i == 1 || i == 4 || i == 7)
             {
                 if (blinking)
                 {
@@ -1053,26 +1025,24 @@ static void PrintCenteredText(string text)                                //TẠ
                 Console.Write("*");
             }
         }
+        Thread.Sleep(200); // Ngừng vòng for thứ 3 trong 200 miliseconds để tạo hiệu ứng nhấp nháy
 
-        // Đợi 0.3 giây trước khi vẽ lại dòng chữ
-        Thread.Sleep(300);
-
-        // Kiểm tra nếu có phím được nhấn
+        // Kiểm tra xem có phím nào được nhấn trên bàn phím không
         if (Console.KeyAvailable)
         {
-            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
-            
-            // Kiểm tra nếu phím nhấn không phải là phím Escape
-            if (keyInfo.Key != ConsoleKey.Escape)
-                titleDisplayed = true;
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true); // Đọc thông tin về phím được nhấn
+            if (keyInfo.Key == ConsoleKey.Enter) // Kiểm tra xem phím Enter có được nhấn không
+            {
+                // Thoát khỏi vòng lặp nếu phím Enter được nhấn
+                break;
+            }
         }
-        
-        // Đảo ngược trạng thái nhấp nháy
-        blinking = !blinking;
+        // Chuyển đổi trạng thái nhấp nháy 
+        blinking = !blinking; // Dấu sao chuyển từ sáng sang tối
     }
 }
 
-static void DrawMenu()
+static void DrawMenu() // Phương thức dùng để vẽ bảng MENU xuyên suốt quá trình chơi level1
 {
     // Vị trí X của menu
     int menuX = 30;
