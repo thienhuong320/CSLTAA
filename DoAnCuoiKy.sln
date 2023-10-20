@@ -390,9 +390,7 @@ class Game
         Console.WriteLine("4. Tắt/Bật âm thanh        "); // Thêm lựa chọn tắt/bật âm thanh 
         Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop);
         Console.WriteLine("5. Thoát game              "); // Thêm lựa chọn khi người chơi bị chặn hết đường hoặc muốn thoát ngay lập tức
-
-        // Đặt lại màu sắc mặc định và yêu cầu người dùng chọn một tùy chọn từ 1-6
-        Console.ResetColor();
+        Console.ResetColor(); // Đặt lại màu sắc mặc định và yêu cầu người dùng chọn một tùy chọn từ 1-6
         Console.WriteLine("\nMời bạn chọn từ 1-5");
 
         string userInput = Console.ReadLine(); // Đọc lựa chọn của người dùng từ bàn phím
@@ -400,33 +398,27 @@ class Game
         {
             case "1": // Trường hợp người chơi chọn "1"
                 Console.Clear(); // Xóa màn hình console
-
                 // Đọc nội dung từ tệp "lichsu.txt" và in ra màn hình
                 string showlichsu = File.ReadAllText("lichsu.txt");
                 Console.WriteLine(showlichsu);
                 Console.WriteLine(showlichsu.GetType().ToString());
                 Console.ReadLine();
                 break;
-
             case "2": // Trường hợp người chơi chọn "2"
                 if (isPaused) // Kiểm tra nếu trò chơi đã bị tạm dừng
                 {
                     ResumeGame(); // Gọi phương thức ResumeGame để iếp tục trò chơi
                 }
                 break;
-
             case "3": // Trường hợp người chơi chọn "3"
                 ResetGame(); // Gọi phương thức ResetGame để đặt lại trạng thái trò chơi về ban đầu
                 break;
-
             case "4": // Trường hợp người chơi chọn "4"                
                 ToggleSound(); // Thay đổi trạng thái âm thanh (tắt/bật)
                 break;
-
             case "5": // Trường hợp người chơi chọn "5"
                 ExitGame(); // Gọi phương thức ExitGame để xử lý thoát khỏi trò chơi
                 break;
-
             default: // Trường hợp người chơi nhập lựa chọn không hợp lệ
                 Console.WriteLine("Lựa chọn không hợp lệ. Vui lòng chọn lại.");
                 ShowMenu(); // Hiển thị menu lại
@@ -893,12 +885,10 @@ static void DrawBlinkingStars(int x, int y, int width) // Phương thức dùng 
 Tham số y đại diện cho tọa độ y (tung độ) của góc trái trên của khung sao.
 Tham số width đại diện cho độ dài của khung sao. */
 {
-    
     Random random = new Random(); // Đối tượng Random để tạo số ngẫu nhiên
     bool blinking = true; // Biến để kiểm soát trạng thái nhấp nháy - true (đang nháy lên)
 
-    // Vòng lặp vô hạn để tạo hiệu ứng nhấp nháy
-    while (true)
+    while (true) // Vòng lặp vô hạn để tạo hiệu ứng nhấp nháy
     {
         Console.SetCursorPosition(x, y); // Đặt con trỏ văn bản tới vị trí bắt đầu vẽ dòng sao nhấp nháy trên cùng
         // Vẽ dòng sao nhấp nháy trên cùng
@@ -970,18 +960,15 @@ Tham số width đại diện cho độ dài của khung sao. */
         }
         Thread.Sleep(200); // Ngừng vòng for thứ 3 trong 200 miliseconds để tạo hiệu ứng nhấp nháy
 
-        // Kiểm tra xem có phím nào được nhấn trên bàn phím không
-        if (Console.KeyAvailable)
+        if (Console.KeyAvailable) // Kiểm tra xem có phím nào được nhấn trên bàn phím không
         {
             ConsoleKeyInfo keyInfo = Console.ReadKey(true); // Đọc thông tin về phím được nhấn
             if (keyInfo.Key == ConsoleKey.Enter) // Kiểm tra xem phím Enter có được nhấn không
             {
-                // Thoát khỏi vòng lặp nếu phím Enter được nhấn
-                break;
+                break; // Thoát khỏi vòng lặp nếu phím Enter được nhấn
             }
         }
-        // Chuyển đổi trạng thái nhấp nháy 
-        blinking = !blinking; // Dấu sao chuyển từ sáng sang tối
+        blinking = !blinking; // Chuyển đổi trạng thái nhấp nháy, dấu sao chuyển từ sáng sang tối
     }
 }
 
@@ -1033,17 +1020,13 @@ Tham số width đại diện cho độ dài của khung sao. */
         stopwatch.Start(); // Bắt đầu đếm thời gian
         isPaused = false; // Đặt trạng thái tạm dừng về false để tiếp tục chơi game
     }
+
     static void ResumeGame()
     {
         isPaused = false; // Đặt trạng thái tạm dừng về false để tiếp tục chơi game
-                          // Sử dụng trạng thái đã lưu trong biến toàn cục để tiếp tục chơi
-                          // ...
-                          // Khôi phục trạng thái của mê cung
         Array.Copy(savedMaze, maze, savedMaze.Length); // Sao chép các phần tử của savedMaze vào mảng maze
-                                                       // Khôi phục trạng thái vị trí người chơi
         playerX = savedPlayerRow; // Khôi phục vị trí hàng của người chơi
         playerY = savedPlayerCol; // Khôi phục vị trí cột của người chơi
-                                  // Tiếp tục thực hiện logic chơi game từ vị trí tạm dừng
         stopwatch.Start(); // Bắt đầu đồng hồ đếm thời gian lại
     }
 
@@ -1055,11 +1038,9 @@ Tham số width đại diện cho độ dài của khung sao. */
         int consoleHeight = Console.WindowHeight; // Lấy chiều cao của cửa sổ console
         int leftMargin = (consoleWidth - message.Length) / 2; // Tính toán lề trái để căn giữa dòng thông báo
         int topMargin = consoleHeight / 2; // Tính toán lề trên để căn giữa dòng thông báo
-
         Console.SetCursorPosition(leftMargin, topMargin); // Đặt vị trí con trỏ hiển thị trên màn hình console để in dòng thông báo
         Console.WriteLine(message); // In dòng thông báo "Cảm ơn bạn đã chơi game" trên màn hình console
         Thread.Sleep(2000); // Dừng thực thi trong 2 giây để người dùng có thời gian đọc thông báo
-
         Environment.Exit(0); // Kết thúc chương trình
     }
 }
