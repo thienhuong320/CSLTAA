@@ -711,7 +711,12 @@ static void PrintCenteredText(string text)                                //TẠ
                             Thread.Sleep(300);
                             Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 1);
                             Console.WriteLine("Nhấn Enter để quay về màn hình chính ");
-                            Console.ReadKey();
+                            ConsoleKeyInfo keyInfo;
+
+                            do            
+                            {
+                                keyInfo = Console.ReadKey();
+                            } while (keyInfo.Key != ConsoleKey.Enter);
                             string filePath = "lichsu.txt";
                             int linesToDelete = 3;
                             // Đọc nội dung file vào một mảng các dòng
