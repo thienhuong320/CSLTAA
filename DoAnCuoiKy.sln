@@ -335,15 +335,17 @@ class Game
                 Console.ResetColor();
                 Console.WriteLine("             Chào mừng bạn đến với thế giới phiêu lưu kỳ thú của trò chơi \"THOÁT KHỎI MẬT THẤT\"!\n" +
                     "             Trong trò chơi này, bạn sẽ vào vai một nhà thám hiểm trên đường khám phá bị lạc vào một mật thất vòng vo.\n" +
-                    "             Điều kỳ lạ là trong mật thất hiện lên những câu hỏi hóc búa buộc bạn phải vắt óc giải mã \n             để tìm thấy lời giải đáp thoát khỏi mật thất ở level 1.\n" +
-                    "             Ở level 2, bạn sẽ phải thoát khỏi mật thất khi không gian xung quanh trở nên tối tăm, đáng sợ\n"+
+                    "             Điều kỳ lạ là trong mật thất hiện lên những câu hỏi hóc búa buộc bạn phải vắt óc giải mã để tìm thấy\n             lời giải đáp thoát khỏi mật thất ở level 1.\n" +
+                    "             Ở level 2, bạn chỉ có 30 giây để thoát khỏi mật thất khi không gian xung quanh trở nên tối tăm và đáng sợ," +
+                    "\n             nếu quá 30 giây thì bạn sẽ không vượt qua được level 2.\n"+
                     "             Hãy dùng các phím mũi tên để điều khiển nhân vật của bạn khám phá các ngóc ngách của mật thất.\n" +
-                    "             Thời gian là yếu tố quyết định điểm số của bạn - nhanh chóng thoát khỏi mật thất để nhận điểm số cao hơn.\n"+
-                    "             Nếu bạn thoát được mật thất ngắn hơn 30 giây thì bạn sẽ được 100 điểm" +
-                    "\n                                       ngắn hơn 1 phút thì bạn sẽ được 50 điểm" +
-                    "\n                                       ngắn hơn 2 phút thì bạn sẽ được 25 điểm" +
-                    "\n                                       nếu lâu hơn 2 phút bạn sẽ chỉ được 10 điểm" +
-                    "\n             Tuy nhiên, nếu bạn đã bị chặn hết đường thì bạn có thể gọi bảng menu, sau đó lựa chọn \"Bắt đầu lại game\"\n             hoặc \"Thoát game\" nhé!\n"+
+                    "             Thời gian là yếu tố quyết định điểm số của bạn - nhanh chóng thoát khỏi mật thất để nhận điểm số cao hơn.\n" +
+                    "             Ở level 1, nếu bạn thoát được mật thất ngắn hơn 30 giây thì bạn sẽ được 100 điểm" +
+                    "\n                                                    ngắn hơn 1 phút thì bạn sẽ được 50 điểm" +
+                    "\n                                                    ngắn hơn 2 phút thì bạn sẽ được 25 điểm" +
+                    "\n                                                    nếu lâu hơn 2 phút bạn sẽ chỉ được 10 điểm" +
+                    "\n             Ở level 2, Bạn sẽ có điểm ban đầu cho level này là 100, mỗi giây trôi qua khi bạn còn ở trong mật thất thì\n             bạn sẽ bị trừ 1 điểm." +
+                    "\n             Tuy nhiên, nếu bạn đã bị chặn hết đường thì bạn có thể gọi bảng menu, sau đó lựa chọn \"Bắt đầu lại game\"\n             hoặc \"Thoát game\" nhé!\n" +
                     "\n                   => Nhấn phím \"Enter\" để chuẩn bị đến với trò chơi nào!");
                 Console.ReadLine();
                 return true;
@@ -569,8 +571,7 @@ class Game
                         Console.InputEncoding = Encoding.UTF8;
                         Console.OutputEncoding = Encoding.UTF8;
                         StreamWriter Lichsuchoi = new StreamWriter(lichsu);
-                        Lichsuchoi.Write("Điểm:" + score + "\n");
-                        Lichsuchoi.Write("Bạn đã vượt qua level 1\n");
+                        Lichsuchoi.Write("Bạn đã vượt qua level 1 với số điểm:" + score + "\n");
                         Lichsuchoi.WriteLine("Thời gian chơi của bạn là: " + elapsedTime.ToString("mm\\:ss"));
                         Lichsuchoi.Write("Thời gian bắt đầu: " + startTime.ToString("HH\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
                         Lichsuchoi.Flush();
@@ -589,18 +590,6 @@ class Game
                             Console.WriteLine("Bạn đã qua level 2");
                             Console.Clear();
                             Console.WriteLine("Để tiếp tục nhấn 'Enter'");
-
-                            string choices = Console.ReadLine().ToUpper();
-
-                            if (choices == "Q")
-                            {
-                                Console.WriteLine("Cảm ơn đã chơi!!!");
-                                return;
-                            }
-                            else if (choices == "I")
-                            {
-                                Console.Clear();
-                            }
 
                             //vẽ maze
                             bool[][] mazeLayout =
@@ -677,8 +666,36 @@ class Game
                             Console.SetCursorPosition((Console.WindowWidth - 40) / 2, Console.CursorTop + 1);
                             Console.WriteLine("Nhấn Enter để quay về màn hình chính ");
                             Console.ReadKey();
+                            string filePath = "lichsu.txt";
+                            int linesToDelete = 3;
+                            // Đọc nội dung file vào một mảng các dòng
+                            string[] lines = File.ReadAllLines(filePath);
+                            // Kiểm tra xem có đủ số dòng để xóa hay không
+                            if (lines.Length <= linesToDelete)
+                            {
+                             // Nếu không đủ dòng để xóa, bạn có thể xử lý tùy ý ở đây
+                            Console.WriteLine("Không đủ dòng để xóa.");
+                            return;
+                            }
+
+                             // Giữ lại các dòng từ đầu cho đến n - linesToDelete
+                            string[] remainingLines = lines.Take(lines.Length - linesToDelete).ToArray();
+
+                            // Ghi nội dung còn lại vào file, ghi đè nội dung cũ
+                            File.WriteAllLines(filePath, remainingLines);
+                            using (FileStream lichsu = new FileStream("lichsu.txt", FileMode.Append, FileAccess.Write))            // xử lý ngoại lệ (th đặc biệt của try-catch-family)
+                            {
+                                 Console.InputEncoding = Encoding.UTF8;
+                                 Console.OutputEncoding = Encoding.UTF8;
+                                 StreamWriter Lichsuchoi = new StreamWriter(lichsu);
+                                 Lichsuchoi.Write("Bạn chưa vượt qua 2 level\n" + "Tổng điểm:" + score + "\n");
+                                 Lichsuchoi.WriteLine("Thời gian chơi của bạn là (bao gồm 30s ở level 2): " + elapsedTime.ToString("mm\\:ss"));
+                                 Lichsuchoi.Write("Thời gian bắt đầu: " + startTime.ToString("HH\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
+                                 Lichsuchoi.Flush();
+                            }
                             break;
                             }
+
                                 // Di chuyển của nhân vật
                                 switch (Console.ReadKey(true).Key)
                                 {
@@ -748,8 +765,7 @@ class Game
                                         Console.InputEncoding = Encoding.UTF8;
                                         Console.OutputEncoding = Encoding.UTF8;
                                         StreamWriter Lichsuchoi = new StreamWriter(lichsu);
-                                        Lichsuchoi.Write("Điểm:" + totalscore + "\n");
-                                        Lichsuchoi.Write("Bạn đã vượt qua được 2 level\n");
+                                        Lichsuchoi.Write("Bạn đã vượt qua 2 level\n" + "Tổng điểm:" + totalscore + "\n");
                                         Lichsuchoi.WriteLine("Thời gian chơi của bạn là: " + sumelapsedTime.ToString("mm\\:ss"));
                                         Lichsuchoi.Write("Thời gian bắt đầu: " + startTime.ToString("HH\\:mm\\:ss") + ", " + startTime.ToShortDateString() + "\n");
                                         Lichsuchoi.Flush();
@@ -799,13 +815,13 @@ class Game
 
                             void UpdateVisibilityMap()
                             {
-                                bool[][] visibilityMap = new bool[mazeLayout.Length][];
-                                for (int i = 0; i < mazeLayout.Length; i++)
+                                bool[][] visibilityMap = new bool[mazeLayout.Length][];                          // Khai báo 1 mảng 2 chiều visibilityMap để biểu thị khả năng nhìn thấy của từng ô trong mê cung
+                                for (int i = 0; i < mazeLayout.Length; i++)                                      // Khởi tạo mảng visibilityMap với kích thước tương ứng với kích thước của mazeLayout
                                 {
                                     visibilityMap[i] = new bool[mazeLayout[i].Length];
                                 }
 
-                                for (int i = Math.Max(0, playerRow - 2); i <= Math.Min(mazeLayout.Length - 1, playerRow + 2); i++)
+                                for (int i = Math.Max(0, playerRow - 2); i <= Math.Min(mazeLayout.Length - 1, playerRow + 2); i++)               // Duyệt qua các ô xung quanh vị trí của người chơi (trong phạm vi 2 ô) và đánh dấu các ô tương ứng trong visibilityMap là true 
                                 {
                                     for (int j = Math.Max(0, playerColumn - 2); j <= Math.Min(mazeLayout[i].Length - 1, playerColumn + 2); j++)
                                     {
@@ -813,9 +829,9 @@ class Game
                                     }
                                 }
 
-                                visibilityMap[playerRow][playerColumn] = true;
+                                visibilityMap[playerRow][playerColumn] = true;                                                                   // Đánh dấu vị trí của người chơi trong visibilityMap là true
 
-                                for (int i = 0; i < mazeLayout.Length; i++)
+                                for (int i = 0; i < mazeLayout.Length; i++)                                                                      // Duyệt qua mazeLayout và in ra các ô dựa trên giá trị của visibilityMap
                                 {
                                     for (int j = 0; j < mazeLayout[i].Length; j++)
                                     {
@@ -838,10 +854,10 @@ class Game
                                     }
                                 }
 
-                                Console.SetCursorPosition(playerColumn, playerRow);
+                                Console.SetCursorPosition(playerColumn, playerRow);                                                             // Đặt vị trí con trỏ in của Console tại vị trí của người chơi
                             }
 
-                            void PrintMazeWithVisibilityMap()
+                            void PrintMazeWithVisibilityMap()                                                                                   // Xóa màn hình và gọi hàm UpdateVisibilityMap để cập nhật và in ra bản đồ mê cung với bản đồ hiển thị khả năng nhìn thấy 
                             {
                                 Console.Clear();
                                 UpdateVisibilityMap();
