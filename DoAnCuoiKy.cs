@@ -228,7 +228,7 @@ namespace DOANCSLT
         {
             while (true)
             {
-                string filePath = @"C:\Users\Admin\Music\Seven-Jung-Kook.wav";
+                string filePath = @"C:\NhacGameSuperMarioFull-VariousArt_3eqzv (1).wav";
                 try
                 {
                     SoundPlayer soundPlayer = new SoundPlayer(filePath);
@@ -352,14 +352,14 @@ namespace DOANCSLT
         {
             if (isSoundPlaying)                                // Kiểm tra trạng thái hiện tại của âm thanh
              { 
-                SoundPlayer soundPlayer = new SoundPlayer(@"C:\Users\Admin\Music\Seven-Jung-Kook.wav");  // Tạo một đối tượng SoundPlayer để phát âm thanh từ tệp WAV
+                SoundPlayer soundPlayer = new SoundPlayer(@"C:\NhacGameSuperMarioFull-VariousArt_3eqzv (1).wav");  // Tạo một đối tượng SoundPlayer để phát âm thanh từ tệp WAV
                 soundPlayer.Stop();                                                                      // Dừng phát âm thanh
                 isSoundPlaying = false;                                                                  // Cập nhật trạng thái âm thanh thành đã tắt
                 Console.WriteLine("Đã tắt âm thanh.");                                                   // In ra màn hình thông báo về việc đã tắt âm thanh
             }
             else
             {
-                SoundPlayer soundPlayer = new SoundPlayer(@"C:\Users\Admin\Music\Seven-Jung-Kook.wav");
+                SoundPlayer soundPlayer = new SoundPlayer(@"C:\NhacGameSuperMarioFull-VariousArt_3eqzv (1).wav");
                 soundPlayer.Play();                                                                      // Phát âm thanh
                 isSoundPlaying = true;                                                                   // Cập nhật trạng thái âm thanh thành đã bật
                 Console.WriteLine("Đã bật âm thanh.");                                                   // In ra màn hình thông báo về việc đã bật âm thanh
